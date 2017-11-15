@@ -1,0 +1,75 @@
+/*
+ *  Copyright 2017 CoreFiling S.A.R.L.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+ @import (reference) '../styles/defs';
+
+
+ .app-Button {
+   box-sizing: border-box;  // On some browsers this cannot be unset on buttons, so be consistent.
+   display: inline-block;
+   height: 2em;
+   padding: 0 1em;
+
+   font-family: 'Roboto', sans-serif;
+   font-weight: 400;
+   font-size: 18px;
+   text-decoration: none;
+   line-height: 2;
+   color: @ink;
+   background-color: @paper;
+   border: 1px solid @btn-bd;
+   border-radius: 3px;
+   // box-shadow: 0 1px 2px fade(#000, 50%), 1px 1px 3px fade(#000, 25%);
+   user-select: none;
+   cursor: pointer;
+
+   &:hover,
+   &:active {
+     text-decoration: none;
+     background-color: @btn-hover;
+   }
+
+   &[disabled] {
+     opacity: 0.5;
+     cursor: not-allowed;
+
+     &:hover,
+     &:active {
+       text-decoration: none;
+       background-color: @paper;
+     }
+   }
+
+   &-primary {
+     color: contrast(@primary, #FFF, @ink);
+     background-color: @primary;
+     border-color: @primary2;
+
+     &:hover,
+     &:active {
+       text-decoration: none;
+       color: contrast(@secondary, #FFF, @ink);
+       background-color: @secondary;
+     }
+
+     &[disabled]:hover,
+     &[disabled]:active {
+       color: contrast(@primary, #FFF, @ink);
+       background-color: @primary;
+       border-color: @primary2;
+     }
+   }
+ }

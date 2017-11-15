@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="208px" height="208px" viewBox="0 0 208 208" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>OK icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="6.63769561e-20 0.000259790107 6.63769561e-20 82.3699519 100.514175 82.3699519 100.514175 0.000259790107"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Pass-Report" transform="translate(-408.000000, -348.000000)">
+            <g id="OK-icon" transform="translate(408.000000, 348.000000)">
+                <g id="Oval-4" fill="#69BEAB">
+                    <circle cx="104" cy="104" r="104"></circle>
+                </g>
+                <g id="Page-1" transform="translate(55.466667, 69.333333)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Clip-2"></g>
+                    <path d="M96.774249,2.27672136 C92.5744242,-1.14680931 86.5207991,-0.649687185 83.2564455,3.3689207 L40.2590554,56.3822196 L17.807747,27.2160892 C14.4601315,22.8742295 8.22284068,22.0587533 3.87853209,25.3990222 C-0.473123122,28.7466376 -1.28615043,34.993724 2.06146503,39.3453792 L32.1851064,78.4882362 C35.5327219,82.8423403 41.7773594,83.6553676 46.121668,80.3077522 C47.3656977,79.3502411 48.2840268,78.1453934 48.9354282,76.835244 L98.4958098,15.7284051 C101.757715,11.7097973 100.983869,5.68310988 96.774249,2.27672136" id="Fill-1" fill="#FFFFFF" mask="url(#mask-2)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

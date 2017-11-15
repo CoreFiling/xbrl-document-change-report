@@ -1,0 +1,118 @@
+# Setup
+stages:
+  - build
+  - publish
+  - deploy
+
+cache:
+  key: "$CI_BUILD_REF_NAME" # Per branch caching
+  paths:
+    - node_modules
+
+# Job Templates
+.template_docker: &template_docker
+  tags:
+    - docker
+
+.template_docker_privileged: &template_docker_privileged
+  tags:
+    - docker-privileged
+
+.template_npm: &template_npm
+  image: artifacts.int.corefiling.com:5000/nimbus-tools/build-npm-package:0.10.0
+
+.template_kube_deploy: &template_kube_deploy
+  <<: *template_docker
+  image: artifacts.int.corefiling.com:5000/pdds/kube-deploy:0.8.2
+
+# Build stage
+## Templates
+.template_npm_script: &template_npm_script
+  <<: *template_docker_privileged
+  <<: *template_npm
+  stage: build
+  before_script:
+    - time yarn install --frozen-lockfile
+    - npm config set git-tag-version false
+    - npm run set-build-version
+  script:
+    - time npm run $CI_BUILD_NAME
+
+## Jobs
+build:version:
+  <<: *template_docker
+  <<: *template_npm
+  stage: build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - build.version
+  before_script:
+    - npm install -g @janslow/ci-build-version@dev
+  script:
+    - ci-build-version -f package.json > build.version
+    - echo `cat build.version`
+
+check yarn.lock:
+  stage: build
+  image: alpine
+  tags:
+  - docker
+  script:
+    grep -v -e 'int\.corefiling\.com' yarn.lock
+  only:
+  - tags
+  - /^(release|hotfix)\//
+
+compile:webpack:
+  <<: *template_npm_script
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - www
+
+test:tslint: *template_npm_script
+test:karma: *template_npm_script
+
+
+# Publish stage
+publish:npm:
+  <<: *template_docker_privileged
+  <<: *template_npm_script
+  stage: publish
+  dependencies:
+    - compile:webpack
+  variables:
+    publish: 'true'
+  script:
+    - time /app/scripts/build.py
+  only:
+    - develop@labs/xbrl-document-change-report
+    - tags@labs/xbrl-document-change-report
+
+publish:chart:
+  <<: *template_kube_deploy
+  stage: publish
+  dependencies:
+    - build:version
+  script:
+    - tools/publish.sh
+  # Restrict to only publishing on develop/release - don't need to publish fb builds
+  # unless we have a CI staging environment for them
+  only:
+    - develop@labs/xbrl-document-change-report
+    - tags@labs/xbrl-document-change-report
+
+docker image:
+  <<: *template_docker_privileged
+  stage: publish
+  dependencies:
+  - compile:webpack
+  only:
+    - develop@labs/xbrl-document-change-report
+    - tags@labs/xbrl-document-change-report
+  image: artifacts.int.corefiling.com:5000/nimbus-tools/build-dockerfile:0.9.0
+  script:
+    - /app/scripts/build.py
+  variables:
+    publish: "true"

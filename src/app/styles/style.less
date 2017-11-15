@@ -1,0 +1,163 @@
+/*
+ *  Copyright 2017 CoreFiling S.A.R.L.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+@import (reference) 'defs';
+@import (reference) '../components/button';
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,500,500i,700');
+
+html {
+  margin: 0;
+  padding: 0;
+
+  font-family: 'Roboto', sans-serif;
+  font-size: @text-sz;
+  line-height: @text-ln-ht;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  color: contrast(@primary, #FFF, @ink);
+  background-color: @primary;
+}
+
+.pagination {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-flow: row nowrap;
+
+
+  li {
+    list-style: nonde;
+    margin: 0;
+    padding: 0;
+    display: block;
+
+    font-weight: 300;
+    border: 1px solid @btn-bd;
+    border-left: none;
+
+    &.active {
+      font-weight: 500;
+
+      a {
+        border-color: @primary;
+      }
+    }
+
+    &.disabled {
+      color: @muted;
+    }
+
+    &:first-child {
+      border-left: 1px solid @btn-bd;
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+  }
+
+  a {
+    color: inherit;
+    text-decoration: inherit;
+
+    display: block;
+    width: 2em;
+    line-height: 2em;
+    text-align: center;
+    border: 1px solid @paper;
+
+    &:hover,
+    &:active {
+      background-color: @btn-hover;
+      border-color: @primary;
+    }
+  }
+}
+
+.dropdown {
+  position: relative;
+  margin-left: 6px;
+
+  &-toggle {
+    .app-Button;
+
+    font-size: 14px;
+    line-height: 26px;
+  }
+
+  &.open &-toggle {
+    background: @btn-hover;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  &-menu {
+    display: none;
+  }
+
+  &.open &-menu {
+    z-index: 13;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    display: block;
+
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+
+    li {
+      display: block;
+      margin: 0;
+
+      border: 1px solid @btn-bd;
+      border-top: none;
+      background: @paper;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: inherit;
+
+      display: block;
+      padding: 6px 12px;
+
+      &:hover,
+      &:active {
+        background-color: @btn-hover;
+        border: @primary;
+      }
+    }
+  }
+
+  .caret {
+    width: 0;
+    height: 0;
+    vertical-align: middle;
+    border-top: 4px dashed;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+  }
+}

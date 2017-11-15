@@ -1,0 +1,562 @@
+{
+    "zOptions": [
+        [
+            {
+                "headers": [
+                    {
+                        "depth": 0,
+                        "slice": 0,
+                        "name": "Z Axis:"
+                    }
+                ],
+                "z": 0
+            }
+        ],
+        [
+            {
+                "headers": [
+                    {
+                        "depth": 1,
+                        "slice": 0,
+                        "name": "1 \u2013 Irregular reporting"
+                    }
+                ],
+                "z": 0
+            },
+            {
+                "headers": [
+                    {
+                        "depth": 1,
+                        "slice": 0,
+                        "name": "2 \u2013 Regular reporting"
+                    }
+                ],
+                "z": 1
+            }
+        ],
+        [
+            {
+                "headers": [
+                    {
+                        "depth": 2,
+                        "slice": 0,
+                        "name": "1 - The items reported refer to a RFF/MAP"
+                    }
+                ],
+                "z": 0
+            }
+        ],
+        [
+            {
+                "headers": [
+                    {
+                        "depth": 3,
+                        "slice": 0,
+                        "name": "1"
+                    }
+                ],
+                "z": 0
+            }
+        ]
+    ],
+    "tables": [
+        {
+            "y": {
+                "sliceCount": 38,
+                "breakdowns": [
+                    {
+                        "depth": 2,
+                        "name": "Rows"
+                    },
+                    {
+                        "depth": 1,
+                        "name": "RC-code"
+                    }
+                ],
+                "depth": 2
+            },
+            "x": {
+                "sliceCount": 9,
+                "breakdowns": [
+                    {
+                        "depth": 1,
+                        "name": "Columns"
+                    },
+                    {
+                        "depth": 1,
+                        "name": "RC-code"
+                    }
+                ],
+                "depth": 1
+            },
+            "z": {
+                "sliceCount": 1,
+                "breakdowns": [
+                    {
+                        "depth": 1,
+                        "name": "Sheets"
+                    },
+                    {
+                        "depth": 1,
+                        "name": "Article 112"
+                    },
+                    {
+                        "depth": 1,
+                        "name": "Ring Fenced Fund/Matching adjustment portfolio or remaining part"
+                    },
+                    {
+                        "depth": 1,
+                        "name": "Fund/Portfolio Number"
+                    }
+                ],
+                "depth": 4
+            },
+            "id": "01901ff9-d32f-4148-bbff-3c868bc60bd7",
+            "name": "Natural Catastrophe risk - Flood"
+        },
+        {
+            "y": {
+                "sliceCount": 32,
+                "breakdowns": [
+                    {
+                        "depth": 2,
+                        "name": "Rows"
+                    },
+                    {
+                        "depth": 1,
+                        "name": "RC-code"
+                    }
+                ],
+                "depth": 2
+            },
+            "x": {
+                "sliceCount": 10,
+                "breakdowns": [
+                    {
+                        "depth": 2,
+                        "name": "Columns"
+                    },
+                    {
+                        "depth": 1,
+                        "name": "RC-code"
+                    }
+                ],
+                "depth": 2
+            },
+            "z": {
+                "sliceCount": 1,
+                "breakdowns": [
+                    {
+                        "depth": 1,
+                        "name": "Sheets"
+                    }
+                ],
+                "depth": 1
+            },
+            "id": "01967f91-71dd-4d31-b544-374df7cda56e",
+            "name": "Health Catastrophe risk - Concentration accident"
+        },
+        {
+            "y": {
+                "sliceCount": 1,
+                "breakdowns": [
+                    {
+                        "depth": 1,
+                        "name": "Product ID code"
+                    },
+                    {
+                        "depth": 1,
+                        "name": "Identification code of the undertaking"
+                    }
+                ],
+                "depth": 2
+            },
+            "x": {
+                "sliceCount": 11,
+                "breakdowns": [
+                    {
+                        "depth": 1,
+                        "name": "Columns"
+                    },
+                    {
+                        "depth": 1,
+                        "name": "RC-code"
+                    }
+                ],
+                "depth": 1
+            },
+            "z": {
+                "sliceCount": 0,
+                "breakdowns": [],
+                "depth": 0
+            },
+            "id": "0251338f-1e65-4b03-9c50-76273a02a9b3",
+            "name": "Hedging of guarantees of variable annuities"
+        }
+    ],
+    "tableChunk": {
+        "yAxis": [
+            [
+                {
+                    "depth": 0,
+                    "slice": 0,
+                    "name": "Natural Catastrophe risk - Flood"
+                },
+                {
+                    "depth": 0,
+                    "slice": 0,
+                    "name": "Natural Catastrophe risk - Flood"
+                },
+                {
+                    "depth": 2,
+                    "slice": 0,
+                    "name": ""
+                }
+            ],
+            [
+                {
+                    "depth": 0,
+                    "slice": 0,
+                    "name": "Natural Catastrophe risk - Flood"
+                },
+                {
+                    "depth": 1,
+                    "slice": 1,
+                    "name": "Republic of Austria"
+                },
+                {
+                    "depth": 2,
+                    "slice": 1,
+                    "name": "R1260"
+                }
+            ],
+            [
+                {
+                    "depth": 0,
+                    "slice": 0,
+                    "name": "Natural Catastrophe risk - Flood"
+                },
+                {
+                    "depth": 1,
+                    "slice": 2,
+                    "name": "Kingdom of Belgium"
+                },
+                {
+                    "depth": 2,
+                    "slice": 2,
+                    "name": "R1270"
+                }
+            ]
+        ],
+        "zAxis": [
+            {
+                "depth": 0,
+                "slice": 0,
+                "name": "Z Axis:"
+            },
+            {
+                "depth": 1,
+                "slice": 0,
+                "name": "2 \u2013 Regular reporting"
+            },
+            {
+                "depth": 2,
+                "slice": 0,
+                "name": "1 - The items reported refer to a RFF/MAP"
+            },
+            {
+                "depth": 3,
+                "slice": 0,
+                "name": "1"
+            }
+        ],
+        "xAxis": [
+            [
+                {
+                    "depth": 0,
+                    "slice": 0,
+                    "name": "Estimation of the gross premiums to be earned"
+                },
+                {
+                    "depth": 1,
+                    "slice": 0,
+                    "name": "C0210"
+                }
+            ],
+            [
+                {
+                    "depth": 0,
+                    "slice": 1,
+                    "name": "Exposure"
+                },
+                {
+                    "depth": 1,
+                    "slice": 1,
+                    "name": "C0220"
+                }
+            ],
+            [
+                {
+                    "depth": 0,
+                    "slice": 2,
+                    "name": "Specified Gross Loss"
+                },
+                {
+                    "depth": 1,
+                    "slice": 2,
+                    "name": "C0230"
+                }
+            ],
+            [
+                {
+                    "depth": 0,
+                    "slice": 3,
+                    "name": "Catastrophe Risk Charge Factor before risk mitigation"
+                },
+                {
+                    "depth": 1,
+                    "slice": 3,
+                    "name": "C0240"
+                }
+            ],
+            [
+                {
+                    "depth": 0,
+                    "slice": 4,
+                    "name": "Scenario A or B"
+                },
+                {
+                    "depth": 1,
+                    "slice": 4,
+                    "name": "C0250"
+                }
+            ],
+            [
+                {
+                    "depth": 0,
+                    "slice": 5,
+                    "name": "Catastrophe Risk Charge before risk mitigation"
+                },
+                {
+                    "depth": 1,
+                    "slice": 5,
+                    "name": "C0260"
+                }
+            ],
+            [
+                {
+                    "depth": 0,
+                    "slice": 6,
+                    "name": "Estimated Risk Mitigation"
+                },
+                {
+                    "depth": 1,
+                    "slice": 6,
+                    "name": "C0270"
+                }
+            ],
+            [
+                {
+                    "depth": 0,
+                    "slice": 7,
+                    "name": "Estimated Reinstatement Premiums"
+                },
+                {
+                    "depth": 1,
+                    "slice": 7,
+                    "name": "C0280"
+                }
+            ],
+            [
+                {
+                    "depth": 0,
+                    "slice": 8,
+                    "name": "Catastrophe Risk Charge after risk mitigation"
+                },
+                {
+                    "depth": 1,
+                    "slice": 8,
+                    "name": "C0290"
+                }
+            ]
+        ],
+        "y": 0,
+        "x": 0,
+        "z": 0,
+        "data": [
+            [
+                null,
+                null,
+                null
+            ],
+            [
+                null,
+                {
+                    "facts": [
+                        {
+                            "stringValue": "\u20ac0.00",
+                            "id": 6067
+                        }
+                    ],
+                    "issues": []
+                },
+                {
+                    "facts": [
+                        {
+                            "stringValue": "\u20ac0.00",
+                            "id": 6105
+                        }
+                    ],
+                    "issues": []
+                }
+            ],
+            [
+                null,
+                {
+                    "facts": [
+                        {
+                            "stringValue": "\u20ac0.00",
+                            "id": 6066
+                        }
+                    ],
+                    "issues": []
+                },
+                {
+                    "facts": [
+                        {
+                            "stringValue": "\u20ac0.00",
+                            "id": 6104
+                        }
+                    ],
+                    "issues": []
+                }
+            ],
+            [
+                null,
+                {
+                    "facts": [
+                        {
+                            "stringValue": "0.0000",
+                            "id": 6068
+                        }
+                    ],
+                    "issues": []
+                },
+                {
+                    "facts": [
+                        {
+                            "stringValue": "0.0000",
+                            "id": 6106
+                        }
+                    ],
+                    "issues": []
+                }
+            ],
+            [
+                null,
+                {
+                    "facts": [
+                        {
+                            "stringValue": "Scenario A",
+                            "id": 6065
+                        }
+                    ],
+                    "issues": []
+                },
+                {
+                    "facts": [
+                        {
+                            "stringValue": "Scenario A",
+                            "id": 6103
+                        }
+                    ],
+                    "issues": []
+                }
+            ],
+            [
+                null,
+                {
+                    "facts": [
+                        {
+                            "stringValue": "\u20ac0.00",
+                            "id": 4970
+                        }
+                    ],
+                    "issues": []
+                },
+                {
+                    "facts": [
+                        {
+                            "stringValue": "\u20ac0.00",
+                            "id": 4995
+                        }
+                    ],
+                    "issues": []
+                }
+            ],
+            [
+                null,
+                {
+                    "facts": [
+                        {
+                            "stringValue": "\u20ac0.00",
+                            "id": 4973
+                        }
+                    ],
+                    "issues": []
+                },
+                {
+                    "facts": [
+                        {
+                            "stringValue": "\u20ac0.00",
+                            "id": 4998
+                        }
+                    ],
+                    "issues": []
+                }
+            ],
+            [
+                null,
+                {
+                    "facts": [
+                        {
+                            "stringValue": "\u20ac0.00",
+                            "id": 4972
+                        }
+                    ],
+                    "issues": []
+                },
+                {
+                    "facts": [
+                        {
+                            "stringValue": "\u20ac0.00",
+                            "id": 4997
+                        }
+                    ],
+                    "issues": []
+                }
+            ],
+            [
+                null,
+                {
+                    "facts": [
+                        {
+                            "stringValue": "\u20ac0.00",
+                            "id": 4971
+                        }
+                    ],
+                    "issues": []
+                },
+                {
+                    "facts": [
+                        {
+                            "stringValue": "\u20ac0.00",
+                            "id": 4996
+                        }
+                    ],
+                    "issues": []
+                }
+            ]
+        ]
+    }
+}
