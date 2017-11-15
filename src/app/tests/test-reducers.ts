@@ -28,7 +28,10 @@ import { exampleQueryableTablePage, exampleTableMetadata,
 
 const params: ValidationParams = {
   profile: 'CRD V 1.69.42',
-  file: new File(['hello'], 'x.brl'),
+  files: [
+    new File(['hello'], 'accounts-final-rev4.xbrl'),
+    new File(['hello'], 'accounts-final-rev5.xbrl'),
+  ],
 };
 
 describe('globalReducer', () => {

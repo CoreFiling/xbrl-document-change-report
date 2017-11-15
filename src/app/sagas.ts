@@ -79,8 +79,8 @@ export function* checkingStartSaga(action: CheckingAction): IterableIterator<Eff
   const { params } = action;
   yield put(uploadStartedAction(params));
 
-  // Create the filing by uplaoding the file to the Document Service.
-  const { profile, file } = params;
+  // Create the filing by uploading the file to the Document Service.
+  const { profile, files: [file] } = params;
   const formData = new FormData();
   formData.append('file', file, file.name);
   formData.append('name', file.name);

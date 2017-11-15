@@ -63,15 +63,15 @@ export interface Category {
  */
 export interface ValidationParams {
   profile: string;
-  file: File;
+  files: File[];
 }
 
 /**
  * Check these params are ready to be submitted.
  */
 export function paramsAreComplete(params: Partial<ValidationParams>): params is ValidationParams {
-  const { profile,  file } = params;
-  return !!profile && !!file;
+  const { profile, files } = params;
+  return !!profile && !!files && files.length === 2;
 }
 
 /**

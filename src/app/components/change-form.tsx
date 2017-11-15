@@ -46,6 +46,8 @@ export default class ChangeForm extends Component<ChangeFormProps, ChangeFormSta
         profile: profiles && profiles.length > 0 ? profiles[0].id : undefined,
       },
     };
+
+    this.onDropzoneDrop = this.onDropzoneDrop.bind(this);
   }
 
   componentWillReceiveProps(nextProps: ChangeFormProps): void {
@@ -78,11 +80,11 @@ export default class ChangeForm extends Component<ChangeFormProps, ChangeFormSta
               accept='.xml,.xbrl,.html,.htm,.zip'
               maxSize={5 * 1024 * 1024}
               aria-label='File to validate'
-              onDrop={(files: File[]) => this.onChange({file: files[0]})}
+              onDrop={this.onDropzoneDrop}
             >
               <div>
-                {params.file
-                ? <FileReference className='app-ChangeForm-file' file={params.file}/>
+                {params.files
+                ? params.files.map((file, i) => <FileReference key={i} className='app-ChangeForm-file' file={file}/>)
                 : <div>
                     <h2 className='app-ChangeForm-heading'>Drop two files here</h2>
                     <div className='app-ChangeForm-prompt'>
@@ -106,6 +108,11 @@ export default class ChangeForm extends Component<ChangeFormProps, ChangeFormSta
     </Form>;
   }
 
+  onDropzoneDrop(files: File[]): void {
+    const newFiles = this.state.params.files ? this.state.params.files.concat(files).slice(-2) : files.slice(-2);
+    this.onChange({files: newFiles});
+  }
+
   onChange(delta: Partial<ValidationParams>): void {
     this.setState({params: {...this.state.params, ...delta}});
   }
@@ -115,7 +122,7 @@ export default class ChangeForm extends Component<ChangeFormProps, ChangeFormSta
     const { params } = this.state;
     if (onSubmit && paramsAreComplete(params)) {
       onSubmit(params);
-      this.setState({params: {...params, file: undefined}});
+      this.setState({params: {...params, files: undefined}});
     }
   }
 }

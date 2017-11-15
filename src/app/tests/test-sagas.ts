@@ -58,10 +58,13 @@ describe('startupInfoSaga', () => {
 });
 
 describe('checkingStartSaga', () => {
-  const file = new File(['Hello world'], 'name-of-file.txt', {type: 'text/plain'});
+  const files = [
+    new File(['Hello, world!'], 'a-file.txt', {type: 'text/plain'}),
+    new File(['hello world'], 'another-file.txt', {type: 'text/plain'}),
+  ];
   const params: ValidationParams = {
     profile: 'uiid-of-profile',
-    file,
+    files,
   };
 
   it('dispatches UPLOAD_COMPLETE and CHECKING_RECEIVED if all goes well', () => {
@@ -70,12 +73,13 @@ describe('checkingStartSaga', () => {
     expect(saga.next().value).toEqual(put(uploadStartedAction(params)));
     const formData = new FormData();
     formData.append('validationProfile', 'uuid-of-profile');
-    formData.append('name', 'name-of-file.txt');
-    formData.append('file', file, 'name-of-file.txt');
-    // Does not set dataSet (so servier will use the default dataset).
+    formData.append('name', 'a-file.txt');
+    formData.append('file', files[0], 'a-file.txt');
+    formData.append('file', files[1], 'another-file.txt');
+    // Does not set dataSet (so server will use the default dataset).
     expect(saga.next().value).toEqual(call(apiFetchJson, '/api/document-service/v1/filings/', {
       method: 'POST',
-      body: formData,
+      body: formData,  // This test is less strict than it looks because all formData object compare equal.
     }));
     expect(saga.next(exampleFiling).value).toEqual(put(checkingStartedAction()));
 
@@ -87,7 +91,7 @@ describe('checkingStartSaga', () => {
     // Gets filing-version results, move on to checking the validation status.
     expect(saga.next({...exampleFilingVersion, status: 'DONE'}).value).toEqual(call(
       apiFetchJson,
-      '/api/change-service/v1/filing-versions/f09be954-1895-4954-b333-6c9c89b833f1'));
+      '/api/validation-service/v1/filing-versions/f09be954-1895-4954-b333-6c9c89b833f1'));
 
     // Now results arrive and all is well.
     expect(saga.next(exampleValidationServiceFilingVersionSummary).value).toEqual(put(
