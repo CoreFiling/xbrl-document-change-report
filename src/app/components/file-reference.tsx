@@ -27,9 +27,11 @@ import './file-reference.less';
 interface FileReferenceProps {
   className?: string;
   file?: File;
+
+  onRemove?: () => void;
 }
 
-export default function FileReference({className, file}: FileReferenceProps): JSX.Element {
+export default function FileReference({className, file, onRemove}: FileReferenceProps): JSX.Element {
   if (!file) {
     return <span>No file</span>;
   }
@@ -42,5 +44,13 @@ export default function FileReference({className, file}: FileReferenceProps): JS
       {file.name || 'Selected file'}
     </span>
     <span className='app-FileReference-size'>{humanSize(file.size)}</span>
+    {onRemove &&
+      <span className='app-FileReference-remove' onClick={e => {e.stopPropagation(); onRemove(); }}>
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 15' className='app-FileReference-removeIcon'>
+          <circle className='app-FileReference-removeDisc' cx='7.5' cy='7.5' r='7.5'/>
+          <path className='app-FileReference-removeSymbol' d='M4,4L11,11M4,11L11,4'/>
+        </svg>
+      </span>
+    }
   </span>;
 }

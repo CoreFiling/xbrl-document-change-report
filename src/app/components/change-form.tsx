@@ -83,8 +83,11 @@ export default class ChangeForm extends Component<ChangeFormProps, ChangeFormSta
               onDrop={this.onDropzoneDrop}
             >
               <div>
-                {params.files
-                ? params.files.map((file, i) => <FileReference key={i} className='app-ChangeForm-file' file={file}/>)
+                {params.files && params.files.length > 0
+                ? params.files.map((file, i) => <FileReference key={i} className='app-ChangeForm-file'
+                    file={file}
+                    onRemove={() => this.onFileReferenceRemove(i)}
+                  />)
                 : <div>
                     <h2 className='app-ChangeForm-heading'>Drop two files here</h2>
                     <div className='app-ChangeForm-prompt'>
@@ -106,6 +109,12 @@ export default class ChangeForm extends Component<ChangeFormProps, ChangeFormSta
         <FormAction enabled={onSubmit && paramsAreComplete(params)} primary>Change report</FormAction>
       </FormActionList>
     </Form>;
+  }
+
+  onFileReferenceRemove(index: number): void {
+    const { params: {files}} = this.state;
+    const newFiles = files ? files.slice(0, index).concat(files.slice(index + 1)) : [];
+    this.onChange({files: newFiles});
   }
 
   onDropzoneDrop(files: File[]): void {

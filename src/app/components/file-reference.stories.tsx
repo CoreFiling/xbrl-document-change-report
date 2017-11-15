@@ -17,6 +17,7 @@
 import * as React from 'react';
 
 import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 
 import FileReference from './file-reference';
 
@@ -40,4 +41,7 @@ storiesOf('FileReference', module)
   .add('Kilobytes', () => <FileReference file={file('Amalagmated Holdings (Group).xml', 42 * 1024, 'application/xml')}/>)
   .add('Megabytes', () => <FileReference file={file('accts.xml', 13 * 1024 * 1024, 'application/xml')}/>)
   .add('Longer name', () => <FileReference file={
-    file('United Frog Hunters Group (Holdings) Ltd annual accounts FINAL rev 4.zip', 77 * 1024)}/>);
+    file('United Frog Hunters Group (Holdings) Ltd annual accounts FINAL rev 4.zip', 77 * 1024)}/>)
+  .add('Removable', () => <FileReference
+    file={file('Amalagmated Holdings (Group).xml', 42 * 1024, 'application/xml')}
+    onRemove={action('onRemove')}/>);

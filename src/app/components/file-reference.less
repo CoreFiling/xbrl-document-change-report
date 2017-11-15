@@ -52,4 +52,29 @@
     font-size: 0.75em;
     color: @muted;
   }
+
+  &-removeIcon {
+    display: inline-block;
+    margin-left: 0.5em;
+    vertical-align: middle;
+    width: 13px;
+    height: 13px;
+  }
+
+  &-removeDisc {
+    stroke: none;
+    fill: @paper;
+  }
+
+  &-removeSymbol {
+    stroke: @ink;
+    stroke-width: 1px;
+  }
+
+  &-remove:hover &-removeDisc {
+    fill: @secondary;
+  }
+  &-remove:hover &-removeSymbol {
+    stroke: contrast(@secondary, #FFF, @ink);
+  }
 }
