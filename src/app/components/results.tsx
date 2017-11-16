@@ -52,7 +52,7 @@ export default class Results extends React.Component<ResultsProps> {
           <Button primary className='app-Results-resultReset' onClick={onResultsDismiss}>Upload</Button>
         </header>
         <Table metadata={metadata} zOptions={zOptions} table={table}
-                  onChangePage={onChangePage} onChangeTable={onChangeTable}/>}
+                  onChangePage={onChangePage} onChangeTable={onChangeTable}/>
       </section>
     );
   }
