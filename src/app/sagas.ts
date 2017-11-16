@@ -21,7 +21,6 @@ import {
   CHECKING_START,
   CheckingAction,
   failedAction,
-  checkingReceivedAction,
   checkingStartedAction,
   startupInfoFailedAction,
   startupInfoReceivedAction,
@@ -45,7 +44,6 @@ import {
   tableRenderingServiceRender,
   tableRenderingServiceTables,
   tableRenderingServiceZOptions,
-  validationServiceFilingVersion,
   USER,
 } from './urls';
 
@@ -111,9 +109,6 @@ export function* checkingStartSaga(action: CheckingAction): IterableIterator<Eff
       yield call(delay, POLL_MILLIS);
       version = yield call(apiFetchJson, documentServiceFilingVersion(version));
     }
-
-    const validationSummary = yield call(apiFetchJson, validationServiceFilingVersion(version));
-    yield put(checkingReceivedAction(version.id, validationSummary.severity));
 
     // Fetch table info
     const tables = yield call(apiFetchJson, tableRenderingServiceTables(version.id));

@@ -28,7 +28,6 @@ storiesOf('Results', module)
     const { table, metadata, zOptions } = basicTableWithMetadata();
     return (
       <Results
-        status={'OK'}
         tables={[metadata, {name: 'another table', id: 'uuid-of-another-table'} as TableMetadata]}
         metadata={metadata}
         zOptions={zOptions}
@@ -42,7 +41,6 @@ storiesOf('Results', module)
     const { metadata, zOptions } = basicTableWithMetadata();
     return (
       <Results
-        status={'OK'}
         tables={[metadata, {name: 'another table'} as TableMetadata]}
         metadata={metadata}
         zOptions={zOptions}
@@ -53,16 +51,13 @@ storiesOf('Results', module)
   })
   .add('No tables', () => {
     return (
-      <Results
-        status={'OK'}
-      />
+      <Results/>
     );
   })
   .add('No statistics', () => {
     const { table, metadata, zOptions } = basicTableWithMetadata();
     return (
       <Results
-        status={'OK'}
         tables={[metadata, {name: 'another table', id: 'uuid-of-another-table'} as TableMetadata]}
         metadata={metadata}
         zOptions={zOptions}
@@ -72,33 +67,16 @@ storiesOf('Results', module)
       />
     );
   })
-  .add('Failed', () => {
+  .add('Error (no tables)', () => {
     return (
-      <Results
-        status={'FATAL_ERROR'}
-        error={'Something went wrong'}
-      />
+      <Results error={'Something went wrong'}/>
     );
   })
-  .add('Error', () => {
+  .add('Error (with tables)', () => {
     const { table, metadata, zOptions } = basicTableWithMetadata();
     return (
       <Results
-        status={'ERROR'}
-        tables={[metadata, {name: 'another table with a super long name', id: 'uuid-of-another-table'} as TableMetadata]}
-        metadata={metadata}
-        zOptions={zOptions}
-        table={table}
-        onChangePage={action('onChangePage') as any}
-        onChangeTable={action('onChangeTable') as any}
-      />
-    );
-  })
-  .add('Warning', () => {
-    const { table, metadata, zOptions } = basicTableWithMetadata();
-    return (
-      <Results
-        status={'WARNING'}
+        error='Something went wrong'
         tables={[metadata, {name: 'another table with a super long name', id: 'uuid-of-another-table'} as TableMetadata]}
         metadata={metadata}
         zOptions={zOptions}

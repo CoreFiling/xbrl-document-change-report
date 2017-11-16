@@ -19,7 +19,7 @@ import * as React from 'react';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
 import { QueryableTablePage } from '@cfl/table-viewer';
 
-import { Profile, ValidationParams, ValidationStatus } from '../models';
+import { Profile, ValidationParams } from '../models';
 import { Phase } from '../state';
 import ContactDetails from './contact-details';
 import Results from './results';
@@ -30,7 +30,6 @@ import './app.less';
 export interface AppProps {
   phase?: Phase;
   profiles?: Profile[];
-  status?: ValidationStatus;
   error?: string;
   onSubmit?: (params: ValidationParams) => void;
   onResultsDismiss?: () => void;
@@ -43,7 +42,7 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps): JSX.Element {
-  const { phase, profiles, status, error, tables, metadata, zOptions, table,
+  const { phase, profiles, error, tables, metadata, zOptions, table,
     onSubmit, onResultsDismiss, onChangePage, onChangeTable } = props;
 
   let innards: JSX.Element | undefined = undefined;
@@ -68,7 +67,6 @@ export default function App(props: AppProps): JSX.Element {
       innards = <div className='app-App-resultHolder'>
         <Results
           error={error}
-          status={status}
           tables={tables}
           metadata={metadata}
           zOptions={zOptions}

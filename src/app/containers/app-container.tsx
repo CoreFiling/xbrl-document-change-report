@@ -21,7 +21,7 @@ import { Option, TableMetadata } from '@cfl/table-rendering-service';
 import { QueryableTablePage } from '@cfl/table-viewer';
 
 import { tableRenderPageAction, checkingStartAction, resultsDismissAction } from '../actions';
-import { Profile, ValidationStatus } from '../models';
+import { Profile } from '../models';
 import { Phase, State } from '../state';
 import App from '../components/app';
 import AppBarContainer from '../corefiling/app-bar-container';
@@ -32,7 +32,6 @@ interface PropsFromState {
   filingVersionId?: string;
   phase?: Phase;
   profiles?: Profile[];
-  status?: ValidationStatus;
   message?: string;
   tables?: TableMetadata[];
   metadata?: TableMetadata;
@@ -51,7 +50,7 @@ type AppContainerProps = OwnProps & PropsFromState & PropsFromDispatch;
 class AppContainer extends Component<AppContainerProps> {
   render(): JSX.Element {
     const {
-      phase, profiles, status, message, tables, metadata, zOptions, table,
+      phase, profiles, message, tables, metadata, zOptions, table,
       onTableRenderPage, onCheckingStart, onResultsDismiss,
     } = this.props;
     return (
@@ -60,7 +59,6 @@ class AppContainer extends Component<AppContainerProps> {
         <App
           phase={phase}
           profiles={profiles}
-          status={status}
           error={message}
           onSubmit={onCheckingStart}
           onResultsDismiss={onResultsDismiss}
@@ -79,9 +77,9 @@ class AppContainer extends Component<AppContainerProps> {
 function propsFromState(state: State): PropsFromState {
   const {
     global: {phase, profiles, message},
-    filing: {filingVersionId, status, tables, selectedTable: metadata, zOptions, tableRendering: table},
+    filing: {filingVersionId, tables, selectedTable: metadata, zOptions, tableRendering: table},
   } = state;
-  return {filingVersionId, phase, profiles, message, status, tables, metadata, zOptions, table};
+  return {filingVersionId, phase, profiles, message, tables, metadata, zOptions, table};
 }
 
 const propsFromDispatch: MapDispatchToProps<PropsFromDispatch, {}> = {

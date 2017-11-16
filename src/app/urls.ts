@@ -37,12 +37,6 @@ const DOCUMENT_SERVICE_FILING_VERSION = uriTemplates(DOCUMENT_SERVICE_BASE + 'fi
 export const documentServiceCategories = (category: 'validation') => DOCUMENT_SERVICE_CATEGORIES.fillFromObject({category});
 export const documentServiceFilingVersion = (filingVersion: FilingVersion) => DOCUMENT_SERVICE_FILING_VERSION.fillFromObject(filingVersion);
 
-const VALIDATION_SERVICE_BASE = '/api/validation-service/v1/';
-const VALIDATION_SERVICE_FILING_VERSION = uriTemplates(VALIDATION_SERVICE_BASE + 'filing-versions/{id}');
-
-export const validationServiceFilingVersion = (filingVersion: FilingVersion) =>
-  VALIDATION_SERVICE_FILING_VERSION.fillFromObject(filingVersion);
-
 const TABLE_RENDERING_SERVICE_BASE = '/api/table-rendering-service/v1/';
 const TABLE_RENDERING_SERVICE_TABLES = uriTemplates(TABLE_RENDERING_SERVICE_BASE + 'filing-versions/{filingVersionId}/tables/');
 const TABLE_RENDERING_SERVICE_Z_OPTIONS = uriTemplates(TABLE_RENDERING_SERVICE_BASE + 'tables/{tableId}/z-options{?z}');

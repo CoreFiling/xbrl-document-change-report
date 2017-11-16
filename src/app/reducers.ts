@@ -23,7 +23,6 @@ import {
   STARTUP_INFO_RECEIVED, StartupInfoReceivedAction, STARTUP_INFO_FAILED, FailedAction,
   UPLOAD_STARTED, UPLOAD_FAILED,
   CHECKING_STARTED, FAILED,
-  CHECKING_RECEIVED, CheckingReceivedAction,
   RESULTS_DISMISS,
   TABLES_RECEIVED, TableRenderingRequestedAction,
   TABLE_RENDERING_RECEIVED, TableRenderingReceivedAction, TablesReceivedAction, TABLE_RENDERING_REQUESTED,
@@ -56,7 +55,7 @@ export function globalReducer(state: GlobalState | undefined, action: Action): G
       const { message } = action as FailedAction;
       return { ...state, phase: 'failed', message };
     }
-    case CHECKING_RECEIVED: {
+    case TABLES_RECEIVED: {
       return { ...state, phase: 'results'};
     }
     case RESULTS_DISMISS:
@@ -76,13 +75,8 @@ export function filingReducer(state: FilingState | undefined, action: Action): F
     case UPLOAD_FAILED:
     case CHECKING_STARTED:
     case RESULTS_DISMISS:
-    return {};
     case FAILED:
-      return { status: 'FATAL_ERROR' };
-    case CHECKING_RECEIVED: {
-      const { filingVersionId, status } = action as CheckingReceivedAction;
-      return { ...state, filingVersionId, status };
-    }
+      return {};
     case TABLES_RECEIVED: {
       const { tables } = action as TablesReceivedAction;
       return { ...state, tables, selectedTable: tables.length > 0 ? tables[0] : undefined, zOptions: [] };

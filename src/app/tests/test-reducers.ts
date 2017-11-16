@@ -17,7 +17,7 @@
 import {} from 'jasmine';
 import { startupInfoReceivedAction,
   uploadStartedAction, uploadFailedAction,
-  checkingStartedAction, checkingReceivedAction, failedAction,
+  checkingStartedAction, failedAction,
   tablesReceivedAction, tableRenderingRequested, tableRenderingReceivedAction,
   resultsDismissAction } from '../actions';
 import { ValidationParams } from '../models';
@@ -72,7 +72,7 @@ describe('globalReducer', () => {
   });
 
   it('remembers validation status', () => {
-    const after = globalReducer(initial, checkingReceivedAction('12345678', 'OK'));
+    const after = globalReducer(initial, tablesReceivedAction([exampleTableMetadata]));
 
     expect(after.phase).toBe('results');
   });
@@ -84,7 +84,7 @@ describe('globalReducer', () => {
   });
 
   it('is ready for a new game after user dismisses results', () => {
-    const before = globalReducer(initial, checkingReceivedAction('12345678', 'OK'));
+    const before = globalReducer(initial, tablesReceivedAction([exampleTableMetadata]));
 
     const after = globalReducer(before, resultsDismissAction());
 
@@ -105,7 +105,6 @@ describe('filingReducer', () => {
 
   const initial: FilingState = filingReducer(undefined, {type: '????'});
   const full: FilingState = {
-    status: 'FATAL_ERROR',
     selectedTable: exampleTableMetadata,
     tableRendering: exampleQueryableTablePage,
     tables: [exampleTableMetadata],
@@ -124,11 +123,6 @@ describe('filingReducer', () => {
   it('clears all filing state when dismissing results', () => {
     const after = filingReducer(full, resultsDismissAction());
     expect(after).toEqual({});
-  });
-
-  it('remembers status', () => {
-    const after = filingReducer(initial, checkingReceivedAction('12345678', 'ERROR'));
-    expect(after.status).toEqual('ERROR');
   });
 
   it('remembers tables and selects the first table by default', () => {

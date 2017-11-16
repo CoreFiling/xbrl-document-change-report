@@ -47,7 +47,6 @@ storiesOf('App', module)
       <App
         profiles={profiles('Profile')}
         phase={'results'}
-        status={'OK'}
         tables={[metadata, {name: 'another table', id: 'uuid-of-another-table'} as TableMetadata]}
         metadata={metadata}
         zOptions={zOptions}
@@ -62,7 +61,6 @@ storiesOf('App', module)
       <App
         profiles={profiles('Profile')}
         phase={'failed'}
-        status={'FATAL_ERROR'}
       />
     );
   })
@@ -72,7 +70,6 @@ storiesOf('App', module)
       <App
         profiles={profiles('Profile')}
         phase={'results'}
-        status={'OK'}
         tables={[metadata]}
         metadata={metadata}
         zOptions={zOptions}
