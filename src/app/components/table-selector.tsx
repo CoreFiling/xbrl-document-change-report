@@ -16,21 +16,32 @@
 
 import * as classNames from 'classnames';
 import * as React from 'react';
+import { SimpleSelect } from 'react-selectize';
 
 import { TableMetadata } from '@cfl/table-rendering-service';
 
 interface TableSelectorProps {
   tables: TableMetadata[];
+  selectedTable?: TableMetadata;
   className?: string;
 
   onChangeTable: (table: TableMetadata) => void;
 }
 
-export default function TableSelector({ tables, onChangeTable, className }: TableSelectorProps): JSX.Element {
+export default function TableSelector({ tables, selectedTable, onChangeTable, className }: TableSelectorProps): JSX.Element {
+  tables.sort((a, b) => a.name.localeCompare(b.name));
+  const options = tables.map(table => ({label: table.name, value: table}));
+  const selectedOption = selectedTable && options.find(x => x.value === selectedTable) || undefined;
+
   return (
-    <select onChange={e => onChangeTable(tables[+e.currentTarget.value])}
-        className={classNames('app-Table-tableSelect', className)}>
-      {tables.sort((a, b) => a.name.localeCompare(b.name)).map((t, i) => <option key={t.id} value={i}>{t.name}</option>)}
-    </select>
+    <SimpleSelect
+      value={selectedOption}
+      options={options}
+      onValueChange={option => option && onChangeTable(option.value)}
+      uid={option => option.value.id}
+      className={classNames('app-Table-tableSelect', className)}
+      hideResetButton
+    >
+    </SimpleSelect>
   );
 }

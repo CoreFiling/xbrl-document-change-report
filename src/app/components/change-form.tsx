@@ -79,7 +79,7 @@ export default class ChangeForm extends Component<ChangeFormProps, ChangeFormSta
               multiple={true}
               accept='.xml,.xbrl,.html,.htm,.zip'
               maxSize={5 * 1024 * 1024}
-              aria-label='File to validate'
+              aria-label='Two files to compare'
               onDrop={this.onDropzoneDrop}
             >
               <div>
@@ -93,7 +93,7 @@ export default class ChangeForm extends Component<ChangeFormProps, ChangeFormSta
                     <div className='app-ChangeForm-prompt'>
                       or <span className='app-ChangeForm-btn'>click to select files</span>
                     </div>
-                    <div className='app-ChangeForm-hint'>XBRL, Inline XBRL, or ZIP. 5&thinsp;MB max.</div>
+                    <div className='app-ChangeForm-hint'>XBRL, Inline XBRL, or ZIP. 5&thinsp;MB max each.</div>
                   </div>}
                 </div>
             </Dropzone>
@@ -106,7 +106,7 @@ export default class ChangeForm extends Component<ChangeFormProps, ChangeFormSta
         </select>
       </FormItem>
       <FormActionList>
-        <FormAction enabled={onSubmit && paramsAreComplete(params)} primary>Change report</FormAction>
+        <FormAction enabled={onSubmit && paramsAreComplete(params)} primary>Compare files</FormAction>
       </FormActionList>
     </Form>;
   }

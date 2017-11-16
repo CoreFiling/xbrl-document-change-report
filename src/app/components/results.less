@@ -16,8 +16,9 @@
 
 @import (reference) '../styles/defs';
 
-.app-Results {
+@resultHeadingHt: 60px;
 
+.app-Results {
   &-resultView {
     color: @ink;
     background: @paper;
@@ -27,10 +28,16 @@
   }
 
   &-resultHeading {
+    height: @resultHeadingHt;
+
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
+  }
+
+  &-tableSelector {
+    margin-left: @gap;
   }
 
   &-resultReset {

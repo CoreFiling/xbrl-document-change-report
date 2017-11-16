@@ -46,18 +46,18 @@ export default class Results extends React.Component<ResultsProps> {
       onChangePage, onChangeTable, onResultsDismiss,
     } = this.props;
     return (
-      <div className='app-Results-resultView'>
-        <div className='app-Results-resultHeading'>
+      <section className='app-Results-resultView'>
+        <header className='app-Results-resultHeading'>
           {(error || !tables || tables.length === 0) && <StatusHeading status={status} error={error}/>}
           {!error && tables && tables.length > 1 && onChangeTable &&
-            <TableSelector tables={tables} onChangeTable={onChangeTable}/>
+            <TableSelector className='app-Results-tableSelector' tables={tables} selectedTable={metadata} onChangeTable={onChangeTable}/>
           }
           <Button primary className='app-Results-resultReset' onClick={onResultsDismiss}>Upload</Button>
-        </div>
+        </header>
         {status
         && <Table status={status} metadata={metadata} zOptions={zOptions} table={table}
                   onChangePage={onChangePage} onChangeTable={onChangeTable}/>}
-      </div>
+      </section>
     );
   }
 }

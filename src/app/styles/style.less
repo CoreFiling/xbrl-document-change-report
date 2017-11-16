@@ -161,3 +161,145 @@ body {
     border-left: 4px solid transparent;
   }
 }
+
+.react-selectize-control {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+
+  border: 1px solid @primary;
+  border-radius: 3px;
+  cursor: pointer;
+
+  .open & {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-color: @primary-lt;
+  }
+
+  .react-selectize-placeholder {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    line-height: 38px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    color: @disabled;
+    ;
+  }
+
+  .react-selectize-search-field-and-selected-values {
+    flex-grow: 1;
+    flex-shrink: 1;
+    width: ~"calc(100% - 38px)";
+    display: flex;
+    flex-flow: row nowrap;
+  }
+
+  .resizable-input {
+    width: 0;
+    margin-left: 6px;
+
+    font-size: 1em;
+    background: none;
+    border: none;
+    outline: none;
+  }
+
+  .value-wrapper {
+    margin-left: 12px;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .value-wrapper + input {
+    display: none;
+  }
+
+  .react-selectize-reset-button-container,
+  .react-selectize-toggle-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 38px;
+    cursor: pointer;
+  }
+
+  .react-selectize-reset-button-container {
+    width: 20px;
+    stroke: @ink;
+    transition: stroke 0.5s 0s ease;
+
+    &:hover {
+      stroke: @primary;
+    }
+  }
+
+  .react-selectize-toggle-button-container {
+    fill: #FFF;
+    background-color: @primary;
+    width: 38px;
+
+    &:hover {
+      background-color: @secondary;
+    }
+  }
+}
+
+.react-selectize {
+  position: relative;
+  box-sizing: border-box;
+
+
+  .dropdown-menu-wrapper {
+    position: absolute;
+  }
+
+  .dropdown-menu {
+    z-index: 10;
+    overflow: auto;
+    position: absolute;
+    display: block;
+    margin: 0;
+    max-height: 80vh;
+    padding-bottom: 4px;
+
+    color: @ink;
+    background-color: @paper;
+    border: 1px solid @primary;
+    border-top: none;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 25%) 0 8px 20px -2px;
+
+    &.tethered {
+      min-width: 300px;
+    }
+    &:not(.tethered) {
+      width: 100%;
+    }
+
+    .option-wrapper {
+      padding: 6px 12px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: @btn-hover;
+      }
+      &.highlight {
+        box-shadow: inset @btn-hover 0 0 3px;
+      }
+    }
+
+
+    .simple-value {
+      padding: 6px 0;
+    }
+  }
+}
