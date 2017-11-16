@@ -20,12 +20,11 @@ import { all, call, put } from 'redux-saga/effects';
 
 import { startupInfoReceivedAction, startupInfoFailedAction,
   checkingStartAction, uploadStartedAction, uploadFailedAction,
-  checkingStartedAction, checkingReceivedAction, failedAction } from '../actions';
+  checkingStartedAction, failedAction } from '../actions';
 import { apiFetchJson } from '../api-fetch';
 import { ValidationParams,  } from '../models';
 import { startupInfoSaga, checkingStartSaga } from '../sagas';
-import { exampleUser, exampleApps, exampleCategory, exampleFiling,
-  exampleFilingVersion, exampleValidationServiceFilingVersionSummary } from './model-examples';
+import { exampleUser, exampleApps, exampleCategory, exampleFiling, exampleFilingVersion } from './model-examples';
 
 describe('startupInfoSaga', () => {
   it('calls APIs in parallel and dispatches profiles', () => {
@@ -88,14 +87,10 @@ describe('checkingStartSaga', () => {
     expect(saga.next().value).toEqual(call(apiFetchJson, '/api/document-service/v1/filing-versions/f09be954-1895-4954-b333-6c9c89b833f1'));
     expect(saga.next({...exampleFilingVersion, status: 'RUNNING'}).value).toEqual(call(delay, 1000));
     expect(saga.next().value).toEqual(call(apiFetchJson, '/api/document-service/v1/filing-versions/f09be954-1895-4954-b333-6c9c89b833f1'));
-    // Gets filing-version results, move on to checking the validation status.
+    // Gets filing-version results, move on to fetching tables.
     expect(saga.next({...exampleFilingVersion, status: 'DONE'}).value).toEqual(call(
       apiFetchJson,
-      '/api/validation-service/v1/filing-versions/f09be954-1895-4954-b333-6c9c89b833f1'));
-
-    // Now results arrive and all is well.
-    expect(saga.next(exampleValidationServiceFilingVersionSummary).value).toEqual(put(
-      checkingReceivedAction('f09be954-1895-4954-b333-6c9c89b833f1', 'OK')));
+      '/api/table-rendering-service/v1/filing-versions/f09be954-1895-4954-b333-6c9c89b833f1/tables/'));
   });
 
   it('dispatches FAILED if initial upload fails', () => {

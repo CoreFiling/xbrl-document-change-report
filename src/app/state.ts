@@ -18,7 +18,7 @@
  * State of the app as a whole.
  */
 
-import { User, App, Profile, ValidationStatus } from './models';
+import { User, App, Profile } from './models';
 import { QueryableTablePage } from '@cfl/table-viewer';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
 
@@ -40,7 +40,6 @@ export interface GlobalState {
 
 export interface FilingState {
   filingVersionId?: string;
-  status?: ValidationStatus;
   tables?: TableMetadata[];
   selectedTable?: TableMetadata;
   zOptions?: Option[][];

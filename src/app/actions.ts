@@ -19,7 +19,7 @@
  */
 import { Action } from 'redux';
 
-import { App, Profile, TableRenderingWindow, User, ValidationParams, ValidationStatus } from './models';
+import { App, Profile, TableRenderingWindow, User, ValidationParams } from './models';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
 import { QueryableTablePage } from '@cfl/table-viewer';
 
@@ -73,15 +73,6 @@ export function checkingStartedAction(): Action {
 
 export function uploadFailedAction(message?: string): FailedAction {
   return {type: UPLOAD_FAILED, message};
-}
-
-export interface CheckingReceivedAction extends Action {
-  filingVersionId: string;
-  status: ValidationStatus;
-}
-
-export function checkingReceivedAction(filingVersionId: string, status: ValidationStatus): CheckingReceivedAction {
-  return {type: CHECKING_RECEIVED, filingVersionId, status};
 }
 
 export function failedAction(message: string): FailedAction {

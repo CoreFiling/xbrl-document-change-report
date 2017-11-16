@@ -16,7 +16,7 @@
 
 @import (reference) '../styles/defs';
 @import (reference) './app';
-@import (reference) './status-heading';
+@import (reference) './results';
 
 .clearfix() {  // Needed because Bootstrap implements grid with floats like some kind of cave person.
   &:after {
@@ -93,20 +93,6 @@
   &-table {
     border-radius: 3px;
 
-    &-okStatus,
-    &-warningStatus {
-      background-color: @tablePaper;
-      border: 1px solid @primary;
-    }
-    &-warningStatus {
-      border: 1px solid @warning;
-    }
-    &-errorStatus,
-    &-fatalErrorStatus {
-      background-color: @failPaper;
-      border: 1px solid @failed;
-    }
-
     &-inner {
       div {
         box-sizing: border-box;
@@ -128,18 +114,18 @@
   &-table-inner,
   &-loading,
   &-noTable {
-    height: calc(~"100vh - " (@bar-ht + @gap + @statusTotal + @gap + @contact-ht + 2px));
+    height: calc(~"100vh - " (@bar-ht + @gap + @resultsHeadingHt + @gap + @gap + @contact-ht + 2px));
   }
 
   &-withPager {
-    height: calc(~"100vh - " (@bar-ht + @gap + @statusTotal + @gap + 34px + @gap + @contact-ht + 2px));
+    height: calc(~"100vh - " (@bar-ht + @gap + @resultsHeadingHt + @gap + @gap + 34px + @gap + @contact-ht + 2px));
   }
 
   &-withZOptions {
-    height: calc(~"100vh - " (@bar-ht + @gap + @statusTotal + @gap + 32px + @gap + @contact-ht + 2px));
+    height: calc(~"100vh - " (@bar-ht + @gap + @resultsHeadingHt + @gap + @gap + 32px + @gap + @contact-ht + 2px));
   }
 
   &-withZOptions&-withPager {
-    height: calc(~"100vh - " (@bar-ht + @gap + @statusTotal + @gap + 32px + @gap + 34px + @gap + @contact-ht + 2px));
+    height: calc(~"100vh - " (@bar-ht + @gap + @resultsHeadingHt + @gap + @gap + 32px + @gap + 34px + @gap + @contact-ht + 2px));
   }
 }

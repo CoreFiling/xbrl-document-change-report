@@ -28,7 +28,6 @@ storiesOf('Table', module)
 
     return (
       <Table
-        status={'OK'}
         metadata={metadata}
         zOptions={zOptions}
         table={table}
@@ -42,7 +41,6 @@ storiesOf('Table', module)
 
     return (
       <Table
-        status={'ERROR'}
         metadata={metadata}
         zOptions={zOptions}
         table={table}
@@ -56,7 +54,6 @@ storiesOf('Table', module)
     const table = new QueryableTablePageImpl(tables[0], tableChunk);
     return (
       <Table
-        status={'OK'}
         metadata={tables[0]}
         zOptions={zOptions}
         table={table}

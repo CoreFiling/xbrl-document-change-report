@@ -98,13 +98,6 @@ export interface FilingVersion {
   deleted?: string;  // Date in XML Schema format
 }
 
-export interface ValidationServiceFilingVersionSummary {
-  id: string;
-  severity: ValidationStatus;
-}
-
-export type ValidationStatus = 'FATAL_ERROR' | 'ERROR' | 'WARNING' | 'OK';
-
 /**
  * Describes the person or system that performed an action.
  */

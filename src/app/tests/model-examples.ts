@@ -14,8 +14,7 @@
  *  limitations under the License.
  */
 
-import { User, App, Category, Filing, FilingVersion,
-  TableRenderingWindow, ValidationServiceFilingVersionSummary } from '../models';
+import { User, App, Category, Filing, FilingVersion, TableRenderingWindow } from '../models';
 import { QueryableTablePage } from '@cfl/table-viewer';
 import { Breakdown, Option, TableHeader, TableMetadata } from '@cfl/table-rendering-service';
 
@@ -97,11 +96,6 @@ export const exampleFilingVersion: FilingVersion = {
     id: '8723b794-3261-4cd3-b946-b683c19fb99c',
     name: 'report.xbrl',
   },
-};
-
-export const exampleValidationServiceFilingVersionSummary: ValidationServiceFilingVersionSummary = {
-  id: exampleFilingVersion.id,
-  severity: 'OK',
 };
 
 export const exampleZOption: Option = {

@@ -22,14 +22,11 @@ import { QueryableTablePage } from '@cfl/table-viewer';
 import Table from './table';
 import Button from './button';
 import TableSelector from './table-selector';
-import { ValidationStatus } from '../models';
 
 import './results.less';
-import StatusHeading from './status-heading';
 
 export interface ResultsProps {
   error?: string;
-  status?: ValidationStatus;
   tables?: TableMetadata[];
   metadata?: TableMetadata;
   zOptions?: Option[][];
@@ -42,20 +39,19 @@ export interface ResultsProps {
 export default class Results extends React.Component<ResultsProps> {
   render(): JSX.Element {
     const {
-      error, status, tables, metadata, zOptions, table,
+      error, tables, metadata, zOptions, table,
       onChangePage, onChangeTable, onResultsDismiss,
     } = this.props;
     return (
       <section className='app-Results-resultView'>
         <header className='app-Results-resultHeading'>
-          {(error || !tables || tables.length === 0) && <StatusHeading status={status} error={error}/>}
+          {error && <div className='app-Results-error'>{error}</div>}
           {!error && tables && tables.length > 1 && onChangeTable &&
             <TableSelector className='app-Results-tableSelector' tables={tables} selectedTable={metadata} onChangeTable={onChangeTable}/>
           }
           <Button primary className='app-Results-resultReset' onClick={onResultsDismiss}>Upload</Button>
         </header>
-        {status
-        && <Table status={status} metadata={metadata} zOptions={zOptions} table={table}
+        <Table metadata={metadata} zOptions={zOptions} table={table}
                   onChangePage={onChangePage} onChangeTable={onChangeTable}/>}
       </section>
     );
