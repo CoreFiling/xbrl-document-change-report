@@ -30,8 +30,9 @@
 
 .app-Table {
   flex-grow: 1;
-  margin: @gap 0 0;
+  margin: 12px;
   width: 100%;
+  width: calc(~"100vw - " (2 * @gap + 2 * 12px));
 
   color: @ink;
   background: @paper;
@@ -83,15 +84,9 @@
     padding-left: @gap;
   }
 
-  &-table,
-  &-loading,
-  &-noTable {
-    width: calc(~"100vw - " (2 * @gap3));
-    margin: 12px;
-  }
-
   &-table {
     border-radius: 3px;
+    background-color: @tablePaper;
 
     &-inner {
       div {
