@@ -22,42 +22,32 @@ describe('paramsAreComplete', () => {
   it('is happy if two files', () => {
     const result = paramsAreComplete({
       profile: 'profile-name',
-      files: [
-        new File(['x'], 'x.ixbrl'),
-        new File(['x'], 'y.ixbrl'),
-      ],
+      file1: new File(['x'], 'x.ixbrl'),
+      file2: new File(['x'], 'y.ixbrl'),
     });
     expect(result).toBeTruthy();
   });
 
-  it('is unhappy if fewer files', () => {
+  it('is unhappy if no first file', () => {
     const result = paramsAreComplete({
       profile: 'profile-name',
-      files: [
-        new File(['x'], 'x.ixbrl'),
-      ],
+      file1: new File(['x'], 'x.ixbrl'),
     });
     expect(result).toBeFalsy();
   });
 
-  it('is unhappy if fewer files', () => {
+  it('is unhappy if no second file', () => {
     const result = paramsAreComplete({
       profile: 'profile-name',
-      files: [
-        new File(['x'], 'x.ixbrl'),
-        new File(['x'], 'y.ixbrl'),
-        new File(['x'], 'z.ixbrl'),
-      ],
+      file2: new File(['x'], 'y.ixbrl'),
     });
     expect(result).toBeFalsy();
   });
 
   it('is unhappy without profile', () => {
     const result = paramsAreComplete({
-      files: [
-        new File(['x'], 'x.ixbrl'),
-        new File(['x'], 'y.ixbrl'),
-      ],
+      file1: new File(['x'], 'x.ixbrl'),
+      file2: new File(['x'], 'y.ixbrl'),
     });
     expect(result).toBeFalsy();
   });

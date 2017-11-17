@@ -59,19 +59,22 @@ export interface Category {
 }
 
 /**
- * Information needed to request a validation operation.
+ * Information needed to request job of the type used in this app.
  */
-export interface ValidationParams {
+export interface JobParams {
+  dataSet?: string;  // ?Optional? This must match user’s one and only dataset.
   profile: string;
-  files: File[];
+  name?: string;
+  file1: File;
+  file2: File;
 }
 
 /**
  * Check these params are ready to be submitted.
  */
-export function paramsAreComplete(params: Partial<ValidationParams>): params is ValidationParams {
-  const { profile, files } = params;
-  return !!profile && !!files && files.length === 2;
+export function paramsAreComplete(params: Partial<JobParams>): params is JobParams {
+  const { profile, file1, file2 } = params;
+  return !!profile && !!file1 && !!file2;
 }
 
 /**

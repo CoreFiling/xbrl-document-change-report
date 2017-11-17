@@ -20,18 +20,16 @@ import { startupInfoReceivedAction,
   processingStartedAction, failedAction,
   tablesReceivedAction, tableRenderingRequested, tableRenderingReceivedAction,
   resultsDismissAction } from '../actions';
-import { ValidationParams } from '../models';
+import { JobParams } from '../models';
 import { globalReducer, filingReducer } from '../reducers';
 import { GlobalState, FilingState } from '../state';
 import { exampleQueryableTablePage, exampleTableMetadata,
   exampleTableRenderingWindow, exampleZOption } from './model-examples';
 
-const params: ValidationParams = {
+const params: JobParams = {
   profile: 'CRD V 1.69.42',
-  files: [
-    new File(['hello'], 'accounts-final-rev4.xbrl'),
-    new File(['hello'], 'accounts-final-rev5.xbrl'),
-  ],
+  file1: new File(['hello'], 'accounts-final-rev4.xbrl'),
+  file2: new File(['hello'], 'accounts-final-rev5.xbrl'),
 };
 
 describe('globalReducer', () => {
