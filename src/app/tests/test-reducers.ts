@@ -17,7 +17,7 @@
 import {} from 'jasmine';
 import { startupInfoReceivedAction,
   uploadStartedAction, uploadFailedAction,
-  checkingStartedAction, failedAction,
+  processingStartedAction, failedAction,
   tablesReceivedAction, tableRenderingRequested, tableRenderingReceivedAction,
   resultsDismissAction } from '../actions';
 import { ValidationParams } from '../models';
@@ -66,9 +66,9 @@ describe('globalReducer', () => {
   });
 
   it('switches to results as soon as checking requested', () => {
-    const after = globalReducer(initial, checkingStartedAction());
+    const after = globalReducer(initial, processingStartedAction());
 
-    expect(after.phase).toBe('checking');
+    expect(after.phase).toBe('processing');
   });
 
   it('remembers validation status', () => {

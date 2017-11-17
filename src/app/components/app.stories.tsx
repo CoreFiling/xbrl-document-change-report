@@ -33,11 +33,19 @@ storiesOf('App', module)
       />
     );
   })
-  .add('Checking', () => {
+  .add('Uploading', () => {
     return (
       <App
         profiles={profiles('Profile')}
-        phase={'checking'}
+        phase={'uploading'}
+      />
+    );
+  })
+  .add('Processing', () => {
+    return (
+      <App
+        profiles={profiles('Profile')}
+        phase={'processing'}
       />
     );
   })

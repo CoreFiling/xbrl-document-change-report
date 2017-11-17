@@ -23,7 +23,7 @@ import { QueryableTablePage } from '@cfl/table-viewer';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
 
 export type Phase = 'startup' | 'startup-failed' | 'form' |
-  'uploading' | 'uploading-failed' | 'checking' | 'results' | 'failed';
+  'uploading' | 'uploading-failed' | 'processing' | 'results' | 'failed';
 
 export interface State {
   global: GlobalState;

@@ -22,7 +22,7 @@ import { Action, combineReducers } from 'redux';
 import {
   STARTUP_INFO_RECEIVED, StartupInfoReceivedAction, STARTUP_INFO_FAILED, FailedAction,
   UPLOAD_STARTED, UPLOAD_FAILED,
-  CHECKING_STARTED, FAILED,
+  PROCESSING_STARTED, FAILED,
   RESULTS_DISMISS,
   TABLES_RECEIVED, TableRenderingRequestedAction,
   TABLE_RENDERING_RECEIVED, TableRenderingReceivedAction, TablesReceivedAction, TABLE_RENDERING_REQUESTED,
@@ -49,8 +49,8 @@ export function globalReducer(state: GlobalState | undefined, action: Action): G
       const { message } = action as FailedAction;
       return { ...state, phase: 'uploading-failed', message };
     }
-    case CHECKING_STARTED:
-      return { ...state, phase: 'checking' };
+    case PROCESSING_STARTED:
+      return { ...state, phase: 'processing' };
     case FAILED: {
       const { message } = action as FailedAction;
       return { ...state, phase: 'failed', message };
@@ -73,7 +73,7 @@ export function filingReducer(state: FilingState | undefined, action: Action): F
   switch (action.type) {
     case UPLOAD_STARTED:
     case UPLOAD_FAILED:
-    case CHECKING_STARTED:
+    case PROCESSING_STARTED:
     case RESULTS_DISMISS:
     case FAILED:
       return {};

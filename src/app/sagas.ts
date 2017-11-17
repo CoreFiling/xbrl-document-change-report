@@ -18,10 +18,10 @@ import { delay, Effect } from 'redux-saga';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 
 import {
-  CHECKING_START,
+  PROCESSING_START,
   CheckingAction,
   failedAction,
-  checkingStartedAction,
+  processingStartedAction,
   startupInfoFailedAction,
   startupInfoReceivedAction,
   TABLE_RENDER_PAGE,
@@ -100,7 +100,7 @@ export function* checkingStartSaga(action: CheckingAction): IterableIterator<Eff
     yield put(uploadFailedAction('Filing has no versions'));
     return;
   }
-  yield put(checkingStartedAction());
+  yield put(processingStartedAction());
 
   try {
     // Poll for filing completion status.
@@ -145,7 +145,7 @@ export function* tableRenderingSaga(action: TableRenderPageAction): IterableIter
  */
 export function* checkingSaga(): IterableIterator<Effect> {
   yield all([
-    takeEvery(CHECKING_START, checkingStartSaga),
+    takeEvery(PROCESSING_START, checkingStartSaga),
     takeEvery(TABLE_RENDER_PAGE, tableRenderingSaga),
   ]);
 }

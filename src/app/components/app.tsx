@@ -56,8 +56,8 @@ export default function App(props: AppProps): JSX.Element {
         <ContactDetails className='app-App-formContact'/>
       </div>;
       break;
-    case 'checking':
     case 'uploading':
+    case 'processing':
       innards = <div className='app-App-loadingOverlay'>
         <div className='app-App-loading'>Processing&thinsp;…</div>
       </div>;

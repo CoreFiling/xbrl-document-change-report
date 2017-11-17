@@ -20,7 +20,7 @@ import { connect, MapDispatchToProps } from 'react-redux';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
 import { QueryableTablePage } from '@cfl/table-viewer';
 
-import { tableRenderPageAction, checkingStartAction, resultsDismissAction } from '../actions';
+import { tableRenderPageAction, processingStartAction, resultsDismissAction } from '../actions';
 import { Profile } from '../models';
 import { Phase, State } from '../state';
 import App from '../components/app';
@@ -40,7 +40,7 @@ interface PropsFromState {
 }
 
 interface PropsFromDispatch {
-  onCheckingStart?: typeof checkingStartAction;
+  onCheckingStart?: typeof processingStartAction;
   onResultsDismiss?: typeof resultsDismissAction;
   onTableRenderPage?: typeof tableRenderPageAction;
 }
@@ -83,7 +83,7 @@ function propsFromState(state: State): PropsFromState {
 }
 
 const propsFromDispatch: MapDispatchToProps<PropsFromDispatch, {}> = {
-  onCheckingStart: checkingStartAction,
+  onCheckingStart: processingStartAction,
   onResultsDismiss: resultsDismissAction,
   onTableRenderPage: tableRenderPageAction,
 };
