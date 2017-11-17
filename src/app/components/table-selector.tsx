@@ -35,12 +35,13 @@ export default function TableSelector({ tables, selectedTable, onChangeTable, cl
 
   return (
     <SimpleSelect
+      autofocus
       value={selectedOption}
       options={options}
-      onValueChange={option => option && onChangeTable(option.value)}
       uid={option => option.value.id}
       className={classNames('app-Table-tableSelect', className)}
       hideResetButton
+      onValueChange={option => option && onChangeTable(option.value)}
     >
     </SimpleSelect>
   );

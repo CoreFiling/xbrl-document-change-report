@@ -218,10 +218,6 @@ body {
     align-items: center;
   }
 
-  .value-wrapper + input {
-    display: none;
-  }
-
   .react-selectize-reset-button-container,
   .react-selectize-toggle-button-container {
     display: flex;
@@ -289,11 +285,8 @@ body {
       padding: 6px 12px;
       cursor: pointer;
 
-      &:hover {
-        background-color: @btn-hover;
-      }
       &.highlight {
-        box-shadow: inset @btn-hover 0 0 3px;
+        background-color: @btn-hover;
       }
     }
 
