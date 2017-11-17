@@ -23,6 +23,7 @@ import FileReference from './file-reference';
 import './file-input.less';
 
 interface FileInputProps {
+  label?: string;
   file?: File;
   className?: string;
 
@@ -30,7 +31,7 @@ interface FileInputProps {
 }
 
 // tslint:disable-next-line:variable-name
-const FileInput = ({ file, className, onChange }: FileInputProps): JSX.Element => <Dropzone
+const FileInput = ({ label, file, className, onChange }: FileInputProps): JSX.Element => <Dropzone
   className={classNames('app-FileInput', className)}
   activeClassName='app-ChangeForm-dropzoneActive'
   multiple={false}
@@ -45,7 +46,7 @@ const FileInput = ({ file, className, onChange }: FileInputProps): JSX.Element =
     ? <FileReference className='app-FileInput-file' file={file} onRemove={onChange && (() => onChange(undefined))}
       />
     : <div>
-        <h2 className='app-FileInput-heading'>Drop file here</h2>
+        <h2 className='app-FileInput-heading'>{label || 'Drop file here'}</h2>
         <div className='app-FileInput-prompt'>
           or <span className='app-FileInput-btn'>click to select file</span>
         </div>

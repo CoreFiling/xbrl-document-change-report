@@ -27,6 +27,7 @@
    background-color: #F8F5F5;
    background-image: url(dropzone-bg.svg);
    border-radius: 3px;
+   cursor: pointer;
 
    &:before {
      content: " ";
@@ -47,6 +48,7 @@
      line-height: 44px;
      text-align: center;
      color: @secondary;
+     user-select: none;
    }
    &-prompt {
      text-align: center;
@@ -54,12 +56,15 @@
      font-weight: 500;
      line-height: 17px;
      color: @muted;
+     user-select: none;
    }
    &-hint {
      margin-top: @gap;
      font-size: 12px;
      font-weight: 300;
      line-height: (14/12);
+     text-align: center;
+     user-select: none;
    }
    &-btn {
      color: @primary;
