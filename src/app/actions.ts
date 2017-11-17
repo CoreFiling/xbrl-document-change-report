@@ -48,31 +48,33 @@ export function startupInfoFailedAction(message: string): FailedAction {
 
 // Actions for performing the checking operation itself.
 
-export const CHECKING_START = 'CHECKING_START';  // Sent by UI to request checking.
+export const PROCESSING_START = 'PROCESSING_START';  // Sent by UI to request checking.
 export const UPLOAD_STARTED = 'UPLOAD_STARTED';  // from saga when upload begins
-export const CHECKING_STARTED = 'UPLOAD_COMPLETE';  // From saga when file is uploaded and checking begins
 export const UPLOAD_FAILED = 'UPLOAD_FAILED';  // From saga if uplaod fails.
-export const CHECKING_RECEIVED = 'CHECKING_RECEIVED';  // From saga when results ready at long last.
+export const PROCESSING_STARTED = 'PROCESSING_STARTED';  // From saga when file is uploaded and processing begins
 export const FAILED = 'FAILED';
+
+// We could have PROCESSING_COMPLETE
+// but wse take TABLES_RECEIVED as indicating processing is complete.
 
 export interface CheckingAction extends Action {
   params: ValidationParams;
 }
 
-export function checkingStartAction(params: ValidationParams): CheckingAction {
-  return {type: CHECKING_START, params};
+export function processingStartAction(params: ValidationParams): CheckingAction {
+  return {type: PROCESSING_START, params};
 }
 
 export function uploadStartedAction(params: ValidationParams): CheckingAction {
   return {type: UPLOAD_STARTED, params};
 }
 
-export function checkingStartedAction(): Action {
-  return {type: CHECKING_STARTED};
-}
-
 export function uploadFailedAction(message?: string): FailedAction {
   return {type: UPLOAD_FAILED, message};
+}
+
+export function processingStartedAction(): Action {
+  return {type: PROCESSING_STARTED};
 }
 
 export function failedAction(message: string): FailedAction {

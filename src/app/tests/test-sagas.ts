@@ -19,8 +19,8 @@ import { delay } from 'redux-saga';
 import { all, call, put } from 'redux-saga/effects';
 
 import { startupInfoReceivedAction, startupInfoFailedAction,
-  checkingStartAction, uploadStartedAction, uploadFailedAction,
-  checkingStartedAction, failedAction } from '../actions';
+  processingStartAction, uploadStartedAction, uploadFailedAction,
+  processingStartedAction, failedAction } from '../actions';
 import { apiFetchJson } from '../api-fetch';
 import { ValidationParams,  } from '../models';
 import { startupInfoSaga, checkingStartSaga } from '../sagas';
@@ -66,8 +66,8 @@ describe('checkingStartSaga', () => {
     files,
   };
 
-  it('dispatches UPLOAD_COMPLETE and CHECKING_RECEIVED if all goes well', () => {
-    const saga = checkingStartSaga(checkingStartAction(params));
+  it('dispatches CHECKING_STARTED and CHECKING_RECEIVED if all goes well', () => {
+    const saga = checkingStartSaga(processingStartAction(params));
 
     expect(saga.next().value).toEqual(put(uploadStartedAction(params)));
     const formData = new FormData();
@@ -80,7 +80,7 @@ describe('checkingStartSaga', () => {
       method: 'POST',
       body: formData,  // This test is less strict than it looks because all formData object compare equal.
     }));
-    expect(saga.next(exampleFiling).value).toEqual(put(checkingStartedAction()));
+    expect(saga.next(exampleFiling).value).toEqual(put(processingStartedAction()));
 
     // Then poll for updates after 1 second.
     expect(saga.next().value).toEqual(call(delay, 1000));
@@ -94,7 +94,7 @@ describe('checkingStartSaga', () => {
   });
 
   it('dispatches FAILED if initial upload fails', () => {
-    const saga = checkingStartSaga(checkingStartAction(params));
+    const saga = checkingStartSaga(processingStartAction(params));
 
     saga.next(); saga.next();  // First few steps as above.
 
@@ -103,7 +103,7 @@ describe('checkingStartSaga', () => {
   });
 
   it('dispatches FAILED if polling fails', () => {
-    const saga = checkingStartSaga(checkingStartAction(params));
+    const saga = checkingStartSaga(processingStartAction(params));
 
     saga.next(); saga.next(); saga.next(exampleFiling); saga.next();  // First few steps as above.
 
@@ -111,7 +111,7 @@ describe('checkingStartSaga', () => {
   });
 
   it('dispatches FAILED if polling fails with response', () => {
-    const saga = checkingStartSaga(checkingStartAction(params));
+    const saga = checkingStartSaga(processingStartAction(params));
 
     saga.next(); saga.next(); saga.next(exampleFiling); saga.next();  // First few steps as above.
 
