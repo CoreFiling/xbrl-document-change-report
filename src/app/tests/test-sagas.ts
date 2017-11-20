@@ -22,7 +22,7 @@ import { startupInfoReceivedAction, startupInfoFailedAction,
   processingStartAction, uploadStartedAction, uploadFailedAction,
   processingStartedAction, failedAction } from '../actions';
 import { apiFetchJson } from '../api-fetch';
-import { ValidationParams,  } from '../models';
+import { JobParams,  } from '../models';
 import { startupInfoSaga, checkingStartSaga } from '../sagas';
 import { exampleUser, exampleApps, exampleCategory, exampleFiling, exampleFilingVersion } from './model-examples';
 
@@ -57,24 +57,24 @@ describe('startupInfoSaga', () => {
 });
 
 describe('checkingStartSaga', () => {
-  const files = [
-    new File(['Hello, world!'], 'a-file.txt', {type: 'text/plain'}),
-    new File(['hello world'], 'another-file.txt', {type: 'text/plain'}),
-  ];
-  const params: ValidationParams = {
+
+  const file1 = new File(['Hello, world!'], 'a-file.txt', {type: 'text/plain'});
+  const file2 = new File(['hello world'], 'another-file.txt', {type: 'text/plain'});
+  const params: JobParams = {
     profile: 'uiid-of-profile',
-    files,
+    file1,
+    file2,
   };
 
-  it('dispatches CHECKING_STARTED and CHECKING_RECEIVED if all goes well', () => {
+  it('dispatches PROCESSING_STARTED and TABLES_RECEIVED if all goes well', () => {
     const saga = checkingStartSaga(processingStartAction(params));
 
     expect(saga.next().value).toEqual(put(uploadStartedAction(params)));
     const formData = new FormData();
     formData.append('validationProfile', 'uuid-of-profile');
     formData.append('name', 'a-file.txt');
-    formData.append('file', files[0], 'a-file.txt');
-    formData.append('file', files[1], 'another-file.txt');
+    formData.append('file', file1, 'a-file.txt');
+    formData.append('file', file2, 'another-file.txt');
     // Does not set dataSet (so server will use the default dataset).
     expect(saga.next().value).toEqual(call(apiFetchJson, '/api/document-service/v1/filings/', {
       method: 'POST',

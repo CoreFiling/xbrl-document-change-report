@@ -15,12 +15,11 @@
  */
 
 import * as React from 'react';
-import Dropzone = require('react-dropzone');
 import { Component, Props } from 'react';
 
-import { Profile, ValidationParams, paramsAreComplete } from '../models';
-import FileReference from './file-reference';
+import { Profile, JobParams, paramsAreComplete } from '../models';
 import { Form, FormItem, FormActionList, FormAction } from './form';
+import FileInput from './file-input';
 
 import './change-form.less';
 
@@ -28,11 +27,11 @@ export interface ChangeFormProps extends Props<ChangeForm> {
   profiles?: Profile[];
   error?: string;
 
-  onSubmit?: (params: ValidationParams) => void;
+  onSubmit?: (params: JobParams) => void;
 }
 
 interface ChangeFormState {
-  params: Partial<ValidationParams>;
+  params: Partial<JobParams>;
 }
 
 export default class ChangeForm extends Component<ChangeFormProps, ChangeFormState> {
@@ -46,8 +45,6 @@ export default class ChangeForm extends Component<ChangeFormProps, ChangeFormSta
         profile: profiles && profiles.length > 0 ? profiles[0].id : undefined,
       },
     };
-
-    this.onDropzoneDrop = this.onDropzoneDrop.bind(this);
   }
 
   componentWillReceiveProps(nextProps: ChangeFormProps): void {
@@ -73,30 +70,10 @@ export default class ChangeForm extends Component<ChangeFormProps, ChangeFormSta
           ? <div className='app-ChangeForm-dropzone app-ChangeForm-errorDropzone'>
               <span  className='app-ChangeForm-error'>{error}</span>
             </div>
-          : <Dropzone
-              className='app-ChangeForm-dropzone'
-              activeClassName='app-ChangeForm-dropzoneActive'
-              multiple={true}
-              accept='.xml,.xbrl,.html,.htm,.zip'
-              maxSize={5 * 1024 * 1024}
-              aria-label='Two files to compare'
-              onDrop={this.onDropzoneDrop}
-            >
-              <div>
-                {params.files && params.files.length > 0
-                ? params.files.map((file, i) => <FileReference key={i} className='app-ChangeForm-file'
-                    file={file}
-                    onRemove={() => this.onFileReferenceRemove(i)}
-                  />)
-                : <div>
-                    <h2 className='app-ChangeForm-heading'>Drop two files here</h2>
-                    <div className='app-ChangeForm-prompt'>
-                      or <span className='app-ChangeForm-btn'>click to select files</span>
-                    </div>
-                    <div className='app-ChangeForm-hint'>XBRL, Inline XBRL, or ZIP. 5&thinsp;MB max each.</div>
-                  </div>}
-                </div>
-            </Dropzone>
+          : <div className='app-ChangeForm-twoFiles'>
+            <FileInput label='Drop old file here' file={params.file1} onChange={file => this.onChange({file1: file})}/>
+            <FileInput label='Drop new file here' file={params.file2} onChange={file => this.onChange({file2: file})}/>
+          </div>
         }
       </FormItem>
       <FormItem>
@@ -111,18 +88,7 @@ export default class ChangeForm extends Component<ChangeFormProps, ChangeFormSta
     </Form>;
   }
 
-  onFileReferenceRemove(index: number): void {
-    const { params: {files}} = this.state;
-    const newFiles = files ? files.slice(0, index).concat(files.slice(index + 1)) : [];
-    this.onChange({files: newFiles});
-  }
-
-  onDropzoneDrop(files: File[]): void {
-    const newFiles = this.state.params.files ? this.state.params.files.concat(files).slice(-2) : files.slice(-2);
-    this.onChange({files: newFiles});
-  }
-
-  onChange(delta: Partial<ValidationParams>): void {
+  onChange(delta: Partial<JobParams>): void {
     this.setState({params: {...this.state.params, ...delta}});
   }
 
@@ -131,7 +97,7 @@ export default class ChangeForm extends Component<ChangeFormProps, ChangeFormSta
     const { params } = this.state;
     if (onSubmit && paramsAreComplete(params)) {
       onSubmit(params);
-      this.setState({params: {...params, files: undefined}});
+      this.setState({params: {...params, file1: undefined, file2: undefined}});
     }
   }
 }

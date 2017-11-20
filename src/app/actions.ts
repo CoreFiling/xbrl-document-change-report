@@ -19,7 +19,7 @@
  */
 import { Action } from 'redux';
 
-import { App, Profile, TableRenderingWindow, User, ValidationParams } from './models';
+import { App, Profile, TableRenderingWindow, User, JobParams } from './models';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
 import { QueryableTablePage } from '@cfl/table-viewer';
 
@@ -58,14 +58,14 @@ export const FAILED = 'FAILED';
 // but wse take TABLES_RECEIVED as indicating processing is complete.
 
 export interface CheckingAction extends Action {
-  params: ValidationParams;
+  params: JobParams;
 }
 
-export function processingStartAction(params: ValidationParams): CheckingAction {
+export function processingStartAction(params: JobParams): CheckingAction {
   return {type: PROCESSING_START, params};
 }
 
-export function uploadStartedAction(params: ValidationParams): CheckingAction {
+export function uploadStartedAction(params: JobParams): CheckingAction {
   return {type: UPLOAD_STARTED, params};
 }
 

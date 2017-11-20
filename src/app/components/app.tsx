@@ -19,7 +19,7 @@ import * as React from 'react';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
 import { QueryableTablePage } from '@cfl/table-viewer';
 
-import { Profile, ValidationParams } from '../models';
+import { Profile, JobParams } from '../models';
 import { Phase } from '../state';
 import ContactDetails from './contact-details';
 import Results from './results';
@@ -31,7 +31,7 @@ export interface AppProps {
   phase?: Phase;
   profiles?: Profile[];
   error?: string;
-  onSubmit?: (params: ValidationParams) => void;
+  onSubmit?: (params: JobParams) => void;
   onResultsDismiss?: () => void;
   tables?: TableMetadata[];
   metadata?: TableMetadata;
