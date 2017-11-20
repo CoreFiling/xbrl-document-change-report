@@ -32,7 +32,7 @@
     "devserver-https": true,
     "devserver-host": "localhost",
     "devserver-port": 9091,
-    "api-proxy": "https://platform-api.cfl.io/"
+    "api-proxy": "https://labs-api.cfl.io/"
   },
   "files": [
     "www"
@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@cfl/react-components": "^1.5.0",
+    "@cfl/table-diff-service": "^0.1.0-dev.38026",
     "@cfl/table-rendering-service": "^1.4.3",
     "@cfl/table-viewer": "^0.2.0",
     "@cfl/tslint-config": "^0.6.1",

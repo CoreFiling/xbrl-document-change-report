@@ -16,6 +16,7 @@
 
 import { delay, Effect } from 'redux-saga';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
+import { Profile } from '@cfl/table-diff-service';
 
 import {
   PROCESSING_START,
@@ -33,13 +34,13 @@ import {
   uploadFailedAction,
   uploadStartedAction,
 } from './actions';
+import { profilesApi } from './apis';
 import { apiFetchJson } from './api-fetch';
-import { App, Category, Filing, FilingVersion, User } from './models';
+import { App, Filing, FilingVersion, User } from './models';
 import QueryableTablePageImpl, { TABLE_WINDOW_HEIGHT } from './models/queryable-table-page-impl';
 import {
   APPS,
   DOCUMENT_SERVICE_FILINGS,
-  documentServiceCategories,
   documentServiceFilingVersion,
   tableRenderingServiceRender,
   tableRenderingServiceTables,
@@ -54,12 +55,11 @@ const POLL_MILLIS = 1000;
  */
 export function* startupInfoSaga(): IterableIterator<Effect> {
   try {
-    const [user, category, apps]: [User, Category, App[]] = yield all([
+    const [user, profiles, apps]: [User, [Profile], App[]] = yield all([
       call(apiFetchJson, USER),
-      call(apiFetchJson, documentServiceCategories('validation')),
+      call([profilesApi, profilesApi.getProfiles]),
       call(apiFetchJson, APPS),
     ]);
-    const { profiles } = category;
     if (!profiles || profiles.length === 0) {
       yield put(startupInfoFailedAction('Startup failed (No profiles)'));
       return;

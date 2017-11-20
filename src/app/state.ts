@@ -18,9 +18,10 @@
  * State of the app as a whole.
  */
 
-import { User, App, Profile } from './models';
+import { User, App } from './models';
 import { QueryableTablePage } from '@cfl/table-viewer';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
+import { Profile } from '@cfl/table-diff-service';
 
 export type Phase = 'startup' | 'startup-failed' | 'form' |
   'uploading' | 'uploading-failed' | 'processing' | 'results' | 'failed';

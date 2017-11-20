@@ -16,10 +16,11 @@
 
 import * as classNames from 'classnames';
 import * as React from 'react';
+import { Profile } from '@cfl/table-diff-service';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
 import { QueryableTablePage } from '@cfl/table-viewer';
 
-import { Profile, JobParams } from '../models';
+import { JobParams } from '../models';
 import { Phase } from '../state';
 import ContactDetails from './contact-details';
 import Results from './results';

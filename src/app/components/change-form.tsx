@@ -16,8 +16,9 @@
 
 import * as React from 'react';
 import { Component, Props } from 'react';
+import { Profile } from '@cfl/table-diff-service';
 
-import { Profile, JobParams, paramsAreComplete } from '../models';
+import { JobParams, paramsAreComplete } from '../models';
 import { Form, FormItem, FormActionList, FormAction } from './form';
 import FileInput from './file-input';
 
