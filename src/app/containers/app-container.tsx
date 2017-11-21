@@ -29,7 +29,7 @@ import AppBarContainer from '../corefiling/app-bar-container';
 type OwnProps = Props<AppContainer>;
 
 interface PropsFromState {
-  filingVersionId?: string;
+  comparisonId?: string;
   phase?: Phase;
   profiles?: Profile[];
   message?: string;
@@ -77,9 +77,9 @@ class AppContainer extends Component<AppContainerProps> {
 function propsFromState(state: State): PropsFromState {
   const {
     global: {phase, profiles, message},
-    filing: {filingVersionId, tables, selectedTable: metadata, zOptions, tableRendering: table},
+    filing: {comparisonId, tables, selectedTable: metadata, zOptions, tableRendering: table},
   } = state;
-  return {filingVersionId, phase, profiles, message, tables, metadata, zOptions, table};
+  return {comparisonId, phase, profiles, message, tables, metadata, zOptions, table};
 }
 
 const propsFromDispatch: MapDispatchToProps<PropsFromDispatch, {}> = {

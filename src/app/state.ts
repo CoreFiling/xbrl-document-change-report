@@ -40,7 +40,7 @@ export interface GlobalState {
 }
 
 export interface FilingState {
-  filingVersionId?: string;
+  comparisonId?: string;
   tables?: TableMetadata[];
   selectedTable?: TableMetadata;
   zOptions?: Option[][];
