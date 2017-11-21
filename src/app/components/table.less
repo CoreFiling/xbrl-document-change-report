@@ -124,3 +124,22 @@
     height: calc(~"100vh - " (@bar-ht + @gap + @resultsHeadingHt + @gap + @gap + 32px + @gap + 34px + @gap + @contact-ht + 2px));
   }
 }
+
+.app-Cell {
+  margin: 0;
+  padding: 0;
+
+  &-fact-from {
+    background-color: @failed-lt
+  }
+  &-fact-to {
+    background-color: @valid-lt;
+  }
+
+  &-fact {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-align: right;
+  }
+}

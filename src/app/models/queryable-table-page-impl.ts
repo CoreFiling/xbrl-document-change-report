@@ -20,7 +20,7 @@ import { Cell, Header, TableChunk, TableHeader, TableMetadata } from '@cfl/table
 
 export const TABLE_WINDOW_HEIGHT = 64;
 
-export default class QueryableTablePageImpl implements QueryableTablePage {
+export default class DiffifiedQueryableTablePage implements QueryableTablePage {
   constructor(
     private readonly metadata: TableMetadata,
     private readonly chunk: TableChunk,

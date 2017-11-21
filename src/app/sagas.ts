@@ -37,7 +37,7 @@ import {
 import { profilesApi, uploadApi, filingsVersionsApi, tablesApi, diffInfosApi } from './apis';
 import { apiFetchJson } from './api-fetch';
 import { App, User } from './models';
-import QueryableTablePageImpl, { TABLE_WINDOW_HEIGHT } from './models/queryable-table-page-impl';
+import DiffifiedQueryableTablePage, { TABLE_WINDOW_HEIGHT } from './models/queryable-table-page-impl';
 import { APPS, TABLE_DIFF_SERVICE_COMPARISONS, USER } from './urls';
 
 const POLL_MILLIS = 1000;
@@ -126,7 +126,7 @@ export function* tableRenderingSaga(action: TableRenderPageAction): IterableIter
       call([tablesApi, tablesApi.renderTable], {tableId: table.id, ...window}),
       call([diffInfosApi, diffInfosApi.renderTable], {tableId: table.id, ...window}),
     ]);
-    yield put(tableRenderingReceivedAction(zOptions, new QueryableTablePageImpl(table, tableRendering, diffRendering)));
+    yield put(tableRenderingReceivedAction(zOptions, new DiffifiedQueryableTablePage(table, tableRendering, diffRendering)));
   } catch (res) {
     yield put(failedAction(res.message || res.statusText || `Status: ${res.status}`));
   }

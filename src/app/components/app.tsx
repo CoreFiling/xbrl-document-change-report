@@ -18,9 +18,9 @@ import * as classNames from 'classnames';
 import * as React from 'react';
 import { Profile } from '@cfl/table-diff-service';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
-import { QueryableTablePage } from '@cfl/table-viewer';
 
 import { JobParams } from '../models';
+import DiffifiedQueryableTablePage from '../models/queryable-table-page-impl';
 import { Phase } from '../state';
 import ContactDetails from './contact-details';
 import Results from './results';
@@ -37,7 +37,7 @@ export interface AppProps {
   tables?: TableMetadata[];
   metadata?: TableMetadata;
   zOptions?: Option[][];
-  table?: QueryableTablePage;
+  table?: DiffifiedQueryableTablePage;
   onChangePage?: (x: number, y: number, z: number) => void;
   onChangeTable?: (table: TableMetadata) => void;
 }

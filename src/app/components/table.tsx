@@ -16,16 +16,41 @@
 
 import * as classNames from 'classnames';
 import * as React from 'react';
+import { ReactNode } from 'react';
 import TableViewer, { Pager, ZAxisNavigation } from '@cfl/table-viewer';
-import { QueryableTablePage } from '@cfl/table-viewer';
-import { Option, TableMetadata } from '@cfl/table-rendering-service';
+import { Option, TableMetadata, Cell } from '@cfl/table-rendering-service';
+
+import DiffifiedQueryableTablePage from '../models/queryable-table-page-impl';
 
 import './table.less';
+import { DiffCell } from '@cfl/table-diff-service';
+
+interface DiffifiedCellProps {
+  cell: Cell;
+  diffCell: DiffCell;
+  selected: boolean;
+  highlightedIssue: number | undefined;
+  onClick?: () => void;
+}
+
+function DiffifiedCell({cell, diffCell}: DiffifiedCellProps): ReactNode {
+  return <ul className={classNames('app-Cell', `app-Cell-${diffCell.diffStatus}`)}>
+    {diffCell.facts.map(f => {
+      const fromFact = f.from && cell.facts.find(x => x.id === f.from!.sourceId);
+      const toFact = f.to && cell.facts.find(x => x.id === f.to!.sourceId);
+      return <li className={classNames('app-Cell-fact', `app-Cell-fact${diffCell.diffStatus}`)}>
+        {f.diffStatus === 'NOP' && <span className='app-Cell-fact-nop'>{toFact!.stringValue}</span>}
+        {f.diffStatus !== 'NOP' && fromFact && <span className='app-Cell-fact-from'>{fromFact.stringValue}</span>}
+        {f.diffStatus !== 'NOP' && toFact && <span className='app-Cell-fact-to'>{toFact.stringValue}</span>}
+      </li>;
+    })}
+  </ul>;
+}
 
 export interface TableProps {
   metadata?: TableMetadata;  // The table we want to show, or undefined if not got any tables.
   zOptions?: Option[][];
-  table?: QueryableTablePage;
+  table?: DiffifiedQueryableTablePage;
   onChangePage?: (x: number, y: number, z: number) => void;
   onChangeTable?: (table: TableMetadata) => void;
 }
@@ -59,6 +84,7 @@ export default function Table(props: TableProps): JSX.Element {
       {table && <div className={classNames('app-Table-table', tableOffsets)}>
         <div className={classNames('app-Table-table-inner', tableOffsets)}>
           <TableViewer
+            renderDataCell={({x, y, ...rest}) => DiffifiedCell({...rest, diffCell: table.getCellDiff(x, y)})}
             data={table}
             autoWidth
           />

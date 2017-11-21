@@ -19,9 +19,9 @@ import { Component, Props } from 'react';
 import { connect, MapDispatchToProps } from 'react-redux';
 import { Profile } from '@cfl/table-diff-service';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
-import { QueryableTablePage } from '@cfl/table-viewer';
 
 import { tableRenderPageAction, processingStartAction, resultsDismissAction } from '../actions';
+import DiffifiedQueryableTablePage from '../models/queryable-table-page-impl';
 import { Phase, State } from '../state';
 import App from '../components/app';
 import AppBarContainer from '../corefiling/app-bar-container';
@@ -36,7 +36,7 @@ interface PropsFromState {
   tables?: TableMetadata[];
   metadata?: TableMetadata;
   zOptions?: Option[][];
-  table?: QueryableTablePage;
+  table?: DiffifiedQueryableTablePage;
 }
 
 interface PropsFromDispatch {
