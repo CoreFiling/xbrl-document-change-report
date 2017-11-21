@@ -18,7 +18,8 @@
   * Create fake instances of models, for use in stories.
   */
 
-import { App, Profile } from '../app/models';
+import { Profile } from '@cfl/table-diff-service';
+import { App } from '../app/models';
 
 function idFromLabel(label: string): string {
   let hash = 0;

@@ -41,24 +41,6 @@ export interface App {
 }
 
 /**
- * One of the ways the backend might be asked to validate a document.
- */
-export interface Profile {
-  category?: 'validation';
-  id: string;  // Internal name.
-  name: string;  // Human-readable label.
-  description?: string;
-}
-
-/**
- * Returned by `/categories/validation`. Container for Profile instances.
- */
-export interface Category {
-  name: string;
-  profiles: Profile[];
-}
-
-/**
  * Information needed to request job of the type used in this app.
  */
 export interface JobParams {

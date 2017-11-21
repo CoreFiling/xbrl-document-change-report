@@ -14,7 +14,8 @@
  *  limitations under the License.
  */
 
-import { User, App, Category, Filing, FilingVersion, TableRenderingWindow } from '../models';
+import { User, App, Filing, FilingVersion, TableRenderingWindow } from '../models';
+import { Profile } from '@cfl/table-diff-service';
 import { QueryableTablePage } from '@cfl/table-viewer';
 import { Breakdown, Option, TableHeader, TableMetadata } from '@cfl/table-rendering-service';
 
@@ -31,22 +32,17 @@ export const exampleApps: App[] = [
   {id: 'sms', name: 'Manage organisation', href: '/sms/', colour: '#3A75C4', features: []},
 ];
 
-export const exampleCategory: Category = {
-  name: 'validation',
-  profiles: [
-    {
-      id: 'cab5627a-0afa-434c-9891-cd7e37927ee5',
-      category: 'validation',
-      name: 'SII 2.0.1',
-      description: 'Validation profile for Solvency II 2.0.1 instances. XIIF and TNEFRVM SII EIOPA enabled.',
-    },
-    {
-      id: '24b17ed4-0d2b-4e0c-83a2-c1d72e67aa64',
-      category: 'validation',
-      name: 'FRC 2.1.0,  UK 2009-09 - 01 & HMRC DPL 2013-10 - 01',
-    },
-  ],
-};
+export const exampleProfiles: [Profile] = [
+  {
+    description: 'Profile for testing innovation 6 (compare) on UK filings',
+    id: 'c4a47e27-b2b9-4b9d-b7be-6b9c2911bcf2',
+    name: 'uk-compare',
+  },
+  {
+    id: '3e93f369-7ef6-4418-a407-bd542dfafb3d',
+    name: 'other-compare-profile',
+  },
+];
 
 export const exampleFiling: Filing = {
   id: '8723b794-3261-4cd3-b946-b683c19fb99c',

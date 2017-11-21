@@ -18,10 +18,11 @@
  * Actions are used to pass info from the UI back to the state and sagas.
  */
 import { Action } from 'redux';
-
-import { App, Profile, TableRenderingWindow, User, JobParams } from './models';
+import { Profile } from '@cfl/table-diff-service';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
 import { QueryableTablePage } from '@cfl/table-viewer';
+
+import { App, TableRenderingWindow, User, JobParams } from './models';
 
 // Actions for acquiring the list of profiles needed by the form.
 

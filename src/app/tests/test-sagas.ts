@@ -21,10 +21,11 @@ import { all, call, put } from 'redux-saga/effects';
 import { startupInfoReceivedAction, startupInfoFailedAction,
   processingStartAction, uploadStartedAction, uploadFailedAction,
   processingStartedAction, failedAction } from '../actions';
+import { profilesApi } from '../apis';
 import { apiFetchJson } from '../api-fetch';
 import { JobParams,  } from '../models';
 import { startupInfoSaga, checkingStartSaga } from '../sagas';
-import { exampleUser, exampleApps, exampleCategory, exampleFiling, exampleFilingVersion } from './model-examples';
+import { exampleUser, exampleApps, exampleProfiles, exampleFiling, exampleFilingVersion } from './model-examples';
 
 describe('startupInfoSaga', () => {
   it('calls APIs in parallel and dispatches profiles', () => {
@@ -32,18 +33,18 @@ describe('startupInfoSaga', () => {
 
     expect(saga.next().value).toEqual(all([
       call(apiFetchJson, '/api/user'),
-      call(apiFetchJson, '/api/document-service/v1/categories/validation'),
+      call([profilesApi, profilesApi.getProfiles]),
       call(apiFetchJson, '/api/apps'),
     ]));
-    expect(saga.next([exampleUser, exampleCategory, exampleApps]).value)
-      .toEqual(put(startupInfoReceivedAction(exampleUser, exampleApps, exampleCategory.profiles)));
+    expect(saga.next([exampleUser, exampleProfiles, exampleApps]).value)
+      .toEqual(put(startupInfoReceivedAction(exampleUser, exampleApps, exampleProfiles)));
   });
 
   it('is sad if no profiles', () => {
     const saga = startupInfoSaga();
 
     saga.next();
-    expect(saga.next([{}, {}]).value)
+    expect(saga.next([{}, [], {}]).value)
     .toEqual(put(startupInfoFailedAction(jasmine.stringMatching(/No profiles/) as any)));
   });
 
