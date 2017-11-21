@@ -34,17 +34,11 @@ import {
   uploadFailedAction,
   uploadStartedAction,
 } from './actions';
-import { profilesApi, uploadApi, filingsVersionsApi } from './apis';
+import { profilesApi, uploadApi, filingsVersionsApi, tablesApi } from './apis';
 import { apiFetchJson } from './api-fetch';
 import { App, User } from './models';
 import QueryableTablePageImpl, { TABLE_WINDOW_HEIGHT } from './models/queryable-table-page-impl';
-import {
-  APPS,
-  TABLE_DIFF_SERVICE_COMPARISONS,
-  tableRenderingServiceRender,
-  tableRenderingServiceZOptions,
-  USER,
-} from './urls';
+import { APPS, TABLE_DIFF_SERVICE_COMPARISONS, USER } from './urls';
 
 const POLL_MILLIS = 1000;
 
@@ -53,7 +47,7 @@ const POLL_MILLIS = 1000;
  */
 export function* startupInfoSaga(): IterableIterator<Effect> {
   try {
-    const [user, profiles, apps]: [User, [Profile], App[]] = yield all([
+    const [user, profiles, apps]: [User, Profile[], App[]] = yield all([
       call(apiFetchJson, USER),
       call([profilesApi, profilesApi.getProfiles]),
       call(apiFetchJson, APPS),
@@ -69,7 +63,7 @@ export function* startupInfoSaga(): IterableIterator<Effect> {
 }
 
 /**
- * Start checking one filing. Triggered by `checkingSaga`. Exported for testing.
+ * Start processing on comparison. Triggered by `mainSaga`. Exported for testing.
  */
 export function* processingStartSaga(action: ProcessingAction): IterableIterator<Effect> {
   const { params } = action;
@@ -78,10 +72,10 @@ export function* processingStartSaga(action: ProcessingAction): IterableIterator
   // Create the filing by uploading the file to the Document Service.
   const { profile, file1, file2 } = params;
   const formData = new FormData();
+  formData.append('validationProfile', profile);
+  formData.append('name', file2.name);
   formData.append('originalFiling', file1, file1.name);
   formData.append('newFiling', file2, file2.name);
-  formData.append('name', file2.name);
-  formData.append('validationProfile', profile);
   const init: RequestInit = {
     method: 'POST',
     body: formData,
@@ -104,7 +98,7 @@ export function* processingStartSaga(action: ProcessingAction): IterableIterator
       comparisonSummary = yield call([uploadApi, uploadApi.getComparison], {comparisonId: comparisonSummary.id});
     }
 
-    // Fetch table info. (The comparison ID is also a filing version ID so faras the tables API is converned.)
+    // Fetch table info. (The comparison ID is also a filing version ID so far as the tables API is converned.)
     const tables = yield call([filingsVersionsApi, filingsVersionsApi.getTables], {filingVersionId: comparisonSummary.id});
     yield put(tablesReceivedAction(tables));
 
@@ -125,8 +119,8 @@ export function* tableRenderingSaga(action: TableRenderPageAction): IterableIter
     yield put(tableRenderingRequested(table, window));
 
     const [ zOptions, tableRendering ] = yield all([
-      call(apiFetchJson, tableRenderingServiceZOptions(table.id, 0)),
-      call(apiFetchJson, tableRenderingServiceRender(table.id, window)),
+      call([tablesApi, tablesApi.getTableZOptions], {tableId: table.id, z: 0}),
+      call([tablesApi, tablesApi.renderTable], {tableId: table.id, ...window}),
     ]);
     yield put(tableRenderingReceivedAction(zOptions, new QueryableTablePageImpl(table, tableRendering)));
   } catch (res) {
@@ -137,7 +131,7 @@ export function* tableRenderingSaga(action: TableRenderPageAction): IterableIter
 /**
  * Watch for actions.
  */
-export function* checkingSaga(): IterableIterator<Effect> {
+export function* mainSaga(): IterableIterator<Effect> {
   yield all([
     takeEvery(PROCESSING_START, processingStartSaga),
     takeEvery(TABLE_RENDER_PAGE, tableRenderingSaga),

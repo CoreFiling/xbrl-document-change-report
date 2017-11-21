@@ -19,10 +19,13 @@
  */
 
 import { ProfilesApiFactory, UploadApiFactory } from '@cfl/table-diff-service';
-import { FilingversionsApiFactory } from '@cfl/table-rendering-service';
+import { FilingversionsApiFactory, TablesApiFactory } from '@cfl/table-rendering-service';
 
 import { apiFetch } from './api-fetch';
+import { TABLE_RENDERING_PREFIX, TABLE_DIFF_PREFIX } from './urls';
 
-export const filingsVersionsApi = FilingversionsApiFactory(apiFetch, '/api/table-rendering-service/v1');
-export const profilesApi = ProfilesApiFactory(apiFetch, '/api/table-diff-service/v1');
-export const uploadApi = UploadApiFactory(apiFetch, '/api/table-diff-service/v1');
+export const filingsVersionsApi = FilingversionsApiFactory(apiFetch, TABLE_RENDERING_PREFIX);
+export const tablesApi = TablesApiFactory(apiFetch, TABLE_RENDERING_PREFIX);
+
+export const profilesApi = ProfilesApiFactory(apiFetch, TABLE_DIFF_PREFIX);
+export const uploadApi = UploadApiFactory(apiFetch, TABLE_DIFF_PREFIX);

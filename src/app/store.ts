@@ -18,7 +18,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
 import reducers from './reducers';
-import { startupInfoSaga, checkingSaga } from './sagas';
+import { startupInfoSaga, mainSaga } from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -35,6 +35,6 @@ const store = createStore(
     applyMiddleware(sagaMiddleware)));
 
 sagaMiddleware.run(startupInfoSaga);
-sagaMiddleware.run(checkingSaga);
+sagaMiddleware.run(mainSaga);
 
 export default store;
