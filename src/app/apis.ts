@@ -18,8 +18,9 @@
  * API wrapper classes as supplied by the client libraries.
  */
 
-import { ProfilesApiFactory } from '@cfl/table-diff-service';
+import { ProfilesApiFactory, UploadApiFactory } from '@cfl/table-diff-service';
 
 import { apiFetch } from './api-fetch';
 
 export const profilesApi = ProfilesApiFactory(apiFetch, '/api/table-diff-service/v1');
+export const uploadApi = UploadApiFactory(apiFetch, '/api/table-diff-service/v1');

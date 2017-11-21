@@ -16,11 +16,11 @@
 
 import { delay, Effect } from 'redux-saga';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
-import { Profile } from '@cfl/table-diff-service';
+import { Profile, ComparisonSummary } from '@cfl/table-diff-service';
 
 import {
   PROCESSING_START,
-  CheckingAction,
+  ProcessingAction,
   failedAction,
   processingStartedAction,
   startupInfoFailedAction,
@@ -34,14 +34,13 @@ import {
   uploadFailedAction,
   uploadStartedAction,
 } from './actions';
-import { profilesApi } from './apis';
+import { profilesApi, uploadApi } from './apis';
 import { apiFetchJson } from './api-fetch';
-import { App, Filing, FilingVersion, User } from './models';
+import { App, User } from './models';
 import QueryableTablePageImpl, { TABLE_WINDOW_HEIGHT } from './models/queryable-table-page-impl';
 import {
   APPS,
-  DOCUMENT_SERVICE_FILINGS,
-  documentServiceFilingVersion,
+  TABLE_DIFF_SERVICE_COMPARISONS,
   tableRenderingServiceRender,
   tableRenderingServiceTables,
   tableRenderingServiceZOptions,
@@ -73,45 +72,41 @@ export function* startupInfoSaga(): IterableIterator<Effect> {
 /**
  * Start checking one filing. Triggered by `checkingSaga`. Exported for testing.
  */
-export function* checkingStartSaga(action: CheckingAction): IterableIterator<Effect> {
+export function* processingStartSaga(action: ProcessingAction): IterableIterator<Effect> {
   const { params } = action;
   yield put(uploadStartedAction(params));
 
   // Create the filing by uploading the file to the Document Service.
-  const { profile, file1 } = params;
+  const { profile, file1, file2 } = params;
   const formData = new FormData();
-  formData.append('file', file1, file1.name);
-  formData.append('name', file1.name);
+  formData.append('originalFiling', file1, file1.name);
+  formData.append('newFiling', file2, file2.name);
+  formData.append('name', file2.name);
   formData.append('validationProfile', profile);
   const init: RequestInit = {
     method: 'POST',
     body: formData,
   };
 
-  let filing: Filing;
+  let comparisonSummary: ComparisonSummary;
   try {
-    filing = yield call(apiFetchJson, DOCUMENT_SERVICE_FILINGS, init);
+    comparisonSummary = yield call(apiFetchJson, TABLE_DIFF_SERVICE_COMPARISONS, init);
   } catch (res) {
     console.log(res);
     yield put(uploadFailedAction(`File error (${res.message || res.statusText || res.status}).`));
-    return;
-  }
-  if (!filing.versions) {
-    yield put(uploadFailedAction('Filing has no versions'));
     return;
   }
   yield put(processingStartedAction());
 
   try {
     // Poll for filing completion status.
-    let version: FilingVersion = filing.versions[0];
-    while (version.status !== 'DONE') {
+    while (comparisonSummary.status !== 'DONE') {
       yield call(delay, POLL_MILLIS);
-      version = yield call(apiFetchJson, documentServiceFilingVersion(version));
+      comparisonSummary = yield call([uploadApi, uploadApi.getComparison], {comparisonId: comparisonSummary.id});
     }
 
     // Fetch table info
-    const tables = yield call(apiFetchJson, tableRenderingServiceTables(version.id));
+    const tables = yield call(apiFetchJson, tableRenderingServiceTables(comparisonSummary.id));
     yield put(tablesReceivedAction(tables));
 
     // Select the first table if any are available.
@@ -145,7 +140,7 @@ export function* tableRenderingSaga(action: TableRenderPageAction): IterableIter
  */
 export function* checkingSaga(): IterableIterator<Effect> {
   yield all([
-    takeEvery(PROCESSING_START, checkingStartSaga),
+    takeEvery(PROCESSING_START, processingStartSaga),
     takeEvery(TABLE_RENDER_PAGE, tableRenderingSaga),
   ]);
 }

@@ -32,9 +32,9 @@ const APP_HELP = uriTemplates('{+base}static/user-guide.html');
 export const appHome = ({href}: App) => APP_HOME.fillFromObject({base: href});
 export const appHelp = ({href}: App) => APP_HELP.fillFromObject({base: href});
 
-const DOCUMENT_SERVICE_BASE = '/api/document-service/v1/';
-export const DOCUMENT_SERVICE_FILINGS = DOCUMENT_SERVICE_BASE + 'filings/';
-const DOCUMENT_SERVICE_FILING_VERSION = uriTemplates(DOCUMENT_SERVICE_BASE + 'filing-versions/{id}');
+const TABLE_DIFF_SERVICE_BASE = '/api/table-diff-service/v1/';
+export const TABLE_DIFF_SERVICE_COMPARISONS = TABLE_DIFF_SERVICE_BASE + 'comparisons/';
+const DOCUMENT_SERVICE_FILING_VERSION = uriTemplates(TABLE_DIFF_SERVICE_BASE + 'filing-versions/{id}');
 
 export const documentServiceFilingVersion = (filingVersion: FilingVersion) => DOCUMENT_SERVICE_FILING_VERSION.fillFromObject(filingVersion);
 

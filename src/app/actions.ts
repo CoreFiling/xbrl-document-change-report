@@ -58,15 +58,15 @@ export const FAILED = 'FAILED';
 // We could have PROCESSING_COMPLETE
 // but wse take TABLES_RECEIVED as indicating processing is complete.
 
-export interface CheckingAction extends Action {
+export interface ProcessingAction extends Action {
   params: JobParams;
 }
 
-export function processingStartAction(params: JobParams): CheckingAction {
+export function processingStartAction(params: JobParams): ProcessingAction {
   return {type: PROCESSING_START, params};
 }
 
-export function uploadStartedAction(params: JobParams): CheckingAction {
+export function uploadStartedAction(params: JobParams): ProcessingAction {
   return {type: UPLOAD_STARTED, params};
 }
 
