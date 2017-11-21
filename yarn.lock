@@ -6,9 +6,9 @@
   version "1.5.0"
   resolved "https://registry.npmjs.org/@cfl/react-components/-/react-components-1.5.0.tgz#3e111dc9f77e46575bcd3778f4bb83e4d0c501be"
 
-"@cfl/simple-platform-server@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@cfl/simple-platform-server/-/simple-platform-server-2.0.0.tgz#c2bacc450555d1d75d005a695e451c4623be4611"
+"@cfl/simple-platform-server@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@cfl/simple-platform-server/-/simple-platform-server-2.1.0.tgz#119c4c06f6c513de681d19215ad17191db2cf395"
   dependencies:
     "@types/cli" "^0.11.19"
     "@types/express" "^4.0.39"

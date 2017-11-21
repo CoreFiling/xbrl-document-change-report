@@ -42,7 +42,7 @@
     "npm": ">=4.0.0"
   },
   "dependencies": {
-    "@cfl/simple-platform-server": "^2.0.0"
+    "@cfl/simple-platform-server": "^2.1.0"
   },
   "devDependencies": {
     "@cfl/react-components": "^1.5.0",
