@@ -19,8 +19,10 @@
  */
 
 import { ProfilesApiFactory, UploadApiFactory } from '@cfl/table-diff-service';
+import { FilingversionsApiFactory } from '@cfl/table-rendering-service';
 
 import { apiFetch } from './api-fetch';
 
+export const filingsVersionsApi = FilingversionsApiFactory(apiFetch, '/api/table-rendering-service/v1');
 export const profilesApi = ProfilesApiFactory(apiFetch, '/api/table-diff-service/v1');
 export const uploadApi = UploadApiFactory(apiFetch, '/api/table-diff-service/v1');

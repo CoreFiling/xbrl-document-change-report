@@ -64,7 +64,7 @@ export const exampleFiling: Filing = {
 };
 
 export const exampleComparisonSummary: ComparisonSummary = {
-  id: 'f09be954-1895-4954-b333-6c9c89b833f1',
+  id: '8723b794-3261-4cd3-b946-b683c19fb99c',
   name: 'name-of-comparison',
   status: 'DONE',
 };

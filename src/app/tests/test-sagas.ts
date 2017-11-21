@@ -21,7 +21,7 @@ import { all, call, put } from 'redux-saga/effects';
 import { startupInfoReceivedAction, startupInfoFailedAction,
   processingStartAction, uploadStartedAction, uploadFailedAction,
   processingStartedAction, failedAction } from '../actions';
-import { profilesApi, uploadApi } from '../apis';
+import { profilesApi, uploadApi, filingsVersionsApi } from '../apis';
 import { apiFetchJson } from '../api-fetch';
 import { JobParams,  } from '../models';
 import { startupInfoSaga, processingStartSaga } from '../sagas';
@@ -85,13 +85,12 @@ describe('processingStartSaga', () => {
 
     // Then poll for updates after 1 second.
     expect(saga.next().value).toEqual(call(delay, 1000));
-    expect(saga.next().value).toEqual(call([uploadApi, uploadApi.getComparison], {comparisonId: 'f09be954-1895-4954-b333-6c9c89b833f1'}));
+    expect(saga.next().value).toEqual(call([uploadApi, uploadApi.getComparison], {comparisonId: '8723b794-3261-4cd3-b946-b683c19fb99c'}));
     expect(saga.next({...exampleComparisonSummary, status: 'RUNNING'}).value).toEqual(call(delay, 1000));
-    expect(saga.next().value).toEqual(call([uploadApi, uploadApi.getComparison], {comparisonId: 'f09be954-1895-4954-b333-6c9c89b833f1'}));
+    expect(saga.next().value).toEqual(call([uploadApi, uploadApi.getComparison], {comparisonId: '8723b794-3261-4cd3-b946-b683c19fb99c'}));
     // Gets filing-version results, move on to fetching tables.
-    expect(saga.next({...exampleComparisonSummary, status: 'DONE'}).value).toEqual(call(
-      apiFetchJson,
-      '/api/table-rendering-service/v1/filing-versions/f09be954-1895-4954-b333-6c9c89b833f1/tables/'));
+    expect(saga.next({...exampleComparisonSummary, status: 'DONE'}).value).toEqual(
+      call([filingsVersionsApi, filingsVersionsApi.getTables], {filingVersionId: '8723b794-3261-4cd3-b946-b683c19fb99c'}));
   });
 
   it('dispatches FAILED if initial upload fails', () => {

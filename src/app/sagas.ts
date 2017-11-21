@@ -34,7 +34,7 @@ import {
   uploadFailedAction,
   uploadStartedAction,
 } from './actions';
-import { profilesApi, uploadApi } from './apis';
+import { profilesApi, uploadApi, filingsVersionsApi } from './apis';
 import { apiFetchJson } from './api-fetch';
 import { App, User } from './models';
 import QueryableTablePageImpl, { TABLE_WINDOW_HEIGHT } from './models/queryable-table-page-impl';
@@ -42,7 +42,6 @@ import {
   APPS,
   TABLE_DIFF_SERVICE_COMPARISONS,
   tableRenderingServiceRender,
-  tableRenderingServiceTables,
   tableRenderingServiceZOptions,
   USER,
 } from './urls';
@@ -105,8 +104,8 @@ export function* processingStartSaga(action: ProcessingAction): IterableIterator
       comparisonSummary = yield call([uploadApi, uploadApi.getComparison], {comparisonId: comparisonSummary.id});
     }
 
-    // Fetch table info
-    const tables = yield call(apiFetchJson, tableRenderingServiceTables(comparisonSummary.id));
+    // Fetch table info. (The comparison ID is also a filing version ID so faras the tables API is converned.)
+    const tables = yield call([filingsVersionsApi, filingsVersionsApi.getTables], {filingVersionId: comparisonSummary.id});
     yield put(tablesReceivedAction(tables));
 
     // Select the first table if any are available.
