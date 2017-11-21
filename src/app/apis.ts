@@ -18,8 +18,14 @@
  * API wrapper classes as supplied by the client libraries.
  */
 
-import { ProfilesApiFactory } from '@cfl/table-diff-service';
+import { ProfilesApiFactory, UploadApiFactory } from '@cfl/table-diff-service';
+import { FilingversionsApiFactory, TablesApiFactory } from '@cfl/table-rendering-service';
 
 import { apiFetch } from './api-fetch';
+import { TABLE_RENDERING_PREFIX, TABLE_DIFF_PREFIX } from './urls';
 
-export const profilesApi = ProfilesApiFactory(apiFetch, '/api/table-diff-service/v1');
+export const filingsVersionsApi = FilingversionsApiFactory(apiFetch, TABLE_RENDERING_PREFIX);
+export const tablesApi = TablesApiFactory(apiFetch, TABLE_RENDERING_PREFIX);
+
+export const profilesApi = ProfilesApiFactory(apiFetch, TABLE_DIFF_PREFIX);
+export const uploadApi = UploadApiFactory(apiFetch, TABLE_DIFF_PREFIX);

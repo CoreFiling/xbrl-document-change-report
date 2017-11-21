@@ -14,8 +14,8 @@
  *  limitations under the License.
  */
 
-import { User, App, Filing, FilingVersion, TableRenderingWindow } from '../models';
-import { Profile } from '@cfl/table-diff-service';
+import { User, App, Filing, TableRenderingWindow } from '../models';
+import { Profile, ComparisonSummary } from '@cfl/table-diff-service';
 import { QueryableTablePage } from '@cfl/table-viewer';
 import { Breakdown, Option, TableHeader, TableMetadata } from '@cfl/table-rendering-service';
 
@@ -63,35 +63,10 @@ export const exampleFiling: Filing = {
   ],
 };
 
-export const exampleFilingVersion: FilingVersion = {
-  id: 'f09be954-1895-4954-b333-6c9c89b833f1',
-  type: 'FilingVersion',
-  created: '2017-09-12T10:09:49.915Z',
-  creator:  {
-    id: '4b7fe222-0d6e-4ae1-977d-c4eb047c2fbc',
-    name: 'Gurdeep Tash',
-  },
+export const exampleComparisonSummary: ComparisonSummary = {
+  id: '8723b794-3261-4cd3-b946-b683c19fb99c',
+  name: 'name-of-comparison',
   status: 'DONE',
-  documents: [
-    {
-      category: 'validation',
-      created: '2017-09-12T10:09:50.875Z',
-      creation: {status: 'DONE'},
-      id: '081c4d35-7c12-40e9-b3a5-df3eb8ddc214',
-      profile: 'SII 2.0.1',
-    },
-    {
-      category: 'unknown',
-      created: '2017-09-12T10:09:49.915Z',
-      id: 'd18a0433-8f5d-44d3-821b-3b505df37d63',
-      profile: 'default',
-    },
-  ],
-  filing: {
-    type: 'FilingSummary',
-    id: '8723b794-3261-4cd3-b946-b683c19fb99c',
-    name: 'report.xbrl',
-  },
 };
 
 export const exampleZOption: Option = {
