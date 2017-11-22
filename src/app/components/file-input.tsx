@@ -48,7 +48,7 @@ const FileInput = ({ label, file, className, onChange }: FileInputProps): JSX.El
     : <div>
         <h2 className='app-FileInput-heading'>{label || 'Drop file here'}</h2>
         <div className='app-FileInput-prompt'>
-          or <span className='app-FileInput-btn'>click to select file</span>
+          <span className='app-FileInput-btn'>or browse.</span>
         </div>
         <div className='app-FileInput-hint'>XBRL, Inline XBRL, or ZIP. 5&thinsp;MB max.</div>
       </div>
