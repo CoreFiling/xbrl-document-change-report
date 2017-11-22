@@ -83,7 +83,12 @@ export default class QueryableTablePageImpl implements QueryableTablePage {
   }
 
   getCell(col: number, row: number): Cell {
-    return this.chunk.data[col - this.x][row - this.y];
+    const { facts } = this.chunk.data[col - this.x][row - this.y];
+    return {
+      issues: [],
+      facts: facts.length > 1 ? [facts[facts.length - 1]] : facts,  // For purposes of INV-129 assume last fact is the new value.
+        // This will be changed for INV-130, for which both facts will be needed.
+    };
   }
 
   get pageCoordinates(): [number[], number[]] {
