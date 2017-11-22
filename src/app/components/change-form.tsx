@@ -89,7 +89,7 @@ export default class ChangeForm extends Component<ChangeFormProps, ChangeFormSta
         </select>
       </FormItem>
       <FormActionList>
-        <FormAction enabled={onSubmit && paramsAreComplete(params)} primary>Compare files</FormAction>
+        <FormAction enabled={onSubmit && paramsAreComplete(params)} primary>Compare</FormAction>
       </FormActionList>
     </Form>;
   }

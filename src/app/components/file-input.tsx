@@ -50,7 +50,7 @@ const FileInput = ({ label, file, className, onChange }: FileInputProps): JSX.El
         <div className='app-FileInput-prompt'>
           <span className='app-FileInput-btn'>or browse.</span>
         </div>
-        <div className='app-FileInput-hint'>XBRL, Inline XBRL, or ZIP. 5&thinsp;MB max.</div>
+        <div className='app-FileInput-hint'>XBRL, Inline XBRL, or ZIP. 5&thinsp;MB max each.</div>
       </div>
     }
   </div>
