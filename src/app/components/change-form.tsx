@@ -72,9 +72,9 @@ export default class ChangeForm extends Component<ChangeFormProps, ChangeFormSta
               <span  className='app-ChangeForm-error'>{error}</span>
             </div>
           : <div className='app-ChangeForm-twoFiles'>
-            <FileInput label='Drop old file here' file={params.file1} onChange={file => this.onChange({file1: file})}/>
+            <FileInput file={params.file1} onChange={file => this.onChange({file1: file})}/>
             <div className='app-ChangeForm-compare-img' />
-            <FileInput label='Drop new file here' file={params.file2} onChange={file => this.onChange({file2: file})}/>
+            <FileInput file={params.file2} onChange={file => this.onChange({file2: file})}/>
           </div>
         }
       </FormItem>

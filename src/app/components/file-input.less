@@ -17,11 +17,13 @@
  @import (reference) '../styles/defs';
 
  .app-FileInput {
-   width: @dropzone-wd;
-   height: @dropzone-ht;
+   width: @dropzone-wd - @gap * 2;
+   height: @dropzone-ht - @gap * 2;
+   padding: @gap;
+
    display: flex;
    flex-flow: column nowrap;
-   justify-content: flex-start;
+   justify-content: space-between;
    align-items: center;
 
    background-color: #F8F5F5;
@@ -29,47 +31,53 @@
    border-radius: 3px;
    cursor: pointer;
 
-   &:before {
-     content: " ";
-     display: block;
-     margin-top: 75px;
-     width: 44px;
-     height: 61px;
-
-     background-image: url(dropzone.svg);
-     background-size: 44px 61px;
-   }
-
    &-heading {
-     margin-top: 6px;
-     margin-bottom: 0;
+     margin: 0;
      font-size: 36px;
      font-weight: 300;
      line-height: 44px;
      text-align: center;
      color: @secondary;
      user-select: none;
+
+     // For aligning the dropzone svg below.
+     display: flex;
+     flex-flow: column nowrap;
+     align-items: center;
+
+     &:before {
+      content: " ";
+      display: block;
+      margin-top: 50px;
+      width: 44px;
+      height: 61px;
+
+      background-image: url(dropzone.svg);
+      background-size: 44px 61px;
+    }
+
    }
    &-prompt {
      text-align: center;
      font-size: 14px;
      font-weight: 500;
      line-height: 17px;
-     color: @muted;
+     color: @disabled;
      user-select: none;
+     &-btn {
+       color: @primary;
+       border-bottom: 1px solid;
+       cursor: pointer;
+     }
    }
+
    &-hint {
-     margin-top: @upload-gap;
      font-size: 12px;
+     color: @muted;
      font-weight: 300;
      line-height: (14/12);
      text-align: center;
      user-select: none;
-   }
-   &-btn {
-     color: @primary;
-     border-bottom: 1px solid;
-     cursor: pointer;
    }
 
    &-file {
