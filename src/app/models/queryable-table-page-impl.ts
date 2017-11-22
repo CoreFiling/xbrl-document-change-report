@@ -93,6 +93,10 @@ export default class DiffifiedQueryableTablePage implements QueryableTablePage {
     };
   }
 
+  getDiffRow(row: number): DiffCell[] {
+    return this.diffChunk.data.map(col => col[row - this.y]);
+  }
+
   getCellDiff(col: number, row: number): DiffCell {
     return this.diffChunk.data[col - this.x][row - this.y];
   }

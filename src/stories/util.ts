@@ -84,12 +84,12 @@ export function mungeTableChunk(chunk: TableChunk): TableChunk {
       if (diffStatus === 'NOP') {
         return cell;
       } else if (!cell || cell.facts.length === 0) {
-        facts = [{stringValue: '42', id: getId()}];
+        facts = [{stringValue: '€42.00', id: getId()}];
       } else {
         facts = cell.facts;
       }
       if (diffStatus === 'CHG') {
-        const newFacts = [...facts, ...facts.map(() => ({stringValue: '69', id: getId()}))];
+        const newFacts = [...facts, ...facts.map(() => ({stringValue: '€69.00', id: getId()}))];
         return { issues, facts: newFacts };
       }
       return { issues, facts };

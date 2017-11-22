@@ -35,13 +35,23 @@ interface DiffifiedCellProps {
 
 function DiffifiedCell({cell, diffCell}: DiffifiedCellProps): ReactNode {
   return <ul className={classNames('app-Cell', `app-Cell-${diffCell.diffStatus}`)}>
-    {diffCell.facts.map(f => {
+    {diffCell.facts.map((f, i) => {
       const fromFact = f.from && cell.facts.find(x => x.id === f.from!.sourceId);
       const toFact = f.to && cell.facts.find(x => x.id === f.to!.sourceId);
-      return <li className={classNames('app-Cell-fact', `app-Cell-fact${diffCell.diffStatus}`)}>
-        {f.diffStatus === 'NOP' && <span className='app-Cell-fact-nop'>{toFact!.stringValue}</span>}
-        {f.diffStatus !== 'NOP' && fromFact && <span className='app-Cell-fact-from'>{fromFact.stringValue}</span>}
-        {f.diffStatus !== 'NOP' && toFact && <span className='app-Cell-fact-to'>{toFact.stringValue}</span>}
+      const summarification = f.diffStatus === 'NOP'
+        ? undefined
+        : toFact && fromFact
+        ? `Changed ${fromFact.stringValue} to ${toFact.stringValue}`
+        : toFact
+        ? `Added ${toFact.stringValue}`
+        : `Deleted ${fromFact!.stringValue}`;
+      return <li key={i}
+        className={classNames('app-Cell-fact', `app-Cell-fact${diffCell.diffStatus}`)}
+        title={summarification}
+      >
+        {(fromFact || toFact)
+        ? <span className='app-Cell-factValue'>{toFact ? toFact.stringValue : fromFact!.stringValue}</span>
+        : <span className='app-Cell-noValue'>Recorded</span>}
       </li>;
     })}
   </ul>;
@@ -84,7 +94,11 @@ export default function Table(props: TableProps): JSX.Element {
       {table && <div className={classNames('app-Table-table', tableOffsets)}>
         <div className={classNames('app-Table-table-inner', tableOffsets)}>
           <TableViewer
-            renderDataCell={({x, y, ...rest}) => DiffifiedCell({...rest, diffCell: table.getCellDiff(x, y)})}
+            cellRenderer={({x, y, ...rest}) => DiffifiedCell({...rest, diffCell: table.getCellDiff(x, y)})}
+            getRowHeight={(table1, y) => {
+              const factDepth = Math.max(...(table1 as DiffifiedQueryableTablePage).getDiffRow(y).map(d => d.facts.length));
+              return 5 + factDepth * 20 + (factDepth - 1) * 11 + 5;
+            }}
             data={table}
             autoWidth
           />

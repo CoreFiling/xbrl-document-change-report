@@ -495,7 +495,18 @@
                 }
             ],
             [
-                null,
+                {
+                    "facts": [
+                        {
+                            "stringValue": "Pyjamas",
+                            "id": 3001
+                        },
+                        {
+                            "stringValue": "pajamas",
+                            "id": 3002
+                        }
+                    ]
+                },
                 {
                     "facts": [
                         {
