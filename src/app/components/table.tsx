@@ -46,7 +46,7 @@ function DiffifiedCell({cell, diffCell}: DiffifiedCellProps): ReactNode {
         ? `Added ${toFact.stringValue}`
         : `Deleted ${fromFact!.stringValue}`;
       return <li key={i}
-        className={classNames('app-Cell-fact', `app-Cell-fact${diffCell.diffStatus}`)}
+        className={classNames('app-Cell-fact', `app-Cell-fact${f.diffStatus}`)}
         title={summarification}
       >
         {(fromFact || toFact)

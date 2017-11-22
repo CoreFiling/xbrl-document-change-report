@@ -162,8 +162,31 @@
     list-style-type: none;
     text-align: right;
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     justify-content: flex-end;
+
+    &:after {
+      display: inline-block;
+      width: 16px;
+      font-weight: 500;
+      color: @disabled;
+    }
+  }
+
+  &-factNOP:after {
+    content: " ";
+  }
+
+  &-factADD:after {
+    content: "\2795";
+  }
+
+  &-factDEL:after {
+    content: "\2796";
+  }
+
+  &-factCHG:after {
+    content: "\2731";
   }
 
   &-fact + &-fact {
