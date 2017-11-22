@@ -28,7 +28,10 @@ select {
   font-size: 14px;
   font-weight: 500;
   text-overflow: ellipsis;
-  color: @secondary;
+
+  &:invalid {
+    color: @disabled;
+  }
 }
 
 option {
@@ -44,9 +47,9 @@ option {
 
 .app-FormItem {
   display: flex;
-  // flex-flow: row wrap;
   flex-flow: row nowrap;
   align-items: center;
+  justify-content: center;
 
   label {
     margin-right: 1em;
@@ -57,11 +60,6 @@ option {
     color: @muted;
   }
 
-  select {
-    width: 100%;
-    flex-grow: 1;
-    flex-shrink: 1;
-  }
 }
 
 .app-FormActionList {
