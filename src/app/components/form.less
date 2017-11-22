@@ -43,29 +43,14 @@ option {
   display: flex;
   flex-flow: column nowrap;
   align-items: stretch;
+  justify-content: space-between;
+  padding: @upload-gap;
 }
 
-.app-FormItem {
+.app-FormItem, .app-FormActionList {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  justify-content: center;
-
-  label {
-    margin-right: 1em;
-
-    font-size: 14px;
-    font-weight: 500;
-    white-space: nowrap;
-    color: @muted;
-  }
-
-}
-
-.app-FormActionList {
-  margin: (@gap3 - 0.5 * @gap2) @gap (@gap3 - (@gap - 0.5 * @gap2));
-  display: flex;
-  flex-flow: row nowrap;
   justify-content: center;
 }
 
