@@ -20,18 +20,19 @@ import Dropzone = require('react-dropzone');
 
 import FileReference from './file-reference';
 
+import DropzoneIcon, { DropzoneIconType } from './dropzone-icon';
 import './file-input.less';
 
 interface FileInputProps {
-  label?: string;
   file?: File;
   className?: string;
+  dropzoneType: DropzoneIconType;
 
   onChange?: (file: File | undefined) => void;
 }
 
 // tslint:disable-next-line:variable-name
-const FileInput = ({ label, file, className, onChange }: FileInputProps): JSX.Element => <Dropzone
+const FileInput = ({ file, className, dropzoneType, onChange }: FileInputProps): JSX.Element => <Dropzone
   className={classNames('app-FileInput', className)}
   activeClassName='app-ChangeForm-dropzoneActive'
   multiple={false}
@@ -41,19 +42,20 @@ const FileInput = ({ label, file, className, onChange }: FileInputProps): JSX.El
   onDrop={onChange && (files => onChange(files[0]))}
   disabled={!onChange}
 >
-  <div>
-    {file
-    ? <FileReference className='app-FileInput-file' file={file} onRemove={onChange && (() => onChange(undefined))}
-      />
-    : <div>
-        <h2 className='app-FileInput-heading'>{label || 'Drop file here'}</h2>
-        <div className='app-FileInput-prompt'>
-          or <span className='app-FileInput-btn'>click to select file</span>
-        </div>
-        <div className='app-FileInput-hint'>XBRL, Inline XBRL, or ZIP. 5&thinsp;MB max.</div>
+  {file &&
+    <FileReference className='app-FileInput-file' file={file} onRemove={onChange && (() => onChange(undefined))}/>
+  }
+  {!file && [
+    <div className='app-FileInput-main'>
+      <DropzoneIcon className='app-FileInput-DropzoneIcon' type={dropzoneType} />
+      <h2 className='app-FileInput-heading'>Drag &amp; Drop</h2>
+      <div className='app-FileInput-prompt'>
+        your file here, <span className='app-FileInput-prompt-btn'>or browse.</span>
       </div>
-    }
-  </div>
+    </div>,
+    <div className='app-FileInput-hint'>XBRL, Inline XBRL, or ZIP. 5&thinsp;MB max each.</div>,
+    ]
+  }
 </Dropzone>;
 
 export default FileInput;

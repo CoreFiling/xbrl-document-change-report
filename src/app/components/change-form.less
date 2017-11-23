@@ -38,12 +38,20 @@
   background-color: @paper;
 
   &-twoFiles {
-    margin: @gap 0;
     width: 100%;
 
     display: flex;
     flex-flow: row nowrap;
+    align-items: center;
     justify-content: space-between;
+  }
+
+  &-compare-img {
+    width: 71px;
+    height: 71px;
+
+    background-image: url(compare-Icon.svg);
+    background-size: 71px 71px;
   }
 
   &-errorDropzone {
@@ -54,6 +62,7 @@
     color: #E74C3C;
 
     &:before {
+      content: '';
       margin-top: 50px;
       margin-bottom: @gap;
       width: 122px;
@@ -65,9 +74,8 @@
   }
 
   select {
-    width: (@form-wd - 2 * @gap - 110px - @gap);
+    width: @form-wd / @golden;
   }
-
 
   &-loading {
     .form-boxiness();

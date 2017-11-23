@@ -72,19 +72,25 @@ export default class ChangeForm extends Component<ChangeFormProps, ChangeFormSta
               <span  className='app-ChangeForm-error'>{error}</span>
             </div>
           : <div className='app-ChangeForm-twoFiles'>
-            <FileInput label='Drop old file here' file={params.file1} onChange={file => this.onChange({file1: file})}/>
-            <FileInput label='Drop new file here' file={params.file2} onChange={file => this.onChange({file2: file})}/>
+            <FileInput dropzoneType='OLD' file={params.file1} onChange={file => this.onChange({file1: file})}/>
+            <div className='app-ChangeForm-compare-img' />
+            <FileInput dropzoneType='NEW' file={params.file2} onChange={file => this.onChange({file2: file})}/>
           </div>
         }
       </FormItem>
       <FormItem>
-        <label htmlFor='profile-pickr'>Validation profile</label>
-        <select id='profile-pickr' disabled={!onSubmit} onChange={e => this.onChange({profile: e.currentTarget.value})}>
+        <select
+          id='profile-pickr'
+          disabled={!onSubmit}
+          required
+          defaultValue=''
+          onChange={e => this.onChange({profile: e.currentTarget.value})}>
+          <option key='' value='' disabled hidden>Select Validation Profile</option>
           {profiles.map(({id, name}) => <option key={id} value={id}>{name}</option>)}
         </select>
       </FormItem>
       <FormActionList>
-        <FormAction enabled={onSubmit && paramsAreComplete(params)} primary>Compare files</FormAction>
+        <FormAction enabled={onSubmit && paramsAreComplete(params)} primary>Compare</FormAction>
       </FormActionList>
     </Form>;
   }
