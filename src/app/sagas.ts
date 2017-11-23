@@ -91,8 +91,7 @@ export function* processingStartSaga(action: ProcessingAction): IterableIterator
   }
   yield put(processingStartedAction());
 
-  // const comparisonId = comparisonSummary.id;
-  const comparisonId = '812f5c9f-ac11-435f-918f-3fbc0510739a';  // A known-OK comparison instance.
+  const comparisonId = comparisonSummary.id;
 
   try {
     // Poll for filing completion status.
