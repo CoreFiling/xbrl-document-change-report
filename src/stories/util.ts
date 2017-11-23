@@ -145,7 +145,6 @@ export function makeDiffChunk(chunk: TableChunk): DiffTableChunk {
                 to: {sourceId: getId(), id: f2.id, source: 'TO' as FactMappingSourceEnum},
               };
             });
-            console.log('GCGK', diffFactCount, cell.facts, facts);
           }
           break;
         default:
