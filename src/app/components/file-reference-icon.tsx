@@ -22,13 +22,11 @@ export interface FileReferenceIconProps extends Props<FileReferenceIcon> {
   className?: string;
   style?: CSSProperties;
   type: 'OLD' | 'NEW';
-
-  onRemove?: () => void;
 }
 
 export default class FileReferenceIcon extends Component<FileReferenceIconProps> {
   render(): JSX.Element {
-    const { className, style, type, onRemove } = this.props;
+    const { className, style, type } = this.props;
 
     // Flip icon on vertical axis for NEW.
     // Translation isn't quite right... it seems to be about 0.25 pixels off by eye in Chrome.
@@ -47,7 +45,7 @@ export default class FileReferenceIcon extends Component<FileReferenceIconProps>
                 </text>
             </g>
         </svg>
-        <svg xmlns='http://www.w3.org/2000/svg' width={width} height={height} viewBox="290 263 51 64" className={classNames('app-FileReferenceIcon-del', className)} style={style} onClick={e => { e.stopPropagation(); if (onRemove) { onRemove(); } } }>
+        <svg xmlns='http://www.w3.org/2000/svg' width={width} height={height} viewBox="290 263 51 64" className={classNames('app-FileReferenceIcon-del', className)} style={style}>
             <g stroke="none" strokeWidth="1" fillRule="evenodd" fill="#2D5578">
                 <path transform={transform2} d="M321.15709,304.626479 C321.62971,305.09699 321.62971,305.858669 321.15709,306.329179 C320.922889,306.56549 320.614842,306.683645 320.306795,306.683645 C319.996637,306.683645 319.6907,306.56549 319.45439,306.329179 L315.06788,301.94267 L310.68137,306.329179 C310.44717,306.56549 310.139122,306.683645 309.831075,306.683645 C309.520918,306.683645 309.21498,306.56549 308.98078,306.329179 C308.508159,305.858669 308.508159,305.09699 308.98078,304.626479 L313.36729,300.23997 L308.98078,295.85135 C308.508159,295.380839 308.508159,294.619161 308.98078,294.14865 C309.449181,293.676029 310.212969,293.676029 310.68137,294.14865 L315.06788,298.53516 L319.45439,294.14865 C319.9249,293.676029 320.686579,293.676029 321.15709,294.14865 C321.62971,294.619161 321.62971,295.380839 321.15709,295.85135 L316.77058,300.23997 L321.15709,304.626479 Z M304.938186,277.142749 C304.938186,277.579501 304.585831,277.933966 304.149079,277.933966 L295.553292,277.933966 C294.848581,277.933966 294.496225,277.081561 294.996275,276.585732 L303.592061,267.987835 C304.087891,267.489895 304.938186,267.842251 304.938186,268.544852 L304.938186,277.142749 Z M338.627172,263 L306.187255,263 C305.788481,263 305.404477,263.160353 305.119639,263.440972 L290.440972,278.117529 C290.160353,278.398147 290,278.782151 290,279.183035 L290,325.493522 C290,326.326938 290.675172,327 291.508588,327 L338.627172,327 C339.460587,327 340.13787,326.326938 340.13787,325.493522 L340.13787,264.508588 C340.13787,263.677282 339.460587,263 338.627172,263 L338.627172,263 Z"></path>
             </g>
