@@ -48,7 +48,7 @@
     "@cfl/react-components": "^1.5.0",
     "@cfl/table-diff-service": "^0.1.0-dev.38026",
     "@cfl/table-rendering-service": "^1.4.3",
-    "@cfl/table-viewer": "^0.2.0",
+    "@cfl/table-viewer": "0.2.1-dev.38506",
     "@cfl/tslint-config": "^0.6.1",
     "@janslow/ci-build-version": "^0.1.1",
     "@storybook/addon-actions": "^3.2.15",

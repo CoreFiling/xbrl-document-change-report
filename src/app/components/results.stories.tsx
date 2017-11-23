@@ -22,10 +22,11 @@ import { TableMetadata } from '@cfl/table-rendering-service';
 import { basicTableWithMetadata } from '@cfl/table-viewer/lib/test-utils';
 
 import Results from './results';
+import { exampleTableWithDiffStuff } from '../../stories/util';
 
 storiesOf('Results', module)
   .add('Full', () => {
-    const { table, metadata, zOptions } = basicTableWithMetadata();
+    const { table, metadata, zOptions } = exampleTableWithDiffStuff();
     return (
       <Results
         tables={[metadata, {name: 'another table', id: 'uuid-of-another-table'} as TableMetadata]}
@@ -54,26 +55,13 @@ storiesOf('Results', module)
       <Results/>
     );
   })
-  .add('No statistics', () => {
-    const { table, metadata, zOptions } = basicTableWithMetadata();
-    return (
-      <Results
-        tables={[metadata, {name: 'another table', id: 'uuid-of-another-table'} as TableMetadata]}
-        metadata={metadata}
-        zOptions={zOptions}
-        table={table}
-        onChangePage={action('onChangePage') as any}
-        onChangeTable={action('onChangeTable') as any}
-      />
-    );
-  })
   .add('Error (no tables)', () => {
     return (
       <Results error={'Something went wrong'}/>
     );
   })
   .add('Error (with tables)', () => {
-    const { table, metadata, zOptions } = basicTableWithMetadata();
+    const { table, metadata, zOptions } = exampleTableWithDiffStuff();
     return (
       <Results
         error='Something went wrong'

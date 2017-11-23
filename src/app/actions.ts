@@ -20,9 +20,9 @@
 import { Action } from 'redux';
 import { Profile } from '@cfl/table-diff-service';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
-import { QueryableTablePage } from '@cfl/table-viewer';
 
 import { App, TableRenderingWindow, User, JobParams } from './models';
+import DiffifiedQueryableTablePage from './models/queryable-table-page-impl';
 
 // Actions for acquiring the list of profiles needed by the form.
 
@@ -121,10 +121,11 @@ export const TABLE_RENDERING_RECEIVED = 'TABLE_RENDERING_RECEIVED';
 
 export interface TableRenderingReceivedAction extends Action {
   zOptions: Option[][];
-  tableRendering: QueryableTablePage;
+  tableRendering: DiffifiedQueryableTablePage;
 }
 
-export function tableRenderingReceivedAction(zOptions: Option[][], tableRendering: QueryableTablePage): TableRenderingReceivedAction {
+export function tableRenderingReceivedAction(zOptions: Option[][], tableRendering: DiffifiedQueryableTablePage)
+: TableRenderingReceivedAction {
   return {type: TABLE_RENDERING_RECEIVED, zOptions, tableRendering};
 }
 

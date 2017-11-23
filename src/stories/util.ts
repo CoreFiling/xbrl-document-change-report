@@ -18,8 +18,11 @@
   * Create fake instances of models, for use in stories.
   */
 
-import { Profile } from '@cfl/table-diff-service';
+import { Profile, DiffCell, FactMappingSourceEnum, DiffFact, DiffTableChunk } from '@cfl/table-diff-service';
+import { TableChunk, Fact, TableMetadata, Option } from '@cfl/table-rendering-service';
+
 import { App } from '../app/models';
+import DiffifiedQueryableTablePage from '../app/models/queryable-table-page-impl';
 
 function idFromLabel(label: string): string {
   let hash = 0;
@@ -51,3 +54,113 @@ export const app = (name: string): App => {
 };
 
 export const apps = (...names: string[]): App[] => names.map(name => app(name));
+
+//
+// Functions for haclking together a fake diff-table result.
+//
+
+type DiffStatus = 'NOP' | 'ADD' | 'DEL' | 'CHG';
+const DIFF_STATUSES: DiffStatus[] = ['NOP', 'ADD', 'DEL', 'CHG'];
+
+function getDiffStatus(x: number, y: number, z: number): DiffStatus {
+  return DIFF_STATUSES[(x + y + z) % 4];
+}
+
+/**
+ * Given a normal table chunk, return one representing a comparison table.
+ */
+export function mungeTableChunk(chunk: TableChunk): TableChunk {
+  const { z, data } = chunk;
+  let nextId = Math.max(...data.map(col => Math.max(...col.map(cell => cell ? Math.max(...cell.facts.map(fact => fact.id)) : -1))));
+  function getId(): number {
+    return ++nextId;
+  }
+  return {
+    ...chunk,
+    data: data.map((col, x) => col.map((cell, y) => {
+      const diffStatus = getDiffStatus(x, y, z);
+      let facts: Fact[];
+      const issues: number[] = cell ? cell.issues : [];
+      if (diffStatus === 'NOP') {
+        return cell;
+      } else if (!cell || cell.facts.length === 0) {
+        facts = [{stringValue: '€42.00', id: getId()}];
+      } else {
+        facts = cell.facts;
+      }
+      if (diffStatus === 'CHG') {
+        const newFacts = [...facts, ...facts.map(() => ({stringValue: '€69.00', id: getId()}))];
+        return { issues, facts: newFacts };
+      }
+      return { issues, facts };
+    })),
+  };
+}
+
+export function makeDiffChunk(chunk: TableChunk): DiffTableChunk {
+  const { x, y, z, data } = chunk;
+  let nextId = 1000;
+  function getId(): number {
+    return ++nextId;
+  }
+  return {
+    x, y, z,
+    data: data.map((col, dx) => col.map((cell, dy) => {
+      const diffStatus = getDiffStatus(dx, dy, z);
+      let facts: DiffFact[];
+      switch (diffStatus) {
+        case 'NOP':
+          if (cell) {
+            facts = cell.facts.map(f => ({
+              diffStatus,
+              from: {id: getId(), sourceId: f.id, source: 'FROM' as FactMappingSourceEnum},
+              to: {id: getId(), sourceId: f.id, source: 'TO' as FactMappingSourceEnum},
+            }));
+          } else {
+            facts = [];
+          }
+          break;
+        case 'ADD':
+          facts = cell.facts.map(f => ({
+            diffStatus,
+            to: {id: getId(), sourceId: f.id, source: 'TO' as FactMappingSourceEnum},
+          }));
+          break;
+        case 'DEL':
+          facts = cell.facts.map(f => ({
+            diffStatus,
+            from: {id: getId(), sourceId: f.id, source: 'FROM' as FactMappingSourceEnum},
+          }));
+          break;
+        case 'CHG':
+          {
+            const fs = cell.facts;
+            const diffFactCount = fs.length / 2;
+            facts = cell.facts.slice(0, diffFactCount).map((f1, j) => {
+              const f2 = fs[diffFactCount + j];
+              return {
+                diffStatus,
+                from: {id: getId(), sourceId: f1.id, source: 'FROM' as FactMappingSourceEnum},
+                to: {id: getId(), sourceId: f2.id, source: 'TO' as FactMappingSourceEnum},
+              };
+            });
+          }
+          break;
+        default:
+          // Should not happen.
+          facts = [];
+          break;
+      }
+      const diffCell: DiffCell = { diffStatus, facts };
+      return diffCell;
+    })),
+  };
+}
+
+export function exampleTableWithDiffStuff(): { metadata: TableMetadata, zOptions: Option[][], table: DiffifiedQueryableTablePage } {
+  const { tables, zOptions, tableChunk } = require('./table-a.json');
+  const mungedTableChunk = mungeTableChunk(tableChunk);
+  const diffChunk = makeDiffChunk(mungedTableChunk);
+  const table = new DiffifiedQueryableTablePage(tables[0], mungedTableChunk, diffChunk);
+  return { metadata: tables[0], zOptions, table };
+}

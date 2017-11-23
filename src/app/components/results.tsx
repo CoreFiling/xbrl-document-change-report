@@ -17,8 +17,8 @@
 import * as React from 'react';
 
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
-import { QueryableTablePage } from '@cfl/table-viewer';
 
+import DiffifiedQueryableTablePage from '../models/queryable-table-page-impl';
 import Table from './table';
 import Button from './button';
 import TableSelector from './table-selector';
@@ -30,7 +30,7 @@ export interface ResultsProps {
   tables?: TableMetadata[];
   metadata?: TableMetadata;
   zOptions?: Option[][];
-  table?: QueryableTablePage;
+  table?: DiffifiedQueryableTablePage;
   onChangePage?: (x: number, y: number, z: number) => void;
   onChangeTable?: (table: TableMetadata) => void;
   onResultsDismiss?: () => void;

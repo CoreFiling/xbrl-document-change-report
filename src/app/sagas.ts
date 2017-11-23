@@ -34,10 +34,10 @@ import {
   uploadFailedAction,
   uploadStartedAction,
 } from './actions';
-import { profilesApi, uploadApi, filingsVersionsApi, tablesApi } from './apis';
+import { profilesApi, uploadApi, filingsVersionsApi, tablesApi, diffInfosApi } from './apis';
 import { apiFetchJson } from './api-fetch';
 import { App, User } from './models';
-import QueryableTablePageImpl, { TABLE_WINDOW_HEIGHT } from './models/queryable-table-page-impl';
+import DiffifiedQueryableTablePage, { TABLE_WINDOW_HEIGHT } from './models/queryable-table-page-impl';
 import { APPS, TABLE_DIFF_SERVICE_COMPARISONS, USER } from './urls';
 
 const POLL_MILLIS = 1000;
@@ -91,15 +91,17 @@ export function* processingStartSaga(action: ProcessingAction): IterableIterator
   }
   yield put(processingStartedAction());
 
+  const comparisonId = comparisonSummary.id;
+
   try {
     // Poll for filing completion status.
     while (comparisonSummary.status !== 'DONE') {
       yield call(delay, POLL_MILLIS);
-      comparisonSummary = yield call([uploadApi, uploadApi.getComparison], {comparisonId: comparisonSummary.id});
+      comparisonSummary = yield call([uploadApi, uploadApi.getComparison], {comparisonId});
     }
 
     // Fetch table info. (The comparison ID is also a filing version ID so far as the tables API is converned.)
-    const tables = yield call([filingsVersionsApi, filingsVersionsApi.getTables], {filingVersionId: comparisonSummary.id});
+    const tables = yield call([filingsVersionsApi, filingsVersionsApi.getTables], {filingVersionId: comparisonId});
     yield put(tablesReceivedAction(tables));
 
     // Select the first table if any are available.
@@ -118,11 +120,12 @@ export function* tableRenderingSaga(action: TableRenderPageAction): IterableIter
     const window = {x, y, z, width, height: TABLE_WINDOW_HEIGHT};
     yield put(tableRenderingRequested(table, window));
 
-    const [ zOptions, tableRendering ] = yield all([
+    const [ zOptions, tableRendering, diffRendering ] = yield all([
       call([tablesApi, tablesApi.getTableZOptions], {tableId: table.id, z: 0}),
       call([tablesApi, tablesApi.renderTable], {tableId: table.id, ...window}),
+      call([diffInfosApi, diffInfosApi.renderTable], {tableId: table.id, ...window}),
     ]);
-    yield put(tableRenderingReceivedAction(zOptions, new QueryableTablePageImpl(table, tableRendering)));
+    yield put(tableRenderingReceivedAction(zOptions, new DiffifiedQueryableTablePage(table, tableRendering, diffRendering)));
   } catch (res) {
     yield put(failedAction(res.message || res.statusText || `Status: ${res.status}`));
   }

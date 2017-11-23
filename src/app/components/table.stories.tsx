@@ -17,44 +17,16 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { lShapedTableWithMetadata } from '@cfl/table-viewer/lib/test-utils/l-shaped-headers';
 
-import QueryableTablePageImpl from '../models/queryable-table-page-impl';
 import Table from './table';
+import { exampleTableWithDiffStuff } from '../../stories/util';
 
 storiesOf('Table', module)
-  .add('Simple pass', () => {
-    const { table, metadata, zOptions} = lShapedTableWithMetadata();
-
+  .add('Faked up table with diffs', () => {
+    const { metadata, zOptions, table } = exampleTableWithDiffStuff();
     return (
       <Table
         metadata={metadata}
-        zOptions={zOptions}
-        table={table}
-        onChangePage={action('onChangePage')}
-        onChangeTable={action('onChangeTable')}
-      />
-    );
-  })
-  .add('Simple fail', () => {
-    const { table, metadata, zOptions} = lShapedTableWithMetadata();
-
-    return (
-      <Table
-        metadata={metadata}
-        zOptions={zOptions}
-        table={table}
-        onChangePage={action('onChangePage')}
-        onChangeTable={action('onChangeTable')}
-      />
-    );
-  })
-  .add('Many Z options', () => {
-    const { tables, zOptions, tableChunk } = require('../../stories/table-a.json');
-    const table = new QueryableTablePageImpl(tables[0], tableChunk);
-    return (
-      <Table
-        metadata={tables[0]}
         zOptions={zOptions}
         table={table}
         onChangePage={action('onChangePage')}

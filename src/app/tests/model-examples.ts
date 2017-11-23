@@ -16,8 +16,8 @@
 
 import { User, App, Filing, TableRenderingWindow } from '../models';
 import { Profile, ComparisonSummary } from '@cfl/table-diff-service';
-import { QueryableTablePage } from '@cfl/table-viewer';
 import { Breakdown, Option, TableHeader, TableMetadata } from '@cfl/table-rendering-service';
+import DiffifiedQueryableTablePage from '../models/queryable-table-page-impl';
 
 export const exampleUser: User = {
   sub: 'ecdc0363-976d-4a42-a4cc-ae5d63f3a806',
@@ -94,7 +94,7 @@ export const exampleTableMetadata: TableMetadata = {
 };
 
 // So far just used in equality checks.
-export const exampleQueryableTablePage: QueryableTablePage = {
+export const exampleQueryableTablePage: DiffifiedQueryableTablePage = {
 } as any;
 
 export const exampleTableRenderingWindow: TableRenderingWindow = {

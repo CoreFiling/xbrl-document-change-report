@@ -21,7 +21,7 @@ import { action } from '@storybook/addon-actions';
 import { TableMetadata } from '@cfl/table-rendering-service';
 import { basicTableWithMetadata } from '@cfl/table-viewer/lib/test-utils';
 
-import { profiles } from '../../stories/util';
+import { profiles, exampleTableWithDiffStuff } from '../../stories/util';
 import App from './app';
 
 storiesOf('App', module)
@@ -50,7 +50,7 @@ storiesOf('App', module)
     );
   })
   .add('Result', () => {
-    const { table, metadata, zOptions } = basicTableWithMetadata();
+    const { table, metadata, zOptions } = exampleTableWithDiffStuff();
     return (
       <App
         profiles={profiles('Profile')}

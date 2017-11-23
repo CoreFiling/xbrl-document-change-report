@@ -14,15 +14,17 @@
  *  limitations under the License.
  */
 
+import { DiffTableChunk, DiffCell } from '@cfl/table-diff-service';
 import { createHeaderSlice, HeaderSlice, QueryableTablePage } from '@cfl/table-viewer';
 import { Cell, Header, TableChunk, TableHeader, TableMetadata } from '@cfl/table-rendering-service';
 
 export const TABLE_WINDOW_HEIGHT = 64;
 
-export default class QueryableTablePageImpl implements QueryableTablePage {
+export default class DiffifiedQueryableTablePage implements QueryableTablePage {
   constructor(
     private readonly metadata: TableMetadata,
     private readonly chunk: TableChunk,
+    private readonly diffChunk: DiffTableChunk,
   ) {
     chunk.data = chunk.data.map(colData =>
       colData.map(cell => cell || {
@@ -89,6 +91,14 @@ export default class QueryableTablePageImpl implements QueryableTablePage {
       facts: facts.length > 1 ? [facts[facts.length - 1]] : facts,  // For purposes of INV-129 assume last fact is the new value.
         // This will be changed for INV-130, for which both facts will be needed.
     };
+  }
+
+  getDiffRow(row: number): DiffCell[] {
+    return this.diffChunk.data.map(col => col[row - this.y]);
+  }
+
+  getCellDiff(col: number, row: number): DiffCell {
+    return this.diffChunk.data[col - this.x][row - this.y];
   }
 
   get pageCoordinates(): [number[], number[]] {

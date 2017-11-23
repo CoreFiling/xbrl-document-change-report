@@ -19,9 +19,9 @@ import { Component, Props } from 'react';
 import { connect, MapDispatchToProps } from 'react-redux';
 import { Profile } from '@cfl/table-diff-service';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
-import { QueryableTablePage } from '@cfl/table-viewer';
 
 import { tableRenderPageAction, processingStartAction, resultsDismissAction } from '../actions';
+import DiffifiedQueryableTablePage from '../models/queryable-table-page-impl';
 import { Phase, State } from '../state';
 import App from '../components/app';
 import AppBarContainer from '../corefiling/app-bar-container';
@@ -29,14 +29,14 @@ import AppBarContainer from '../corefiling/app-bar-container';
 type OwnProps = Props<AppContainer>;
 
 interface PropsFromState {
-  filingVersionId?: string;
+  comparisonId?: string;
   phase?: Phase;
   profiles?: Profile[];
   message?: string;
   tables?: TableMetadata[];
   metadata?: TableMetadata;
   zOptions?: Option[][];
-  table?: QueryableTablePage;
+  table?: DiffifiedQueryableTablePage;
 }
 
 interface PropsFromDispatch {
@@ -77,9 +77,9 @@ class AppContainer extends Component<AppContainerProps> {
 function propsFromState(state: State): PropsFromState {
   const {
     global: {phase, profiles, message},
-    filing: {filingVersionId, tables, selectedTable: metadata, zOptions, tableRendering: table},
+    filing: {comparisonId, tables, selectedTable: metadata, zOptions, tableRendering: table},
   } = state;
-  return {filingVersionId, phase, profiles, message, tables, metadata, zOptions, table};
+  return {comparisonId, phase, profiles, message, tables, metadata, zOptions, table};
 }
 
 const propsFromDispatch: MapDispatchToProps<PropsFromDispatch, {}> = {

@@ -19,9 +19,9 @@
  */
 
 import { User, App } from './models';
-import { QueryableTablePage } from '@cfl/table-viewer';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
 import { Profile } from '@cfl/table-diff-service';
+import DiffifiedQueryableTablePage from './models/queryable-table-page-impl';
 
 export type Phase = 'startup' | 'startup-failed' | 'form' |
   'uploading' | 'uploading-failed' | 'processing' | 'results' | 'failed';
@@ -40,9 +40,9 @@ export interface GlobalState {
 }
 
 export interface FilingState {
-  filingVersionId?: string;
+  comparisonId?: string;
   tables?: TableMetadata[];
   selectedTable?: TableMetadata;
   zOptions?: Option[][];
-  tableRendering?: QueryableTablePage;
+  tableRendering?: DiffifiedQueryableTablePage;
 }
