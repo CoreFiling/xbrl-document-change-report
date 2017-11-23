@@ -20,12 +20,14 @@ import { all, call, put } from 'redux-saga/effects';
 
 import { startupInfoReceivedAction, startupInfoFailedAction,
   processingStartAction, uploadStartedAction, uploadFailedAction,
-  processingStartedAction, failedAction } from '../actions';
-import { profilesApi, uploadApi, filingsVersionsApi } from '../apis';
+  processingStartedAction, failedAction, tablesReceivedAction } from '../actions';
+import { profilesApi, uploadApi, filingsVersionsApi, diffInfosApi } from '../apis';
 import { apiFetchJson } from '../api-fetch';
 import { JobParams,  } from '../models';
 import { startupInfoSaga, processingStartSaga } from '../sagas';
-import { exampleUser, exampleApps, exampleProfiles, exampleFiling, exampleComparisonSummary } from './model-examples';
+import { exampleUser, exampleApps, exampleProfiles, exampleFiling, exampleComparisonSummary, exampleTableMetadata } from './model-examples';
+import { DiffTableMetadata } from '@cfl/table-diff-service';
+import { TableMetadata } from '@cfl/table-rendering-service';
 
 describe('startupInfoSaga', () => {
   it('calls APIs in parallel and dispatches profiles', () => {
@@ -90,7 +92,28 @@ describe('processingStartSaga', () => {
     expect(saga.next().value).toEqual(call([uploadApi, uploadApi.getComparison], {comparisonId: '8723b794-3261-4cd3-b946-b683c19fb99c'}));
     // Gets filing-version results, move on to fetching tables.
     expect(saga.next({...exampleComparisonSummary, status: 'DONE'}).value).toEqual(
-      call([filingsVersionsApi, filingsVersionsApi.getTables], {filingVersionId: '8723b794-3261-4cd3-b946-b683c19fb99c'}));
+      all([
+        call([filingsVersionsApi, filingsVersionsApi.getTables], {filingVersionId: '8723b794-3261-4cd3-b946-b683c19fb99c'}),
+        call([diffInfosApi, diffInfosApi.getTables], {comparisonId: '8723b794-3261-4cd3-b946-b683c19fb99c'}),
+      ]));
+
+    // When we get table metadata, we want the non-changed tables filtered out.
+    const tables: TableMetadata[] = [
+      {...exampleTableMetadata, id: 'foo'},
+      {...exampleTableMetadata, id: 'bar'},
+      {...exampleTableMetadata, id: 'baz'},
+      {...exampleTableMetadata, id: 'quux'},
+      {...exampleTableMetadata, id: 'quux2'},
+    ];
+    const diffTables: DiffTableMetadata[] = [
+      {id: 'foo', diffStatus: 'NOP'},
+      {id: 'quux2', diffStatus: 'DEL'},
+      {id: 'quux', diffStatus: 'ADD'},
+      {id: 'bar', diffStatus: 'CHG'},
+      {id: 'baz', diffStatus: 'NOP'},
+    ];
+    const expectedTables = [tables[1], tables[3], tables[4]];
+    expect(saga.next([tables, diffTables]).value).toEqual(put(tablesReceivedAction(expectedTables)));
   });
 
   it('dispatches FAILED if initial upload fails', () => {
