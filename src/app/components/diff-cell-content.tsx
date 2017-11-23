@@ -36,8 +36,8 @@ export default function DiffCellContent({cell, diffCell}: DiffCellContentProps):
   }
   return <ul className={classNames('app-DiffCellContent', `app-DiffCellContent-${diffCell.diffStatus}`)}>
     {diffCell.facts.map((f, i) => {
-      const fromFact = f.from && cell.facts.find(x => x.id === f.from!.sourceId);
-      const toFact = f.to && cell.facts.find(x => x.id === f.to!.sourceId);
+      const fromFact = f.from && cell.facts.find(x => x.id === f.from!.id);
+      const toFact = f.to && cell.facts.find(x => x.id === f.to!.id);
       let summarification: string | undefined;
       switch (f.diffStatus) {
         case 'NOP':
@@ -49,14 +49,14 @@ export default function DiffCellContent({cell, diffCell}: DiffCellContentProps):
           summarification = `Deleted ${fromFact ? fromFact.stringValue : ''}`;
           break;
         default:
-          summarification = `Changed ${fromFact ? fromFact.stringValue : ''}` + (toFact ? `to ${toFact.stringValue}` : '');
+          summarification = 'Changed' + (fromFact ? ` ${fromFact.stringValue}` : '') + (toFact ? ` to ${toFact.stringValue}` : '');
       }
       return <li key={i}
         className={classNames('app-DiffCellContent-fact', `app-DiffCellContent-fact${f.diffStatus}`)}
         title={summarification}
       >
         {(fromFact || toFact)
-        ? <span className='app-DiffCellContent-factValue'>{toFact ? toFact.stringValue : fromFact!.stringValue}</span>
+        ? <span className='app-DiffCellContent-value'>{toFact ? toFact.stringValue : fromFact!.stringValue}</span>
         : <span className='app-DiffCellContent-noValue'>Recorded</span>}
       </li>;
     })}

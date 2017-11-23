@@ -22,8 +22,8 @@ storiesOf('DiffCellContent', module)
       facts: [
         {
           diffStatus: 'NOP',
-          from: {id: 69, sourceId: 13, source: 'FROM'},
-          to: {id: 70, sourceId: 13, source: 'TO'},
+          from: {id: 13, sourceId: 113, source: 'FROM'},
+          to: {id: 13, sourceId: 113, source: 'TO'},
         },
       ],
     }}
@@ -40,7 +40,7 @@ storiesOf('DiffCellContent', module)
       facts: [
         {
           diffStatus: 'DEL',
-          from: {id: 69, sourceId: 13, source: 'FROM'},
+          from: {id: 13, sourceId: 113, source: 'FROM'},
         },
       ],
     }}
@@ -57,7 +57,7 @@ storiesOf('DiffCellContent', module)
       facts: [
         {
           diffStatus: 'ADD',
-          to: {id: 69, sourceId: 13, source: 'TO'},
+          to: {id: 13, sourceId: 113, source: 'TO'},
         },
       ],
     }}
@@ -75,12 +75,44 @@ storiesOf('DiffCellContent', module)
       facts: [
         {
           diffStatus: 'CHG',
-          from: {id: 69, sourceId: 13, source: 'FROM'},
-          to: {id: 70, sourceId: 42, source: 'TO'},
+          from: {id: 13, sourceId: 113, source: 'FROM'},
+          to: {id: 42, sourceId: 142, source: 'TO'},
         },
       ],
     }}
   />)
+  .add('real', () => <DiffCellContent
+    cell={{
+      facts: [
+          {
+              id: 8,
+              stringValue: '£4.00',
+          },
+          {
+              id: 9,
+              stringValue: '£6.00',
+          },
+      ],
+      issues: [],
+    }}
+    diffCell={{
+      diffStatus: 'CHG',
+      facts: [
+          {
+              diffStatus: 'CHG',
+              from: {
+                  id: 8,
+                  source: 'FROM',
+                  sourceId: 4,
+              },
+              to: {
+                  id: 9,
+                  source: 'TO',
+                  sourceId: 4,
+              },
+          },
+      ],
+    }}/>)
   .add('Wild', () => <DiffCellContent
     cell={{
       issues: [],
