@@ -104,7 +104,8 @@ export default function Table(props: TableProps): JSX.Element {
               ({x, y, cell}) => <DiffifiedCell cell={cell} diffCell={table.getCellDiff(x, y)}/>
             }
             getRowHeight={(table1: DiffifiedQueryableTablePage, y) => {
-              // Height of cell is determined by max number of facts stacked above each other in the row.
+              // We don't render all the facts in the cell, only those from one of the two documents being diffed,
+              // so we have to provide a custom cell height.
               const factCount = Math.max(...table1.getDiffRow(y).map(d => d.facts.length));
               return CELL_PAD + factCount * FACT_HT + (factCount - 1) * SEPARATOR_HT + CELL_PAD;
             }}
