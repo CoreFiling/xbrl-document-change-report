@@ -30,7 +30,7 @@ const file = (name?: string, size: number = 1024 * 20, type?: string): File => {
 };
 
 storiesOf('FileReference', module)
-  .addDecorator(story => <div style={{
+  .addDecorator(story => <div className='app-FileInput' style={{
       margin: '1em auto', padding: '20px', maxWidth: '400px',
       color: 'rgba(0, 0, 0, .86)', background: '#F7F7F7',
   }}>

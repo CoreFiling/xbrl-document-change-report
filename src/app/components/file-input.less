@@ -31,6 +31,21 @@
    border-radius: 3px;
    cursor: pointer;
 
+   .app-FileReferenceIcon {
+     &-del {
+       display: none;
+     }
+   }
+
+   &:hover .app-FileReferenceIcon {
+     &-info {
+       display: none
+     }
+     &-del {
+       display: inline
+     }
+   }
+
    &-main {
      display: flex;
      flex-flow: column nowrap;

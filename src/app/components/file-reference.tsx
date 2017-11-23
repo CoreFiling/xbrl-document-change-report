@@ -33,9 +33,9 @@ interface FileReferenceProps {
   onRemove?: () => void;
 }
 
-export default function FileReference({className, file, type}: FileReferenceProps): JSX.Element {
+export default function FileReference({className, file, type, onRemove}: FileReferenceProps): JSX.Element {
   return <div className={classNames('app-FileReference', className)}>
-    <FileReferenceIcon type={type} />
+    <FileReferenceIcon type={type} onRemove={onRemove} />
     <div className='app-FileReference-item app-FileReference-name'>
       {file.name || 'Selected file'}
     </div>
