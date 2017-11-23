@@ -31,6 +31,14 @@
    border-radius: 3px;
    cursor: pointer;
 
+   &-main {
+     display: flex;
+     flex-flow: column nowrap;
+     align-items: center;
+   }
+   &-DropzoneIcon {
+     margin: 50px 0 8px 0;
+   }
    &-heading {
      margin: 0;
      font-size: 36px;
@@ -39,23 +47,6 @@
      text-align: center;
      color: @secondary;
      user-select: none;
-
-     // For aligning the dropzone svg below.
-     display: flex;
-     flex-flow: column nowrap;
-     align-items: center;
-
-     &:before {
-      content: " ";
-      display: block;
-      margin-top: 50px;
-      width: 44px;
-      height: 61px;
-
-      background-image: url(dropzone.svg);
-      background-size: 44px 61px;
-    }
-
    }
    &-prompt {
      text-align: center;

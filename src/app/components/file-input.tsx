@@ -20,17 +20,19 @@ import Dropzone = require('react-dropzone');
 
 import FileReference from './file-reference';
 
+import DropzoneIcon, { DropzoneIconType } from './dropzone-icon';
 import './file-input.less';
 
 interface FileInputProps {
   file?: File;
   className?: string;
+  dropzoneType: DropzoneIconType;
 
   onChange?: (file: File | undefined) => void;
 }
 
 // tslint:disable-next-line:variable-name
-const FileInput = ({ file, className, onChange }: FileInputProps): JSX.Element => <Dropzone
+const FileInput = ({ file, className, dropzoneType, onChange }: FileInputProps): JSX.Element => <Dropzone
   className={classNames('app-FileInput', className)}
   activeClassName='app-ChangeForm-dropzoneActive'
   multiple={false}
@@ -44,7 +46,8 @@ const FileInput = ({ file, className, onChange }: FileInputProps): JSX.Element =
     <FileReference className='app-FileInput-file' file={file} onRemove={onChange && (() => onChange(undefined))}/>
   }
   {!file && [
-    <div>
+    <div className='app-FileInput-main'>
+      <DropzoneIcon className='app-FileInput-DropzoneIcon' type={dropzoneType} />
       <h2 className='app-FileInput-heading'>Drag &amp; Drop</h2>
       <div className='app-FileInput-prompt'>
         your file here, <span className='app-FileInput-prompt-btn'>or browse.</span>
