@@ -16,7 +16,6 @@
 
 import * as classNames from 'classnames';
 import * as React from 'react';
-import { ReactNode } from 'react';
 import TableViewer, { Pager, ZAxisNavigation } from '@cfl/table-viewer';
 import { Option, TableMetadata, Cell } from '@cfl/table-rendering-service';
 
@@ -28,12 +27,9 @@ import { DiffCell } from '@cfl/table-diff-service';
 interface DiffifiedCellProps {
   cell: Cell;
   diffCell: DiffCell;
-  selected: boolean;
-  highlightedIssue: number | undefined;
-  onClick?: () => void;
 }
 
-function DiffifiedCell({cell, diffCell}: DiffifiedCellProps): ReactNode {
+function DiffifiedCell({cell, diffCell}: DiffifiedCellProps): JSX.Element {
   return <ul className={classNames('app-Cell', `app-Cell-${diffCell.diffStatus}`)}>
     {diffCell.facts.map((f, i) => {
       const fromFact = f.from && cell.facts.find(x => x.id === f.from!.sourceId);
@@ -94,7 +90,9 @@ export default function Table(props: TableProps): JSX.Element {
       {table && <div className={classNames('app-Table-table', tableOffsets)}>
         <div className={classNames('app-Table-table-inner', tableOffsets)}>
           <TableViewer
-            cellRenderer={({x, y, ...rest}) => DiffifiedCell({...rest, diffCell: table.getCellDiff(x, y)})}
+            cellRenderer={
+              ({x, y, cell}) => <DiffifiedCell cell={cell} diffCell={table.getCellDiff(x, y)}/>
+            }
             getRowHeight={(table1, y) => {
               const factDepth = Math.max(...(table1 as DiffifiedQueryableTablePage).getDiffRow(y).map(d => d.facts.length));
               return 5 + factDepth * 20 + (factDepth - 1) * 11 + 5;
