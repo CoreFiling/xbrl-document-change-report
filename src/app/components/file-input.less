@@ -14,64 +14,69 @@
  *  limitations under the License.
  */
 
- @import (reference) '../styles/defs';
+@import (reference) '../styles/defs';
 
- .app-FileInput {
-   width: @dropzone-wd - @gap * 2;
-   height: @dropzone-ht - @gap * 2;
-   padding: @gap;
-
-   display: flex;
-   flex-flow: column nowrap;
-   justify-content: space-between;
-   align-items: center;
-
-   background-color: #F8F5F5;
-   background-image: url(dropzone-bg.svg);
-   border-radius: 3px;
-   cursor: pointer;
-
-   &-main {
-     display: flex;
-     flex-flow: column nowrap;
-     align-items: center;
-   }
-   &-DropzoneIcon {
-     margin: 50px 0 8px 0;
-   }
-   &-heading {
-     margin: 0;
-     font-size: 36px;
-     font-weight: 300;
-     line-height: 44px;
-     text-align: center;
-     color: @secondary;
-     user-select: none;
-   }
-   &-prompt {
-     text-align: center;
-     font-size: 14px;
-     font-weight: 500;
-     line-height: 17px;
-     color: @disabled;
-     user-select: none;
-     &-btn {
-       color: @primary;
-       border-bottom: 1px solid;
-       cursor: pointer;
-     }
-   }
-
-   &-hint {
-     font-size: 12px;
-     color: @muted;
-     font-weight: 300;
-     line-height: (14/12);
-     text-align: center;
-     user-select: none;
-   }
-
-   &-file {
-     margin-top: @upload-gap;
-   }
- }
+.app-FileInput {
+  width: @dropzone-wd - @gap * 2;
+  height: @dropzone-ht - @gap * 2;
+  padding: @gap;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #F8F5F5;
+  background-image: url(dropzone-bg.svg);
+  border-radius: 3px;
+  cursor: pointer;
+  .app-FileReferenceIcon {
+    &-del {
+      display: none;
+    }
+  }
+  &:hover .app-FileReferenceIcon {
+    &-info {
+      display: none
+    }
+    &-del {
+      display: inline
+    }
+  }
+  &-main {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+  }
+  &-DropzoneIcon {
+    margin: 50px 0 8px 0;
+  }
+  &-heading {
+    margin: 0;
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 44px;
+    text-align: center;
+    color: @secondary;
+    user-select: none;
+  }
+  &-prompt {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17px;
+    color: @disabled;
+    user-select: none;
+    &-btn {
+      color: @primary;
+      border-bottom: 1px solid;
+      cursor: pointer;
+    }
+  }
+  &-hint {
+    font-size: 12px;
+    color: @muted;
+    font-weight: 300;
+    line-height: (14/12);
+    text-align: center;
+    user-select: none;
+  }
+}

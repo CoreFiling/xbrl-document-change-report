@@ -22,35 +22,21 @@ import * as classNames from 'classnames';
 import humanSize = require('human-size');
 import * as React from 'react';
 
+import FileReferenceIcon from './file-reference-icon';
 import './file-reference.less';
 
 interface FileReferenceProps {
   className?: string;
-  file?: File;
-
-  onRemove?: () => void;
+  file: File;
+  type: 'OLD' | 'NEW';
 }
 
-export default function FileReference({className, file, onRemove}: FileReferenceProps): JSX.Element {
-  if (!file) {
-    return <span>No file</span>;
-  }
-  return <span className={classNames('app-FileReference', className)}>
-    <span className='app-FileReference-name'>
-      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 24' className='app-FileReference-icon'>
-        <path className='app-FileReference-outline' d='M1,1H11l6,8V23H1z'/>
-        <path className='app-FileReference-inline' d='M11,1l-2,6 8,2'/>
-      </svg>
+export default function FileReference({className, file, type}: FileReferenceProps): JSX.Element {
+  return <div className={classNames('app-FileReference', className)}>
+    <FileReferenceIcon type={type} />
+    <div className='app-FileReference-item app-FileReference-name'>
       {file.name || 'Selected file'}
-    </span>
-    <span className='app-FileReference-size'>{humanSize(file.size)}</span>
-    {onRemove &&
-      <span className='app-FileReference-remove' onClick={e => {e.stopPropagation(); onRemove(); }}>
-        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 15' className='app-FileReference-removeIcon'>
-          <circle className='app-FileReference-removeDisc' cx='7.5' cy='7.5' r='7.5'/>
-          <path className='app-FileReference-removeSymbol' d='M4,4L11,11M4,11L11,4'/>
-        </svg>
-      </span>
-    }
-  </span>;
+    </div>
+    <div className='app-FileReference-item app-FileReference-size'>{humanSize(file.size)}</div>
+  </div>;
 }
