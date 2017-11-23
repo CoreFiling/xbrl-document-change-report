@@ -36,12 +36,14 @@ storiesOf('FileReference', module)
   }}>
     {story()}
   </div>)
-  .add('No file', () => <FileReference/>)
-  .add('Bytes', () => <FileReference file={file('Best Soufflé Company 2017.xml', 69, 'application/xml')}/>)
-  .add('Kilobytes', () => <FileReference file={file('Amalagmated Holdings (Group).xml', 42 * 1024, 'application/xml')}/>)
-  .add('Megabytes', () => <FileReference file={file('accts.xml', 13 * 1024 * 1024, 'application/xml')}/>)
-  .add('Longer name', () => <FileReference file={
+  .add('Old', () => <FileReference type='OLD' file={file('oldman.xbrl', 666, 'application/xml')}/>)
+  .add('New', () => <FileReference type='NEW' file={file('newman.xbrl', 666, 'application/xml')}/>)
+  .add('Bytes', () => <FileReference type='OLD' file={file('Best Soufflé Company 2017.xml', 69, 'application/xml')}/>)
+  .add('Kilobytes', () => <FileReference type='OLD' file={file('Amalagmated Holdings (Group).xml', 42 * 1024, 'application/xml')}/>)
+  .add('Megabytes', () => <FileReference type='OLD' file={file('accts.xml', 13 * 1024 * 1024, 'application/xml')}/>)
+  .add('Longer name', () => <FileReference type='OLD' file={
     file('United Frog Hunters Group (Holdings) Ltd annual accounts FINAL rev 4.zip', 77 * 1024)}/>)
   .add('Removable', () => <FileReference
+    type='OLD'
     file={file('Amalagmated Holdings (Group).xml', 42 * 1024, 'application/xml')}
     onRemove={action('onRemove')}/>);

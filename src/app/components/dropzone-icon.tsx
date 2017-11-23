@@ -17,12 +17,10 @@
 import * as React from 'react';
 import { Component, Props, CSSProperties } from 'react';
 
-export type DropzoneIconType = 'OLD' | 'NEW';
-
 export interface DropzoneIconProps extends Props<DropzoneIcon> {
   className?: string;
   style?: CSSProperties;
-  type: DropzoneIconType;
+  type: 'OLD' | 'NEW';
 }
 
 export default class DropzoneIcon extends Component<DropzoneIconProps> {
@@ -30,7 +28,7 @@ export default class DropzoneIcon extends Component<DropzoneIconProps> {
     const { className, style, type } = this.props;
 
     const width = 44;
-    const height = 61;
+    const height = 67;
     /* tslint:disable */
     return <svg xmlns='http://www.w3.org/2000/svg' width={width} height={height} viewBox={`0 0 44 67`}
         className={className} style={style}>
