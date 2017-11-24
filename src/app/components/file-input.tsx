@@ -42,21 +42,21 @@ const FileInput = ({ file, className, type, onChange }: FileInputProps): JSX.Ele
     className={classNames('app-FileInput', className)}
     activeClassName='app-ChangeForm-dropzoneActive'
     multiple={false}
-    accept='.xml,.xbrl,.html,.htm,.zip'
+    accept='.xml,.xbrl,.html,.htm'
     maxSize={5 * 1024 * 1024}
     aria-label='File to compare'
     onDrop={onChange && (files => onChange(files[0]))}
     disabled={!onChange}
   >
     {[
-      <div className='app-FileInput-main'>
+      <div key='1' className='app-FileInput-main'>
         <DropzoneIcon className='app-FileInput-DropzoneIcon' type={type} />
         <h2 className='app-FileInput-heading'>Drag &amp; Drop</h2>
         <div className='app-FileInput-prompt'>
           your file here, <span className='app-FileInput-prompt-btn'>or browse.</span>
         </div>
       </div>,
-      <div className='app-FileInput-hint'>XBRL, Inline XBRL, or ZIP. 5&thinsp;MB max each.</div>,
+      <div key='2' className='app-FileInput-hint'>XBRL or Inline XBRL. 5&thinsp;MB max each.</div>,
     ]}
   </Dropzone>;
 };

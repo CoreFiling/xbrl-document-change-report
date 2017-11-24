@@ -23,6 +23,7 @@
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
+  width: 100%; // Fudge to force truncation of &-name.
 
   &-item {
     margin: 4px 0 4px 0;
@@ -55,6 +56,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    width: 100%; // Fudge to force truncation.
   }
 
   &-size {
