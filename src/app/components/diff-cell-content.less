@@ -24,9 +24,9 @@
 @separator-ht: (@cell-pad + 1px + @cell-pad);
 
 @nop-bg: transparent;
-@del-bg: rgba(255, 0, 128, 0.1);
-@add-bg: rgba(128, 255, 0, 0.1);
-@chg-bg: rgba(255, 255, 0, 0.2);
+@del-bg: #E74C3C;
+@add-bg: #2ECC71;
+@chg-bg: #2D5578;
 
 .app-DiffCellContent {
   margin: 0;
@@ -35,15 +35,19 @@
   flex-flow: column nowrap;
 
   &-NOP {
+    color: contrast(@paper, @paper, @ink);
     background-color: @nop-bg;
   }
   &-ADD {
+    color: #FFF;
     background-color: @add-bg;
   }
   &-DEL {
+    color: contrast(@del-bg, @paper, @ink);
     background-color: @del-bg;
   }
   &-CHG {
+    color: contrast(@chg-bg, @paper, @ink);
     background-color: @chg-bg;
   }
 
@@ -60,8 +64,9 @@
     &:after {
       display: inline-block;
       width: 16px;
-      font-weight: 500;
-      color: @disabled;
+      font-weight: 700;
+      line-height: 1;
+      color: #FFF;
     }
   }
 
@@ -74,11 +79,12 @@
   }
 
   &-factDEL:after {
+    text-decoration: none;
     content: "\2796";
   }
 
   &-factCHG:after {
-    content: "\2731";
+    content: "\25B3"; // Triangle standing in for Greek cap. Delta.
   }
 
   &-fact + &-fact {
@@ -90,28 +96,18 @@
   &-value,
   &-noValue {
     height: @fact-ht;
+    line-height: @fact-ht;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  &-DEL &-value {
+    text-decoration: line-through;
   }
 
   &-noValue {
     font-weight: 300;
     font-style: italic;
   }
-
-  &-factDEL {
-    text-decoration: line-through;
-    color: @muted;
-    // background-color: @del-bg;
-  }
-  &-factADD {
-    font-weight: 500;
-    // background-color: @add-bg;
-  }
-  &-factCHG {
-    font-weight: 500;
-    // background-color: @chg-bg;
-  }
-
 }
