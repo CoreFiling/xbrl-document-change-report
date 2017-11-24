@@ -91,6 +91,7 @@ export const exampleTableMetadata: TableMetadata = {
   x: exampleTableHeader,
   y: exampleTableHeader,
   z: exampleTableHeader,
+  empty: false,
 };
 
 // So far just used in equality checks.
