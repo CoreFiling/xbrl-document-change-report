@@ -33,9 +33,9 @@
     core-js "^2.4.0"
     isomorphic-fetch "^2.2.1"
 
-"@cfl/table-rendering-service@^1.4.3":
-  version "1.4.3"
-  resolved "https://registry.npmjs.org/@cfl/table-rendering-service/-/table-rendering-service-1.4.3.tgz#453a35dfee0b27b9ee9e0975c73c9d8ab3ae61a2"
+"@cfl/table-rendering-service@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.npmjs.org/@cfl/table-rendering-service/-/table-rendering-service-1.5.0.tgz#e7346fb7fe84d5bdffc6bd34f57ad46a472132ea"
   dependencies:
     core-js "^2.4.0"
     isomorphic-fetch "^2.2.1"
