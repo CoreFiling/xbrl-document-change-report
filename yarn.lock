@@ -26,9 +26,9 @@
     request-promise "^4.2.2"
     simple-oauth2 "^1.4.0"
 
-"@cfl/table-diff-service@^0.1.0-dev.38026":
-  version "0.1.0-dev.38026"
-  resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/@cfl/table-diff-service/-/@cfl/table-diff-service-0.1.0-dev.38026.tgz#c2c95b9d18f31e3f6be9461e7c476966d2ce7dc4"
+"@cfl/table-diff-service@0.1.0-dev.38634":
+  version "0.1.0-dev.38634"
+  resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/@cfl/table-diff-service/-/@cfl/table-diff-service-0.1.0-dev.38634.tgz#5552e4927724b495fee2c1c7d6b831df4c6f0cae"
   dependencies:
     core-js "^2.4.0"
     isomorphic-fetch "^2.2.1"

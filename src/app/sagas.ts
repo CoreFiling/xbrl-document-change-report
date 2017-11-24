@@ -16,7 +16,7 @@
 
 import { delay, Effect } from 'redux-saga';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
-import { Profile, ComparisonSummary } from '@cfl/table-diff-service';
+import { Profile, ComparisonSummary, DiffTableMetadata } from '@cfl/table-diff-service';
 
 import {
   PROCESSING_START,
@@ -39,6 +39,7 @@ import { apiFetchJson } from './api-fetch';
 import { App, User } from './models';
 import DiffifiedQueryableTablePage, { TABLE_WINDOW_HEIGHT } from './models/queryable-table-page-impl';
 import { APPS, TABLE_DIFF_SERVICE_COMPARISONS, USER } from './urls';
+import { TableMetadata } from '@cfl/table-rendering-service';
 
 const POLL_MILLIS = 1000;
 
@@ -101,8 +102,15 @@ export function* processingStartSaga(action: ProcessingAction): IterableIterator
     }
 
     // Fetch table info. (The comparison ID is also a filing version ID so far as the tables API is converned.)
-    const tables = yield call([filingsVersionsApi, filingsVersionsApi.getTables], {filingVersionId: comparisonId});
-    yield put(tablesReceivedAction(tables));
+    const [tables, diffTables]: [TableMetadata[], DiffTableMetadata[]] = yield all([
+      call([filingsVersionsApi, filingsVersionsApi.getTables], {filingVersionId: comparisonId}),
+      call([diffInfosApi, diffInfosApi.getTables], {comparisonId}),
+    ]);
+    // Drop tables that lack changes.
+    yield put(tablesReceivedAction(tables.filter(t => {
+      const diff = diffTables.find(x => x.id === t.id);
+      return !diff || diff.diffStatus !== 'NOP';
+    })));
 
     // Select the first table if any are available.
     if (tables.length > 0) {
