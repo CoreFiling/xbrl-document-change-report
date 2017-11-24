@@ -48,7 +48,7 @@ build:version:
     paths:
       - build.version
   before_script:
-    - npm install -g @janslow/ci-build-version@1.1.0
+    - npm install -g @janslow/ci-build-version@0.1.1
   script:
     - ci-build-version -f package.json > build.version
     - echo `cat build.version`
