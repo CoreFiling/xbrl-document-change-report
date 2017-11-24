@@ -26,9 +26,9 @@
     request-promise "^4.2.2"
     simple-oauth2 "^1.4.0"
 
-"@cfl/table-diff-service@0.1.0-dev.38634":
-  version "0.1.0-dev.38634"
-  resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/@cfl/table-diff-service/-/@cfl/table-diff-service-0.1.0-dev.38634.tgz#5552e4927724b495fee2c1c7d6b831df4c6f0cae"
+"@cfl/table-diff-service@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@cfl/table-diff-service/-/table-diff-service-1.0.0.tgz#3ae0d77e982b4041402b38ba42383b029dd5fba0"
   dependencies:
     core-js "^2.4.0"
     isomorphic-fetch "^2.2.1"
@@ -40,9 +40,9 @@
     core-js "^2.4.0"
     isomorphic-fetch "^2.2.1"
 
-"@cfl/table-viewer@0.2.1-dev.38506":
-  version "0.2.1-dev.38506"
-  resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/@cfl/table-viewer/-/@cfl/table-viewer-0.2.1-dev.38506.tgz#53ee11d15437326f2e8976f1df4cecd0720d2ace"
+"@cfl/table-viewer@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.npmjs.org/@cfl/table-viewer/-/table-viewer-0.3.0.tgz#a275ca86761e0e72e09304334998ea7b6b4bf3d7"
   dependencies:
     color "^2.0.1"
     react-virtualized "~9.9.0"
@@ -2108,7 +2108,7 @@ color-string@^0.3.0:
 
 color-string@^1.5.2:
   version "1.5.2"
-  resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/color-string/-/color-string-1.5.2.tgz#26e45814bc3c9a7cbd6751648a41434514a773a9"
+  resolved "https://registry.npmjs.org/color-string/-/color-string-1.5.2.tgz#26e45814bc3c9a7cbd6751648a41434514a773a9"
   dependencies:
     color-name "^1.0.0"
     simple-swizzle "^0.2.2"
@@ -2123,7 +2123,7 @@ color@^0.11.0:
 
 color@^2.0.1:
   version "2.0.1"
-  resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/color/-/color-2.0.1.tgz#e4ed78a3c4603d0891eba5430b04b86314f4c839"
+  resolved "https://registry.npmjs.org/color/-/color-2.0.1.tgz#e4ed78a3c4603d0891eba5430b04b86314f4c839"
   dependencies:
     color-convert "^1.9.1"
     color-string "^1.5.2"
@@ -3934,7 +3934,7 @@ is-arrayish@^0.2.1:
 
 is-arrayish@^0.3.1:
   version "0.3.1"
-  resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/is-arrayish/-/is-arrayish-0.3.1.tgz#c2dfc386abaa0c3e33c48db3fe87059e69065efd"
+  resolved "https://registry.npmjs.org/is-arrayish/-/is-arrayish-0.3.1.tgz#c2dfc386abaa0c3e33c48db3fe87059e69065efd"
 
 is-binary-path@^1.0.0:
   version "1.0.1"
@@ -6597,7 +6597,7 @@ simple-oauth2@^1.4.0:
 
 simple-swizzle@^0.2.2:
   version "0.2.2"
-  resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/simple-swizzle/-/simple-swizzle-0.2.2.tgz#a4da6b635ffcccca33f70d17cb92592de95e557a"
+  resolved "https://registry.npmjs.org/simple-swizzle/-/simple-swizzle-0.2.2.tgz#a4da6b635ffcccca33f70d17cb92592de95e557a"
   dependencies:
     is-arrayish "^0.3.1"
 
