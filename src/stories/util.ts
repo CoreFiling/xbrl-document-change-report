@@ -19,7 +19,7 @@
   */
 
 import { Profile, DiffCell, FactMappingSourceEnum, DiffFact, DiffTableChunk } from '@cfl/table-diff-service';
-import { TableChunk, Fact, TableMetadata, Option } from '@cfl/table-rendering-service';
+import { TableChunk, Fact, TableMetadata, Option, Cell } from '@cfl/table-rendering-service';
 
 import { App } from '../app/models';
 import DiffifiedQueryableTablePage from '../app/models/queryable-table-page-impl';
@@ -77,24 +77,25 @@ export function mungeTableChunk(chunk: TableChunk): TableChunk {
   }
   return {
     ...chunk,
-    data: data.map((col, x) => col.map((cell, y) => {
-      const diffStatus = getDiffStatus(x, y, z);
-      let facts: Fact[];
-      const issues: number[] = cell ? cell.issues : [];
-      if (diffStatus === 'NOP') {
-        return cell;
-      } else if (!cell || cell.facts.length === 0) {
-        facts = [{stringValue: '€42.00', id: getId()}];
-      } else {
-        facts = cell.facts;
-      }
-      if (diffStatus === 'CHG') {
-        const newFacts = [...facts, ...facts.map(() => ({stringValue: '€69.00', id: getId()}))];
-        return { issues, facts: newFacts };
-      }
-      return { issues, facts };
-    })),
+    data: data.map((col, x) => col.map((cell, y) => mungeCell(cell, getDiffStatus(x, y, z), getId))),
   };
+}
+
+export function mungeCell(cell: Cell, diffStatus: DiffStatus, getId: () => number): Cell {
+  let facts: Fact[];
+  const issues: number[] = cell ? cell.issues : [];
+  if (diffStatus === 'NOP') {
+    return cell;
+  } else if (!cell || cell.facts.length === 0) {
+    facts = [{stringValue: 'VALUE', id: getId()}];
+  } else {
+    facts = cell.facts;
+  }
+  if (diffStatus === 'CHG') {
+    const newFacts = [...facts, ...facts.map(() => ({stringValue: 'NEW VALUE', id: getId()}))];
+    return { issues, facts: newFacts };
+  }
+  return { issues, facts };
 }
 
 export function makeDiffChunk(chunk: TableChunk): DiffTableChunk {
@@ -113,8 +114,8 @@ export function makeDiffChunk(chunk: TableChunk): DiffTableChunk {
           if (cell) {
             facts = cell.facts.map(f => ({
               diffStatus,
-              from: {id: getId(), sourceId: f.id, source: 'FROM' as FactMappingSourceEnum},
-              to: {id: getId(), sourceId: f.id, source: 'TO' as FactMappingSourceEnum},
+              from: {sourceId: getId(), id: f.id, source: 'FROM' as FactMappingSourceEnum},
+              to: {sourceId: getId(), id: f.id, source: 'TO' as FactMappingSourceEnum},
             }));
           } else {
             facts = [];
@@ -123,13 +124,13 @@ export function makeDiffChunk(chunk: TableChunk): DiffTableChunk {
         case 'ADD':
           facts = cell.facts.map(f => ({
             diffStatus,
-            to: {id: getId(), sourceId: f.id, source: 'TO' as FactMappingSourceEnum},
+            to: {sourceId: getId(), id: f.id, source: 'TO' as FactMappingSourceEnum},
           }));
           break;
         case 'DEL':
           facts = cell.facts.map(f => ({
             diffStatus,
-            from: {id: getId(), sourceId: f.id, source: 'FROM' as FactMappingSourceEnum},
+            from: {sourceId: getId(), id: f.id, source: 'FROM' as FactMappingSourceEnum},
           }));
           break;
         case 'CHG':
@@ -140,8 +141,8 @@ export function makeDiffChunk(chunk: TableChunk): DiffTableChunk {
               const f2 = fs[diffFactCount + j];
               return {
                 diffStatus,
-                from: {id: getId(), sourceId: f1.id, source: 'FROM' as FactMappingSourceEnum},
-                to: {id: getId(), sourceId: f2.id, source: 'TO' as FactMappingSourceEnum},
+                from: {sourceId: getId(), id: f1.id, source: 'FROM' as FactMappingSourceEnum},
+                to: {sourceId: getId(), id: f2.id, source: 'TO' as FactMappingSourceEnum},
               };
             });
           }

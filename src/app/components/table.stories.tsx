@@ -22,6 +22,12 @@ import Table from './table';
 import { exampleTableWithDiffStuff } from '../../stories/util';
 
 storiesOf('Table', module)
+  .addDecorator(story => <div style={{
+    margin: 'auto',
+    padding: '40px 0',
+    color: 'rgba(0, 0, 0, 0.85)',
+    background: 'repeating-linear-gradient(-45deg, #F7F7F7 0, #F7F7F7 10px, #FFF 10px, #FFF 20px)',
+  }}>{story()}</div>)
   .add('Faked up table with diffs', () => {
     const { metadata, zOptions, table } = exampleTableWithDiffStuff();
     return (
