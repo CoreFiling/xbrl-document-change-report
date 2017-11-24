@@ -21,9 +21,26 @@ import { Cell } from '@cfl/table-rendering-service';
 
 import DiffifiedQueryableTablePage from '../models/queryable-table-page-impl';
 
-import './table.less';
-
 import './diff-cell-content.less';
+
+const chgSymbols = {
+  NOP: {
+    ch: ' ',
+    label: 'No change',
+  },
+  DEL: {
+    ch: '\u2796',
+    label: 'Deleted',
+  },
+  ADD: {
+    ch: '\u2795',
+    label: 'Added',
+  },
+  CHG: {
+    ch: '\u25B3',
+    label: 'Changed',
+  },
+};
 
 interface DiffCellContentProps {
   cell?: Cell;
@@ -52,12 +69,15 @@ export default function DiffCellContent({cell, diffCell}: DiffCellContentProps):
           summarification = 'Changed' + (fromFact ? ` ${fromFact.stringValue}` : '') + (toFact ? ` to ${toFact.stringValue}` : '');
       }
       return <li key={i}
-        className={classNames('app-DiffCellContent-fact', `app-DiffCellContent-fact${f.diffStatus}`)}
+        className='app-DiffCellContent-fact'
         title={summarification}
       >
         {(fromFact || toFact)
         ? <span className='app-DiffCellContent-value'>{toFact ? toFact.stringValue : fromFact!.stringValue}</span>
         : <span className='app-DiffCellContent-noValue'>Recorded</span>}
+        <span className={classNames('app-DiffCellContent-status', `app-DiffCellContent-status${f.diffStatus}`)}>
+          {chgSymbols[f.diffStatus].ch}
+        </span>
       </li>;
     })}
   </ul>;

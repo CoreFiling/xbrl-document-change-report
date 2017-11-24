@@ -60,31 +60,6 @@
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-end;
-
-    &:after {
-      display: inline-block;
-      width: 16px;
-      font-weight: 700;
-      line-height: 1;
-      color: #FFF;
-    }
-  }
-
-  &-factNOP:after {
-    content: " ";
-  }
-
-  &-factADD:after {
-    content: "\2795";
-  }
-
-  &-factDEL:after {
-    text-decoration: none;
-    content: "\2796";
-  }
-
-  &-factCHG:after {
-    content: "\25B3"; // Triangle standing in for Greek cap. Delta.
   }
 
   &-fact + &-fact {
@@ -109,5 +84,14 @@
   &-noValue {
     font-weight: 300;
     font-style: italic;
+  }
+
+  &-status {
+    display: inline-block;
+    width: 16px;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    color: #FFF;
   }
 }
