@@ -46,7 +46,7 @@ export default class Results extends React.Component<ResultsProps> {
       <section className='app-Results-resultView'>
         <header className='app-Results-resultHeading'>
           {error && <div className='app-Results-error'>{error}</div>}
-          {!error && tables && tables.length > 1 && onChangeTable &&
+          {!error && tables && onChangeTable &&
             <TableSelector className='app-Results-tableSelector' tables={tables} selectedTable={metadata} onChangeTable={onChangeTable}/>
           }
           <Button primary className='app-Results-resultReset' onClick={onResultsDismiss}>Upload</Button>
