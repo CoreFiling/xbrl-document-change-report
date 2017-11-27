@@ -21,7 +21,7 @@ import { Action } from 'redux';
 import { Profile } from '@cfl/table-diff-service';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
 
-import { App, TableRenderingWindow, User, JobParams } from './models';
+import { App, TableRenderingWindow, User, Issue, JobParams } from './models';
 import DiffifiedQueryableTablePage from './models/queryable-table-page-impl';
 
 // Actions for acquiring the list of profiles needed by the form.
@@ -51,9 +51,10 @@ export function startupInfoFailedAction(message: string): FailedAction {
 
 export const PROCESSING_START = 'PROCESSING_START';  // Sent by UI to request checking.
 export const UPLOAD_STARTED = 'UPLOAD_STARTED';  // from saga when upload begins
-export const UPLOAD_FAILED = 'UPLOAD_FAILED';  // From saga if uplaod fails.
+export const UPLOAD_FAILED = 'UPLOAD_FAILED';  // From saga if upload fails.
 export const PROCESSING_STARTED = 'PROCESSING_STARTED';  // From saga when file is uploaded and processing begins
-export const FAILED = 'FAILED';
+export const PROCESSING_FAILED = 'PROCESSING_FAILED';
+export const ISSUES = 'ISSUES'; // Processing has occurred, there may be issues.
 
 // We could have PROCESSING_COMPLETE
 // but wse take TABLES_RECEIVED as indicating processing is complete.
@@ -78,8 +79,17 @@ export function processingStartedAction(): Action {
   return {type: PROCESSING_STARTED};
 }
 
-export function failedAction(message: string): FailedAction {
-  return {type: FAILED, message};
+export function processingFailedAction(message: string): FailedAction {
+  return {type: PROCESSING_FAILED, message};
+}
+
+export interface IssuesAction extends Action {
+  comparisonId: string;
+  issues: Issue[];
+}
+
+export function issuesAction(comparisonId: string, issues: Issue[]): IssuesAction {
+  return {type: ISSUES, comparisonId, issues};
 }
 
 // Action sent when user tires of the results.
@@ -113,6 +123,14 @@ export interface TableRenderingRequestedAction extends Action {
 
 export function tableRenderingRequested(table: TableMetadata, window: TableRenderingWindow): TableRenderingRequestedAction {
   return {type: TABLE_RENDERING_REQUESTED, table, window};
+}
+
+// Action when a table fails to render.
+
+export const TABLE_RENDERING_FAILED = 'TABLE_RENDERING_FAILED';
+
+export function tableRenderingFailedAction(message: string): FailedAction {
+  return {type: TABLE_RENDERING_FAILED, message};
 }
 
 // Action sent when table's rendering is received.

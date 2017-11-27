@@ -26,10 +26,10 @@ import TableSelector from './table-selector';
 import './results.less';
 
 export interface ResultsProps {
-  error?: string;
-  tables?: TableMetadata[];
+  tables: TableMetadata[];
   metadata?: TableMetadata;
   zOptions?: Option[][];
+  renderError?: string;
   table?: DiffifiedQueryableTablePage;
   onChangePage?: (x: number, y: number, z: number) => void;
   onChangeTable?: (table: TableMetadata) => void;
@@ -39,18 +39,18 @@ export interface ResultsProps {
 export default class Results extends React.Component<ResultsProps> {
   render(): JSX.Element {
     const {
-      error, tables, metadata, zOptions, table,
+      renderError, tables, metadata, zOptions, table,
       onChangePage, onChangeTable, onResultsDismiss,
     } = this.props;
     return (
       <section className='app-Results-resultView'>
         <header className='app-Results-resultHeading'>
-          {error && <div className='app-Results-error'>{error}</div>}
-          {!error && tables && onChangeTable &&
+          {onChangeTable &&
             <TableSelector className='app-Results-tableSelector' tables={tables} selectedTable={metadata} onChangeTable={onChangeTable}/>
           }
           <Button primary className='app-Results-resultReset' onClick={onResultsDismiss}>Upload</Button>
         </header>
+        {renderError && <div className='app-Results-error'>{renderError}</div>}
         <Table metadata={metadata} zOptions={zOptions} table={table}
                   onChangePage={onChangePage} onChangeTable={onChangeTable}/>
       </section>

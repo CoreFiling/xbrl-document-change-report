@@ -18,14 +18,19 @@ import { delay, Effect } from 'redux-saga';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { Profile, ComparisonSummary, DiffTableMetadata } from '@cfl/table-diff-service';
 
+import { ValidationIssue } from '@cfl/validation-service';
+import { TableMetadata } from '@cfl/table-rendering-service';
+
 import {
-  PROCESSING_START,
-  ProcessingAction,
-  failedAction,
-  processingStartedAction,
   startupInfoFailedAction,
   startupInfoReceivedAction,
+  PROCESSING_START,
+  ProcessingAction,
+  processingStartedAction,
+  processingFailedAction,
+  issuesAction,
   TABLE_RENDER_PAGE,
+  tableRenderingFailedAction,
   tableRenderingReceivedAction,
   tableRenderingRequested,
   TableRenderPageAction,
@@ -34,12 +39,18 @@ import {
   uploadFailedAction,
   uploadStartedAction,
 } from './actions';
-import { profilesApi, uploadApi, filingsVersionsApi, tablesApi, diffInfosApi } from './apis';
+import {
+  profilesApi,
+  uploadApi,
+  tablesApi,
+  validationServiceIssuesApi,
+  tableRenderingServiceFilingsVersionsApi,
+  tableRenderingServiceTablesApi,
+} from './apis';
 import { apiFetchJson } from './api-fetch';
 import { App, User } from './models';
 import DiffifiedQueryableTablePage, { TABLE_WINDOW_HEIGHT } from './models/queryable-table-page-impl';
 import { APPS, TABLE_DIFF_SERVICE_COMPARISONS, USER } from './urls';
-import { TableMetadata } from '@cfl/table-rendering-service';
 
 const POLL_MILLIS = 1000;
 
@@ -101,24 +112,34 @@ export function* processingStartSaga(action: ProcessingAction): IterableIterator
       comparisonSummary = yield call([uploadApi, uploadApi.getComparison], {comparisonId});
     }
 
-    // Fetch table info. (The comparison ID is also a filing version ID so far as the tables API is converned.)
-    const [tables, diffTables]: [TableMetadata[], DiffTableMetadata[]] = yield all([
-      call([filingsVersionsApi, filingsVersionsApi.getTables], {filingVersionId: comparisonId}),
-      call([diffInfosApi, diffInfosApi.getTables], {comparisonId}),
-    ]);
-    // Drop tables that lack changes.
-    const filteredTables = tables.filter(t => {
-      const diff = diffTables.find(x => x.id === t.id);
-      return !diff || diff.diffStatus !== 'NOP';
-    });
-    yield put(tablesReceivedAction(filteredTables));
+    const issues: ValidationIssue[] = yield call(
+      [validationServiceIssuesApi, validationServiceIssuesApi.getIssues],
+      {filingVersionId: comparisonId},
+    );
 
-    // Select the first table if any are available.
-    if (filteredTables.length > 0) {
-      yield put(tableRenderPageAction(filteredTables[0], 0, 0, 0));
+    const issuesOfState = issues.filter(i => i.validationMessage).map(i => ({ severity: i.validationMessage!.severity }));
+    yield(put(issuesAction(comparisonId, issuesOfState)));
+
+    if (issuesOfState.every(x => x.severity !== 'FATAL_ERROR')) {
+      // Fetch table info. (The comparison ID is also a filing version ID so far as the tables API is converned.)
+      const [ tables, diffTables]: [TableMetadata[], DiffTableMetadata[]] = yield all([
+        call([tableRenderingServiceFilingsVersionsApi, tableRenderingServiceFilingsVersionsApi.getTables], {filingVersionId: comparisonId}),
+        call([tablesApi, tablesApi.getTables], {comparisonId}),
+      ]);
+      // Drop tables that lack changes.
+      const filteredTables = tables.filter(t => {
+        const diff = diffTables.find(x => x.id === t.id);
+        return !diff || diff.diffStatus !== 'NOP';
+      });
+      yield put(tablesReceivedAction(filteredTables));
+
+      // Select the first table if any are available.
+      if (filteredTables.length > 0) {
+        yield put(tableRenderPageAction(filteredTables[0], 0, 0, 0));
+      }
     }
   } catch (res) {
-    yield put(failedAction(res.message || res.statusText || `Status: ${res.status}`));
+    yield put(processingFailedAction(res.message || res.statusText || `Status: ${res.status}`));
   }
 }
 
@@ -130,13 +151,13 @@ export function* tableRenderingSaga(action: TableRenderPageAction): IterableIter
     yield put(tableRenderingRequested(table, window));
 
     const [ zOptions, tableRendering, diffRendering ] = yield all([
-      call([tablesApi, tablesApi.getTableZOptions], {tableId: table.id, z: 0}),
+      call([tableRenderingServiceTablesApi, tableRenderingServiceTablesApi.getTableZOptions], {tableId: table.id, z: 0}),
+      call([tableRenderingServiceTablesApi, tableRenderingServiceTablesApi.renderTable], {tableId: table.id, ...window}),
       call([tablesApi, tablesApi.renderTable], {tableId: table.id, ...window}),
-      call([diffInfosApi, diffInfosApi.renderTable], {tableId: table.id, ...window}),
     ]);
     yield put(tableRenderingReceivedAction(zOptions, new DiffifiedQueryableTablePage(table, tableRendering, diffRendering)));
   } catch (res) {
-    yield put(failedAction(res.message || res.statusText || `Status: ${res.status}`));
+    yield put(tableRenderingFailedAction(res.message || res.statusText || `Status: ${res.status}`));
   }
 }
 

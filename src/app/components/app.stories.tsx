@@ -49,6 +49,24 @@ storiesOf('App', module)
       />
     );
   })
+  .add('Non-fatal processing issues', () => {
+    return (
+      <App
+        profiles={profiles('Profile')}
+        phase={'issues'}
+        issues={[{severity: 'ERROR'}]}
+      />
+    );
+  })
+  .add('Fatal processing issues', () => {
+    return (
+      <App
+        profiles={profiles('Profile')}
+        phase={'issues'}
+        issues={[{severity: 'FATAL_ERROR'}]}
+      />
+    );
+  })
   .add('Result', () => {
     const { table, metadata, zOptions } = exampleTableWithDiffStuff();
     return (
@@ -68,7 +86,8 @@ storiesOf('App', module)
     return (
       <App
         profiles={profiles('Profile')}
-        phase={'failed'}
+        phase={'processing-failed'}
+        error='Upload failed.'
       />
     );
   })

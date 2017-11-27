@@ -19,7 +19,7 @@ import * as React from 'react';
 import { Profile } from '@cfl/table-diff-service';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
 
-import { JobParams } from '../models';
+import { JobParams, Issue } from '../models';
 import DiffifiedQueryableTablePage from '../models/queryable-table-page-impl';
 import { Phase } from '../state';
 import ContactDetails from './contact-details';
@@ -34,6 +34,7 @@ export interface AppProps {
   error?: string;
   onSubmit?: (params: JobParams) => void;
   onResultsDismiss?: () => void;
+  issues?: Issue[];
   tables?: TableMetadata[];
   metadata?: TableMetadata;
   zOptions?: Option[][];
@@ -43,7 +44,7 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps): JSX.Element {
-  const { phase, profiles, error, tables, metadata, zOptions, table,
+  const { phase, profiles, error, tables, issues, metadata, zOptions, table,
     onSubmit, onResultsDismiss, onChangePage, onChangeTable } = props;
 
   let innards: JSX.Element | undefined = undefined;
@@ -59,18 +60,25 @@ export default function App(props: AppProps): JSX.Element {
       break;
     case 'uploading':
     case 'processing':
+    case 'issues':
       innards = <div className='app-App-loadingOverlay'>
-        <div className='app-App-loading'>Processing&thinsp;…</div>
+        {issues && issues.some(i => i.severity === 'FATAL_ERROR')
+          ? <div>Your uploads were invalid.</div>
+          : <div className='app-App-loading'>Processing&thinsp;…</div>}
       </div>;
       break;
-    case 'failed':
+    case 'processing-failed':
+      innards = <div className='app-App-resultHolder'>
+        <div className='app-App-loading'>{error}</div>
+      </div>;
+      break;
     case 'results':
       innards = <div className='app-App-resultHolder'>
         <Results
-          error={error}
-          tables={tables}
+          tables={tables!}
           metadata={metadata}
           zOptions={zOptions}
+          renderError={error}
           table={table}
           onChangePage={onChangePage}
           onChangeTable={onChangeTable}

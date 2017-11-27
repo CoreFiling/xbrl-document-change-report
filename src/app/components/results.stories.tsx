@@ -52,24 +52,15 @@ storiesOf('Results', module)
   })
   .add('No tables', () => {
     return (
-      <Results/>
+      <Results tables={[]}/>
     );
   })
-  .add('Error (no tables)', () => {
-    return (
-      <Results error={'Something went wrong'}/>
-    );
-  })
-  .add('Error (with tables)', () => {
-    const { table, metadata, zOptions } = exampleTableWithDiffStuff();
+  .add('Rendering error', () => {
+    const { metadata } = exampleTableWithDiffStuff();
     return (
       <Results
-        error='Something went wrong'
         tables={[metadata, {name: 'another table with a super long name', id: 'uuid-of-another-table'} as TableMetadata]}
-        metadata={metadata}
-        zOptions={zOptions}
-        table={table}
-        onChangePage={action('onChangePage') as any}
+        renderError={'Network error.'}
         onChangeTable={action('onChangeTable') as any}
       />
     );
