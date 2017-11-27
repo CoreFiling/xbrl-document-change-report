@@ -107,14 +107,15 @@ export function* processingStartSaga(action: ProcessingAction): IterableIterator
       call([diffInfosApi, diffInfosApi.getTables], {comparisonId}),
     ]);
     // Drop tables that lack changes.
-    yield put(tablesReceivedAction(tables.filter(t => {
+    const filteredTables = tables.filter(t => {
       const diff = diffTables.find(x => x.id === t.id);
       return !diff || diff.diffStatus !== 'NOP';
-    })));
+    });
+    yield put(tablesReceivedAction(filteredTables));
 
     // Select the first table if any are available.
-    if (tables.length > 0) {
-      yield put(tableRenderPageAction(tables[0], 0, 0, 0));
+    if (filteredTables.length > 0) {
+      yield put(tableRenderPageAction(filteredTables[0], 0, 0, 0));
     }
   } catch (res) {
     yield put(failedAction(res.message || res.statusText || `Status: ${res.status}`));
