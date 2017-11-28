@@ -16,22 +16,17 @@
 
 import * as React from 'react';
 
-import { Option, TableMetadata } from '@cfl/table-rendering-service';
+import { TableMetadata } from '@cfl/table-rendering-service';
 
-import DiffifiedQueryableTablePage from '../models/queryable-table-page-impl';
-import Table from './table';
 import Button from './button';
 import TableSelector from './table-selector';
 
 import './results.less';
 
 export interface ResultsProps {
-  tables: TableMetadata[];
+  tables?: TableMetadata[];
+  content: JSX.Element;
   metadata?: TableMetadata;
-  zOptions?: Option[][];
-  renderError?: string;
-  table?: DiffifiedQueryableTablePage;
-  onChangePage?: (x: number, y: number, z: number) => void;
   onChangeTable?: (table: TableMetadata) => void;
   onResultsDismiss?: () => void;
 }
@@ -39,23 +34,16 @@ export interface ResultsProps {
 export default class Results extends React.Component<ResultsProps> {
   render(): JSX.Element {
     const {
-      renderError, tables, metadata, zOptions, table,
-      onChangePage, onChangeTable, onResultsDismiss,
+      tables, content, metadata, onChangeTable, onResultsDismiss,
     } = this.props;
     return (
       <section className='app-Results-resultView'>
         <header className='app-Results-resultHeading'>
-          {tables.length > 0 &&
-            <TableSelector className='app-Results-tableSelector' tables={tables} selectedTable={metadata} onChangeTable={onChangeTable}/>
-          }
-          {tables.length === 0 &&
-            <div>No changes.</div>
-          }
+          <TableSelector
+            className='app-Results-tableSelector' tables={tables || []} selectedTable={metadata} onChangeTable={onChangeTable}/>
           <Button primary className='app-Results-resultReset' onClick={onResultsDismiss}>Upload</Button>
         </header>
-        {renderError && <div className='app-Results-error'>{renderError}</div>}
-        <Table metadata={metadata} zOptions={zOptions} table={table}
-                  onChangePage={onChangePage} onChangeTable={onChangeTable}/>
+        {content}
       </section>
     );
   }

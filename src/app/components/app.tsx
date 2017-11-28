@@ -24,6 +24,7 @@ import DiffifiedQueryableTablePage from '../models/queryable-table-page-impl';
 import { Phase } from '../state';
 import ContactDetails from './contact-details';
 import Results from './results';
+import Table from './table';
 import ChangeForm from './change-form';
 
 import './app.less';
@@ -44,8 +45,7 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps): JSX.Element {
-  const { phase, profiles, error, tables, issues, metadata, zOptions, table,
-    onSubmit, onResultsDismiss, onChangePage, onChangeTable } = props;
+  const { phase, profiles, error, issues, metadata, zOptions, tables, table, onSubmit, onChangePage, onChangeTable } = props;
 
   let innards: JSX.Element | undefined = undefined;
   switch (phase) {
@@ -65,25 +65,21 @@ export default function App(props: AppProps): JSX.Element {
     case 'issues':
       innards = issues!.every(i => i.severity !== 'FATAL_ERROR')
         ? processingInnards()
-        : resultInnards([<div>Your uploads were invalid.</div>]);
+        : resultInnards(props, <div>Your uploads were invalid.</div>);
       break;
     case 'processing-failed':
-      innards = resultInnards([<div>{error}</div>]);
+      innards = resultInnards(props, <div>{error}</div>);
       break;
     case 'results':
-      innards = resultInnards([
-        <Results
-          tables={tables!}
-          metadata={metadata}
-          zOptions={zOptions}
-          renderError={error}
-          table={table}
-          onChangePage={onChangePage}
-          onChangeTable={onChangeTable}
-          onResultsDismiss={onResultsDismiss}
-        />,
-        <ContactDetails className='app-App-resultContact'/>,
-      ]);
+      const resultsContent = error
+        ? <div>{error}</div>
+        : tables!.length === 0
+        ? <div>No changes.</div>
+        : <Table metadata={metadata} zOptions={zOptions} table={table} onChangePage={onChangePage} onChangeTable={onChangeTable}/>;
+      innards = resultInnards(
+        props,
+        resultsContent,
+      );
       break;
     default:
       innards = <b>Forgot the case {phase}!?</b>;
@@ -101,8 +97,10 @@ const processingInnards = () => {
   </div>;
 };
 
-const resultInnards = (innnards: JSX.Element[]) => {
+const resultInnards = (props: AppProps, content: JSX.Element) => {
+  const { tables, onChangeTable, onResultsDismiss } = props;
   return <div className='app-App-resultHolder'>
-    {innnards}
+    <Results tables={tables} onChangeTable={onChangeTable} content={content} onResultsDismiss={onResultsDismiss}/>
+    <ContactDetails className='app-App-resultContact'/>
   </div>;
 };

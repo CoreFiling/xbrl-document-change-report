@@ -91,6 +91,31 @@ storiesOf('App', module)
       />
     );
   })
+  .add('Result no tables', () => {
+    return (
+      <App
+        profiles={profiles('Profile')}
+        phase={'results'}
+        tables={[]}
+        onChangePage={action('onChangePage') as any}
+        onChangeTable={action('onChangeTable') as any}
+      />
+    );
+  })
+  .add('Error showing table', () => {
+    const { metadata } = exampleTableWithDiffStuff();
+    return (
+      <App
+        profiles={profiles('Profile')}
+        phase={'results'}
+        tables={[metadata, {name: 'another table', id: 'uuid-of-another-table'} as TableMetadata]}
+        metadata={metadata}
+        error='Network error.'
+        onChangePage={action('onChangePage') as any}
+        onChangeTable={action('onChangeTable') as any}
+      />
+    );
+  })
   .add('Change page', () => {
     const { metadata, zOptions } = basicTableWithMetadata();
     return (

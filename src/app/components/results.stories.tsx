@@ -19,49 +19,19 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { TableMetadata } from '@cfl/table-rendering-service';
-import { basicTableWithMetadata } from '@cfl/table-viewer/lib/test-utils';
 
 import Results from './results';
 import { exampleTableWithDiffStuff } from '../../stories/util';
 
 storiesOf('Results', module)
   .add('Full', () => {
-    const { table, metadata, zOptions } = exampleTableWithDiffStuff();
+    const { metadata } = exampleTableWithDiffStuff();
     return (
       <Results
         tables={[metadata, {name: 'another table', id: 'uuid-of-another-table'} as TableMetadata]}
         metadata={metadata}
-        zOptions={zOptions}
-        table={table}
-        onChangePage={action('onChangePage') as any}
-        onChangeTable={action('onChangeTable') as any}
-      />
-    );
-  })
-  .add('Loading table', () => {
-    const { metadata, zOptions } = basicTableWithMetadata();
-    return (
-      <Results
-        tables={[metadata, {name: 'another table'} as TableMetadata]}
-        metadata={metadata}
-        zOptions={zOptions}
-        onChangePage={action('onChangePage') as any}
-        onChangeTable={action('onChangeTable') as any}
-      />
-    );
-  })
-  .add('No tables', () => {
-    return (
-      <Results tables={[]}/>
-    );
-  })
-  .add('Rendering error', () => {
-    const { metadata } = exampleTableWithDiffStuff();
-    return (
-      <Results
-        tables={[metadata, {name: 'another table with a super long name', id: 'uuid-of-another-table'} as TableMetadata]}
-        renderError={'Network error.'}
-        onChangeTable={action('onChangeTable') as any}
+        content={<div>Content...</div>}
+        onChangeTable={action('onChangeTable')}
       />
     );
   });
