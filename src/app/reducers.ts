@@ -96,9 +96,6 @@ export function filingReducer(state: FilingState | undefined, action: Action): F
       const { table } = action as TableRenderingRequestedAction;
       return { ...state, selectedTable: table, zOptions: [], tableRendering: undefined };
     }
-    case TABLE_RENDERING_FAILED: {
-      return { ...state };
-    }
     case TABLE_RENDERING_RECEIVED: {
       const { zOptions, tableRendering } = action as TableRenderingReceivedAction;
       return { ...state, zOptions, tableRendering };
