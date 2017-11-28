@@ -45,7 +45,9 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps): JSX.Element {
-  const { phase, profiles, error, issues, metadata, zOptions, tables, table, onSubmit, onChangePage, onChangeTable } = props;
+  const {
+    phase, profiles, error, issues, metadata, zOptions, tables, table, onSubmit, onChangePage, onChangeTable, onResultsDismiss,
+  } = props;
 
   let innards: JSX.Element | undefined = undefined;
   switch (phase) {
@@ -65,10 +67,16 @@ export default function App(props: AppProps): JSX.Element {
     case 'issues':
       innards = issues!.every(i => i.severity !== 'FATAL_ERROR')
         ? <Processing />
-        : <ResultHolder tables={tables} content={<div className='app-App-message app-App-error'>Your uploads were invalid.</div>} />;
+        : <ResultHolder
+            onResultsDismiss={onResultsDismiss}
+            content={<div className='app-App-message app-App-error'>Your uploads were invalid.</div>}
+          />;
       break;
     case 'processing-failed':
-      innards = <ResultHolder tables={tables} content={<div className='app-App-message app-App-error'>{error}</div>} />;
+      innards = <ResultHolder
+        onResultsDismiss={onResultsDismiss}
+        content={<div className='app-App-message app-App-error'>{error}</div>}
+      />;
       break;
     case 'results':
       const resultsContent = error
@@ -76,7 +84,13 @@ export default function App(props: AppProps): JSX.Element {
         : tables!.length === 0
         ? <div className='app-App-message app-App-info'>No changes.</div>
         : <Table metadata={metadata} zOptions={zOptions} table={table} onChangePage={onChangePage} onChangeTable={onChangeTable}/>;
-      innards = <ResultHolder tables={tables} content={resultsContent} />;
+      innards = <ResultHolder
+        tables={tables}
+        table={metadata}
+        content={resultsContent}
+        onChangeTable={onChangeTable}
+        onResultsDismiss={onResultsDismiss}
+      />;
       break;
     default:
       innards = <b>Forgot the case {phase}!?</b>;
@@ -94,14 +108,15 @@ function Processing(): JSX.Element {
   </div>;
 }
 
-function ResultHolder({ tables, onChangeTable, onResultsDismiss, content}: {
+function ResultHolder({ tables, onChangeTable, table, onResultsDismiss, content}: {
   tables?: TableMetadata[],
   onChangeTable?: (table: TableMetadata) => void,
+  table?: TableMetadata,
   onResultsDismiss?: () => void,
   content: JSX.Element,
 }): JSX.Element {
   return <div className='app-App-resultHolder'>
-    <Results tables={tables} onChangeTable={onChangeTable} content={content} onResultsDismiss={onResultsDismiss}/>
+    <Results tables={tables} onChangeTable={onChangeTable} metadata={table} content={content} onResultsDismiss={onResultsDismiss}/>
     <ContactDetails className='app-App-resultContact'/>
   </div>;
 }
