@@ -65,16 +65,16 @@ export default function App(props: AppProps): JSX.Element {
     case 'issues':
       innards = issues!.every(i => i.severity !== 'FATAL_ERROR')
         ? processingInnards()
-        : resultInnards(props, <div>Your uploads were invalid.</div>);
+        : resultInnards(props, <div className='app-App-message'>Your uploads were invalid.</div>);
       break;
     case 'processing-failed':
-      innards = resultInnards(props, <div>{error}</div>);
+      innards = resultInnards(props, <div className='app-App-message'>{error}</div>);
       break;
     case 'results':
       const resultsContent = error
-        ? <div>{error}</div>
+        ? <div className='app-App-message'>{error}</div>
         : tables!.length === 0
-        ? <div>No changes.</div>
+        ? <div className='app-App-message'>No changes.</div>
         : <Table metadata={metadata} zOptions={zOptions} table={table} onChangePage={onChangePage} onChangeTable={onChangeTable}/>;
       innards = resultInnards(
         props,
