@@ -60,15 +60,15 @@ export default function App(props: AppProps): JSX.Element {
       break;
     case 'uploading':
     case 'processing':
-      innards = processingInnards();
+      innards = <Processing />;
       break;
     case 'issues':
       innards = issues!.every(i => i.severity !== 'FATAL_ERROR')
-        ? processingInnards()
-        : resultInnards(props, <div className='app-App-message app-App-error'>Your uploads were invalid.</div>);
+        ? <Processing />
+        : <ResultHolder tables={tables} content={<div className='app-App-message app-App-error'>Your uploads were invalid.</div>} />;
       break;
     case 'processing-failed':
-      innards = resultInnards(props, <div className='app-App-message app-App-error'>{error}</div>);
+      innards = <ResultHolder tables={tables} content={<div className='app-App-message app-App-error'>{error}</div>} />;
       break;
     case 'results':
       const resultsContent = error
@@ -76,10 +76,7 @@ export default function App(props: AppProps): JSX.Element {
         : tables!.length === 0
         ? <div className='app-App-message app-App-info'>No changes.</div>
         : <Table metadata={metadata} zOptions={zOptions} table={table} onChangePage={onChangePage} onChangeTable={onChangeTable}/>;
-      innards = resultInnards(
-        props,
-        resultsContent,
-      );
+      innards = <ResultHolder tables={tables} content={resultsContent} />;
       break;
     default:
       innards = <b>Forgot the case {phase}!?</b>;
@@ -91,16 +88,20 @@ export default function App(props: AppProps): JSX.Element {
   </div>;
 }
 
-const processingInnards = () => {
+function Processing(): JSX.Element {
   return <div className='app-App-loadingOverlay'>
      <div className='app-App-loading'>Processing&thinsp;…</div>
   </div>;
-};
+}
 
-const resultInnards = (props: AppProps, content: JSX.Element) => {
-  const { tables, onChangeTable, onResultsDismiss } = props;
+function ResultHolder({ tables, onChangeTable, onResultsDismiss, content}: {
+  tables?: TableMetadata[],
+  onChangeTable?: (table: TableMetadata) => void,
+  onResultsDismiss?: () => void,
+  content: JSX.Element,
+}): JSX.Element {
   return <div className='app-App-resultHolder'>
     <Results tables={tables} onChangeTable={onChangeTable} content={content} onResultsDismiss={onResultsDismiss}/>
     <ContactDetails className='app-App-resultContact'/>
   </div>;
-};
+}
