@@ -60,20 +60,18 @@ export default function App(props: AppProps): JSX.Element {
       break;
     case 'uploading':
     case 'processing':
+      innards = processingInnards();
+      break;
     case 'issues':
-      innards = <div className='app-App-loadingOverlay'>
-        {issues && issues.some(i => i.severity === 'FATAL_ERROR')
-          ? <div>Your uploads were invalid.</div>
-          : <div className='app-App-loading'>Processing&thinsp;…</div>}
-      </div>;
+      innards = issues!.every(i => i.severity !== 'FATAL_ERROR')
+        ? processingInnards()
+        : resultInnards([<div>Your uploads were invalid.</div>]);
       break;
     case 'processing-failed':
-      innards = <div className='app-App-resultHolder'>
-        <div className='app-App-loading'>{error}</div>
-      </div>;
+      innards = resultInnards([<div>{error}</div>]);
       break;
     case 'results':
-      innards = <div className='app-App-resultHolder'>
+      innards = resultInnards([
         <Results
           tables={tables!}
           metadata={metadata}
@@ -83,9 +81,9 @@ export default function App(props: AppProps): JSX.Element {
           onChangePage={onChangePage}
           onChangeTable={onChangeTable}
           onResultsDismiss={onResultsDismiss}
-        />
-        <ContactDetails className='app-App-resultContact'/>
-      </div>;
+        />,
+        <ContactDetails className='app-App-resultContact'/>,
+      ]);
       break;
     default:
       innards = <b>Forgot the case {phase}!?</b>;
@@ -96,3 +94,15 @@ export default function App(props: AppProps): JSX.Element {
     {innards}
   </div>;
 }
+
+const processingInnards = () => {
+  return <div className='app-App-loadingOverlay'>
+     <div className='app-App-loading'>Processing&thinsp;…</div>
+  </div>;
+};
+
+const resultInnards = (innnards: JSX.Element[]) => {
+  return <div className='app-App-resultHolder'>
+    {innnards}
+  </div>;
+};

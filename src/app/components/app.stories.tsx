@@ -49,6 +49,15 @@ storiesOf('App', module)
       />
     );
   })
+  .add('Upload/other non-XBRL failure during processing', () => {
+    return (
+      <App
+        profiles={profiles('Profile')}
+        phase={'processing-failed'}
+        error='Network error.'
+      />
+    );
+  })
   .add('Non-fatal processing issues', () => {
     return (
       <App
@@ -79,15 +88,6 @@ storiesOf('App', module)
         table={table}
         onChangePage={action('onChangePage') as any}
         onChangeTable={action('onChangeTable') as any}
-      />
-    );
-  })
-  .add('Fail', () => {
-    return (
-      <App
-        profiles={profiles('Profile')}
-        phase={'processing-failed'}
-        error='Upload failed.'
       />
     );
   })
