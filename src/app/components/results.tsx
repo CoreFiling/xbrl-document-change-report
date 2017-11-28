@@ -45,8 +45,11 @@ export default class Results extends React.Component<ResultsProps> {
     return (
       <section className='app-Results-resultView'>
         <header className='app-Results-resultHeading'>
-          {onChangeTable &&
+          {tables.length > 0 &&
             <TableSelector className='app-Results-tableSelector' tables={tables} selectedTable={metadata} onChangeTable={onChangeTable}/>
+          }
+          {tables.length === 0 &&
+            <div>No changes.</div>
           }
           <Button primary className='app-Results-resultReset' onClick={onResultsDismiss}>Upload</Button>
         </header>
