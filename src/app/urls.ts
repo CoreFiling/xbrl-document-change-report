@@ -27,8 +27,9 @@ import { App } from './models';
 export const USER = '/api/user';
 export const APPS = '/api/apps';
 export const AUTH_LOGOUT = '/auth/logout';
-export const TABLE_RENDERING_PREFIX = '/api/table-rendering-service/v1';
 export const TABLE_DIFF_PREFIX = '/api/table-diff-service/v1';
+export const VALIDATION_PREFIX = '/api/validation-service/v1';
+export const TABLE_RENDERING_PREFIX = '/api/table-rendering-service/v1';
 
 // How to generate URLs for the services that don’t have client wrappers.
 

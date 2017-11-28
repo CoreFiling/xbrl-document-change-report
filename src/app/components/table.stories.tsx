@@ -28,6 +28,17 @@ storiesOf('Table', module)
     color: 'rgba(0, 0, 0, 0.85)',
     background: 'repeating-linear-gradient(-45deg, #F7F7F7 0, #F7F7F7 10px, #FFF 10px, #FFF 20px)',
   }}>{story()}</div>)
+  .add('Loading table', () => {
+    const { metadata, zOptions } = exampleTableWithDiffStuff();
+    return (
+      <Table
+        metadata={metadata}
+        zOptions={zOptions}
+        onChangePage={action('onChangePage')}
+        onChangeTable={action('onChangeTable')}
+      />
+    );
+  })
   .add('Faked up table with diffs', () => {
     const { metadata, zOptions, table } = exampleTableWithDiffStuff();
     return (

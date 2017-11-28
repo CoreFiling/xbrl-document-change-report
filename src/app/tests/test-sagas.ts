@@ -20,8 +20,14 @@ import { all, call, put } from 'redux-saga/effects';
 
 import { startupInfoReceivedAction, startupInfoFailedAction,
   processingStartAction, uploadStartedAction, uploadFailedAction,
-  processingStartedAction, failedAction, tablesReceivedAction } from '../actions';
-import { profilesApi, uploadApi, filingsVersionsApi, diffInfosApi } from '../apis';
+  processingStartedAction, processingFailedAction, issuesAction, tablesReceivedAction, tableRenderPageAction } from '../actions';
+import {
+  profilesApi,
+  uploadApi,
+  tablesApi,
+  validationServiceIssuesApi as vsiapi,
+  tableRenderingServiceFilingsVersionsApi as trsfvapi,
+} from '../apis';
 import { apiFetchJson } from '../api-fetch';
 import { JobParams,  } from '../models';
 import { startupInfoSaga, processingStartSaga } from '../sagas';
@@ -67,7 +73,36 @@ describe('processingStartSaga', () => {
     profile: 'uiid-of-profile',
     file1,
     file2,
-};
+  };
+
+  it('dispatches PROCESSING_STARTED and does not dispatch TABLES_RECEIVED if there are fatal errors', () => {
+    const saga = processingStartSaga(processingStartAction(params));
+
+    expect(saga.next().value).toEqual(put(uploadStartedAction(params)));
+    const formData = new FormData();
+    // dataSet omitted on the assumption iot defaults to user’s only permitrted dataset.
+    formData.append('validationProfile', 'uuid-of-profile');
+    formData.append('name', 'a-file.txt');
+    formData.append('originalFiling', file1, 'a-file.txt');
+    formData.append('newFiling', file2, 'another-file.txt');
+    expect(saga.next().value).toEqual(call(apiFetchJson, '/api/table-diff-service/v1/comparisons/', {
+      method: 'POST',
+      body: formData,  // This test is less strict than it looks because all formData object compare equal.
+    }));
+    expect(saga.next(exampleFiling).value).toEqual(put(processingStartedAction()));
+
+    // Then poll for updates after 1 second.
+    expect(saga.next().value).toEqual(call(delay, 1000));
+    expect(saga.next().value).toEqual(call([uploadApi, uploadApi.getComparison], {comparisonId: '8723b794-3261-4cd3-b946-b683c19fb99c'}));
+    expect(saga.next({...exampleComparisonSummary, status: 'RUNNING'}).value).toEqual(call(delay, 1000));
+    expect(saga.next().value).toEqual(call([uploadApi, uploadApi.getComparison], {comparisonId: '8723b794-3261-4cd3-b946-b683c19fb99c'}));
+    expect(saga.next({...exampleComparisonSummary, status: 'DONE'}).value)
+               .toEqual(call([vsiapi, vsiapi.getIssues], {filingVersionId: '8723b794-3261-4cd3-b946-b683c19fb99c'}));
+    // Gets filing-version results, move on to fetching tables.
+    expect(saga.next([{validationMessage: {severity: 'FATAL_ERROR'} }]).value)
+               .toEqual(put(issuesAction('8723b794-3261-4cd3-b946-b683c19fb99c', [{severity: 'FATAL_ERROR'}])));
+    expect(saga.next().done).toBeTruthy();
+  });
 
   it('dispatches PROCESSING_STARTED and TABLES_RECEIVED if all goes well', () => {
     const saga = processingStartSaga(processingStartAction(params));
@@ -90,11 +125,15 @@ describe('processingStartSaga', () => {
     expect(saga.next().value).toEqual(call([uploadApi, uploadApi.getComparison], {comparisonId: '8723b794-3261-4cd3-b946-b683c19fb99c'}));
     expect(saga.next({...exampleComparisonSummary, status: 'RUNNING'}).value).toEqual(call(delay, 1000));
     expect(saga.next().value).toEqual(call([uploadApi, uploadApi.getComparison], {comparisonId: '8723b794-3261-4cd3-b946-b683c19fb99c'}));
+    expect(saga.next({...exampleComparisonSummary, status: 'DONE'}).value)
+               .toEqual(call([vsiapi, vsiapi.getIssues], {filingVersionId: '8723b794-3261-4cd3-b946-b683c19fb99c'}));
     // Gets filing-version results, move on to fetching tables.
-    expect(saga.next({...exampleComparisonSummary, status: 'DONE'}).value).toEqual(
+    expect(saga.next([{validationMessage: {severity: 'ERROR'} }]).value)
+               .toEqual(put(issuesAction('8723b794-3261-4cd3-b946-b683c19fb99c', [{severity: 'ERROR'}])));
+    expect(saga.next().value).toEqual(
       all([
-        call([filingsVersionsApi, filingsVersionsApi.getTables], {filingVersionId: '8723b794-3261-4cd3-b946-b683c19fb99c'}),
-        call([diffInfosApi, diffInfosApi.getTables], {comparisonId: '8723b794-3261-4cd3-b946-b683c19fb99c'}),
+        call([trsfvapi, trsfvapi.getTables], {filingVersionId: '8723b794-3261-4cd3-b946-b683c19fb99c'}),
+        call([tablesApi, tablesApi.getTables], {comparisonId: '8723b794-3261-4cd3-b946-b683c19fb99c'}),
       ]));
 
     // When we get table metadata, we want the non-changed tables filtered out.
@@ -114,6 +153,8 @@ describe('processingStartSaga', () => {
     ];
     const expectedTables = [tables[1], tables[3], tables[4]];
     expect(saga.next([tables, diffTables]).value).toEqual(put(tablesReceivedAction(expectedTables)));
+    expect(saga.next().value).toEqual(put(tableRenderPageAction({...exampleTableMetadata, id: 'bar' }, 0, 0, 0)));
+    expect(saga.next().done).toBeTruthy();
   });
 
   it('dispatches FAILED if initial upload fails', () => {
@@ -130,7 +171,7 @@ describe('processingStartSaga', () => {
 
     saga.next(); saga.next(); saga.next(exampleFiling); saga.next();  // First few steps as above.
 
-    expect(saga.throw && saga.throw(new Error('LOLWAT')).value).toEqual(put(failedAction('LOLWAT')));
+    expect(saga.throw && saga.throw(new Error('LOLWAT')).value).toEqual(put(processingFailedAction('LOLWAT')));
   });
 
   it('dispatches FAILED if polling fails with response', () => {
@@ -139,6 +180,6 @@ describe('processingStartSaga', () => {
     saga.next(); saga.next(); saga.next(exampleFiling); saga.next();  // First few steps as above.
 
     expect(saga.throw && saga.throw({status: 400, statusText: 'Nope.'}).value)
-    .toEqual(put(failedAction(jasmine.stringMatching(/Nope./) as any)));
+    .toEqual(put(processingFailedAction(jasmine.stringMatching(/Nope./) as any)));
   });
 });

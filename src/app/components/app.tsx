@@ -19,11 +19,12 @@ import * as React from 'react';
 import { Profile } from '@cfl/table-diff-service';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
 
-import { JobParams } from '../models';
+import { JobParams, Issue } from '../models';
 import DiffifiedQueryableTablePage from '../models/queryable-table-page-impl';
 import { Phase } from '../state';
 import ContactDetails from './contact-details';
 import Results from './results';
+import Table from './table';
 import ChangeForm from './change-form';
 
 import './app.less';
@@ -34,6 +35,7 @@ export interface AppProps {
   error?: string;
   onSubmit?: (params: JobParams) => void;
   onResultsDismiss?: () => void;
+  issues?: Issue[];
   tables?: TableMetadata[];
   metadata?: TableMetadata;
   zOptions?: Option[][];
@@ -43,8 +45,7 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps): JSX.Element {
-  const { phase, profiles, error, tables, metadata, zOptions, table,
-    onSubmit, onResultsDismiss, onChangePage, onChangeTable } = props;
+  const { phase, profiles, error, issues, metadata, zOptions, tables, table, onSubmit, onChangePage, onChangeTable } = props;
 
   let innards: JSX.Element | undefined = undefined;
   switch (phase) {
@@ -59,25 +60,23 @@ export default function App(props: AppProps): JSX.Element {
       break;
     case 'uploading':
     case 'processing':
-      innards = <div className='app-App-loadingOverlay'>
-        <div className='app-App-loading'>Processing&thinsp;…</div>
-      </div>;
+      innards = <Processing />;
       break;
-    case 'failed':
+    case 'issues':
+      innards = issues!.every(i => i.severity !== 'FATAL_ERROR')
+        ? <Processing />
+        : <ResultHolder tables={tables} content={<div className='app-App-message app-App-error'>Your uploads were invalid.</div>} />;
+      break;
+    case 'processing-failed':
+      innards = <ResultHolder tables={tables} content={<div className='app-App-message app-App-error'>{error}</div>} />;
+      break;
     case 'results':
-      innards = <div className='app-App-resultHolder'>
-        <Results
-          error={error}
-          tables={tables}
-          metadata={metadata}
-          zOptions={zOptions}
-          table={table}
-          onChangePage={onChangePage}
-          onChangeTable={onChangeTable}
-          onResultsDismiss={onResultsDismiss}
-        />
-        <ContactDetails className='app-App-resultContact'/>
-      </div>;
+      const resultsContent = error
+        ? <div className='app-App-message app-App-error'>{error}</div>
+        : tables!.length === 0
+        ? <div className='app-App-message app-App-info'>No changes.</div>
+        : <Table metadata={metadata} zOptions={zOptions} table={table} onChangePage={onChangePage} onChangeTable={onChangeTable}/>;
+      innards = <ResultHolder tables={tables} content={resultsContent} />;
       break;
     default:
       innards = <b>Forgot the case {phase}!?</b>;
@@ -86,5 +85,23 @@ export default function App(props: AppProps): JSX.Element {
 
   return <div className={classNames('app-App', `app-App-${phase}`)}>
     {innards}
+  </div>;
+}
+
+function Processing(): JSX.Element {
+  return <div className='app-App-loadingOverlay'>
+     <div className='app-App-loading'>Processing&thinsp;…</div>
+  </div>;
+}
+
+function ResultHolder({ tables, onChangeTable, onResultsDismiss, content}: {
+  tables?: TableMetadata[],
+  onChangeTable?: (table: TableMetadata) => void,
+  onResultsDismiss?: () => void,
+  content: JSX.Element,
+}): JSX.Element {
+  return <div className='app-App-resultHolder'>
+    <Results tables={tables} onChangeTable={onChangeTable} content={content} onResultsDismiss={onResultsDismiss}/>
+    <ContactDetails className='app-App-resultContact'/>
   </div>;
 }

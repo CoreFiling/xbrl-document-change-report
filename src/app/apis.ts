@@ -18,15 +18,21 @@
  * API wrapper classes as supplied by the client libraries.
  */
 
-import { ProfilesApiFactory, UploadApiFactory, TablesApiFactory as DiffInfosApiFactory } from '@cfl/table-diff-service';
-import { FilingversionsApiFactory, TablesApiFactory } from '@cfl/table-rendering-service';
+import { ProfilesApiFactory, UploadApiFactory, TablesApiFactory } from '@cfl/table-diff-service';
+import { IssuesApiFactory as ValidationServiceIssuesApiFactory } from '@cfl/validation-service';
+import {
+  FilingversionsApiFactory as TableRenderingServiceFilingVersionsApiFactory,
+  TablesApiFactory as TableRenderingServiceTablesApiFactory,
+} from '@cfl/table-rendering-service';
 
 import { apiFetch } from './api-fetch';
-import { TABLE_RENDERING_PREFIX, TABLE_DIFF_PREFIX } from './urls';
-
-export const filingsVersionsApi = FilingversionsApiFactory(apiFetch, TABLE_RENDERING_PREFIX);
-export const tablesApi = TablesApiFactory(apiFetch, TABLE_RENDERING_PREFIX);
+import { TABLE_DIFF_PREFIX, VALIDATION_PREFIX, TABLE_RENDERING_PREFIX } from './urls';
 
 export const profilesApi = ProfilesApiFactory(apiFetch, TABLE_DIFF_PREFIX);
 export const uploadApi = UploadApiFactory(apiFetch, TABLE_DIFF_PREFIX);
-export const diffInfosApi = DiffInfosApiFactory(apiFetch, TABLE_DIFF_PREFIX);
+export const tablesApi = TablesApiFactory(apiFetch, TABLE_DIFF_PREFIX);
+
+export const validationServiceIssuesApi = ValidationServiceIssuesApiFactory(apiFetch, VALIDATION_PREFIX);
+
+export const tableRenderingServiceTablesApi = TableRenderingServiceTablesApiFactory(apiFetch, TABLE_RENDERING_PREFIX);
+export const tableRenderingServiceFilingsVersionsApi = TableRenderingServiceFilingVersionsApiFactory(apiFetch, TABLE_RENDERING_PREFIX);
