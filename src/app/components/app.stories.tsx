@@ -54,7 +54,7 @@ storiesOf('App', module)
       <App
         profiles={profiles('Profile')}
         phase={'processing-failed'}
-        error='Network error.'
+        error='Network error. [example]'
       />
     );
   })
@@ -110,7 +110,7 @@ storiesOf('App', module)
         phase={'results'}
         tables={[metadata, {name: 'another table', id: 'uuid-of-another-table'} as TableMetadata]}
         metadata={metadata}
-        error='Network error.'
+        error='Network error. [example]'
         onChangePage={action('onChangePage') as any}
         onChangeTable={action('onChangeTable') as any}
       />
