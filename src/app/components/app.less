@@ -86,9 +86,36 @@
     justify-content: flex-end;
 
     .app-App-message {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: start;
+
       text-align: center;
       font-size: @text-big-sz;
       font-weight: @text-big-wt;
+
+      &.app-App-error:before {
+        content: " ";
+        width: 38px;
+        height: 38px;
+        margin-right: 8px;
+
+        background-image: url(error.svg);
+        background-size: auto 100%;
+        background-repeat: no-repeat;
+      }
+
+      &.app-App-info:before {
+        content: " ";
+        width: 38px;
+        height: 38px;
+        margin-right: 8px;
+
+        background-image: url(intriguing.svg);
+        background-size: auto 100%;
+        background-repeat: no-repeat;
+      }
     }
   }
 
