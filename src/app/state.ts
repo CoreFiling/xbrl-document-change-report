@@ -40,7 +40,7 @@ export interface GlobalState {
 }
 
 export interface FilingState {
-  issues?: Issue[]; // TNWSP issues. Once we receive a response, not undefined.
+  issues?: Issue[]; // Issues from processing. Available in issues/results phases.
   tables?: TableMetadata[];
   selectedTable?: TableMetadata;
   zOptions?: Option[][];

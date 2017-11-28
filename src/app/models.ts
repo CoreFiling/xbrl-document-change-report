@@ -84,7 +84,7 @@ export interface FilingVersion {
 }
 
 /**
- * A TNWSP issue encountered during processing.
+ * An issue encountered during processing.
  */
 export interface Issue {
   severity: 'OK' | 'WARNING' | 'ERROR' | 'FATAL_ERROR';
