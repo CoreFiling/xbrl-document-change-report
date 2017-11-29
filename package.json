@@ -1,6 +1,6 @@
 {
   "name": "@cfl/xbrl-document-change-report",
-  "version": "0.1.0-local",
+  "version": "1.0.0-local",
   "cfl": {
     "group": {
       "name": "labs"
