@@ -1,0 +1,298 @@
+/*
+ *  Copyright 2017 CoreFiling S.A.R.L.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+@import (reference) 'defs';
+@import (reference) '../components/button';
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,500,500i,700');
+
+html {
+  margin: 0;
+  padding: 0;
+
+  font-family: 'Roboto', sans-serif;
+  font-size: @text-sz;
+  line-height: @text-ln-ht;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  color: contrast(@primary, #FFF, @ink);
+  background-color: @primary;
+}
+
+.pagination {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-flow: row nowrap;
+
+
+  li {
+    list-style: nonde;
+    margin: 0;
+    padding: 0;
+    display: block;
+
+    font-weight: 300;
+    border: 1px solid @btn-bd;
+    border-left: none;
+
+    &.active {
+      font-weight: 500;
+
+      a {
+        border-color: @primary;
+      }
+    }
+
+    &.disabled {
+      color: @muted;
+    }
+
+    &:first-child {
+      border-left: 1px solid @btn-bd;
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+  }
+
+  a {
+    color: inherit;
+    text-decoration: inherit;
+
+    display: block;
+    width: 2em;
+    line-height: 2em;
+    text-align: center;
+    border: 1px solid @paper;
+
+    &:hover,
+    &:active {
+      background-color: @btn-hover;
+      border-color: @primary;
+    }
+  }
+}
+
+.dropdown {
+  position: relative;
+  margin-left: 6px;
+
+  &-toggle {
+    .app-Button;
+
+    font-size: 14px;
+    line-height: 26px;
+  }
+
+  &.open &-toggle {
+    background: @btn-hover;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  &-menu {
+    display: none;
+  }
+
+  &.open &-menu {
+    z-index: 13;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    display: block;
+
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+
+    li {
+      display: block;
+      margin: 0;
+
+      border: 1px solid @btn-bd;
+      border-top: none;
+      background: @paper;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: inherit;
+
+      display: block;
+      padding: 6px 12px;
+
+      &:hover,
+      &:active {
+        background-color: @btn-hover;
+        border: @primary;
+      }
+    }
+  }
+
+  .caret {
+    width: 0;
+    height: 0;
+    vertical-align: middle;
+    border-top: 4px dashed;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+  }
+}
+
+.react-selectize-control {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+
+  border: 1px solid @primary;
+  border-radius: 3px;
+  cursor: pointer;
+
+  .open & {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-color: @primary-lt;
+  }
+
+  .react-selectize-placeholder {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    line-height: 38px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    color: @disabled;
+    ;
+  }
+
+  .react-selectize-search-field-and-selected-values {
+    flex-grow: 1;
+    flex-shrink: 1;
+    width: ~"calc(100% - 38px)";
+    display: flex;
+    flex-flow: row nowrap;
+  }
+
+  .resizable-input {
+    width: 0;
+    margin-left: 6px;
+
+    font-size: 1em;
+    background: none;
+    border: none;
+    outline: none;
+  }
+
+  .value-wrapper {
+    margin-left: 12px;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .react-selectize-reset-button-container,
+  .react-selectize-toggle-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 38px;
+    cursor: pointer;
+  }
+
+  .react-selectize-reset-button-container {
+    width: 20px;
+    stroke: @ink;
+    transition: stroke 0.5s 0s ease;
+
+    &:hover {
+      stroke: @primary;
+    }
+  }
+
+  .react-selectize-toggle-button-container {
+    fill: #FFF;
+    background-color: @primary;
+    width: 38px;
+
+    &:hover {
+      background-color: @secondary;
+    }
+  }
+}
+
+.react-selectize {
+  position: relative;
+  box-sizing: border-box;
+
+
+  .dropdown-menu-wrapper {
+    position: absolute;
+  }
+
+  .dropdown-menu {
+    z-index: 10;
+    overflow: auto;
+    position: absolute;
+    display: block;
+    margin: 0;
+    max-height: 80vh;
+    padding-bottom: 4px;
+
+    color: @ink;
+    background-color: @paper;
+    border: 1px solid @primary;
+    border-top: none;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 25%) 0 8px 20px -2px;
+
+    &.tethered {
+      min-width: 300px;
+    }
+    &:not(.tethered) {
+      width: 100%;
+    }
+
+    .option-wrapper {
+      padding: 6px 12px;
+      cursor: pointer;
+
+      &.highlight {
+        background-color: @btn-hover;
+      }
+    }
+
+
+    .simple-value {
+      padding: 6px 0;
+    }
+  }
+}

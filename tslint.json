@@ -1,0 +1,6 @@
+{
+  "extends": "@cfl/tslint-config",
+  "rules": {
+    "no-use-before-declare": false // Due to https://github.com/palantir/tslint/issues/1400
+  }
+}

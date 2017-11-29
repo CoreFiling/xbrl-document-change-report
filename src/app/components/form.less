@@ -1,0 +1,60 @@
+/*
+ *  Copyright 2017 CoreFiling S.A.R.L.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+@import (reference) '../styles/defs';
+@import (reference) './button';
+
+
+select {
+  .app-Button;
+
+  display: block;
+  max-width: 100%;
+  padding-right: 0;
+
+  font-size: 14px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+
+  &:invalid {
+    color: @disabled;
+  }
+}
+
+option {
+  color: @ink;
+  background: @paper;
+}
+
+.app-Form {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  justify-content: space-between;
+  padding: @upload-gap;
+}
+
+.app-FormItem, .app-FormActionList {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-FormAction {
+  .app-Button;
+  margin: 0 (0.5 * @gap);
+}

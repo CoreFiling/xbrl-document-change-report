@@ -1,0 +1,97 @@
+/*
+ *  Copyright 2017 CoreFiling S.A.R.L.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+@import (reference) '../styles/defs';
+@import (reference) './app';
+@import (reference) './results';
+
+// Values copied from table-viewer.
+@fact-ht: 20px;
+@cell-pad: 5px;
+@separator-ht: (@cell-pad + 1px + @cell-pad);
+
+@nop-bg: transparent;
+@del-bg: #E74C3C;
+@add-bg: #2ECC71;
+@chg-bg: #2D5578;
+
+.app-DiffCellContent {
+  margin: 0;
+  padding:  @cell-pad;
+  display: flex;
+  flex-flow: column nowrap;
+
+  &-NOP {
+    color: contrast(@paper, @paper, @ink);
+    background-color: @nop-bg;
+  }
+  &-ADD {
+    color: #FFF;
+    background-color: @add-bg;
+  }
+  &-DEL {
+    color: contrast(@del-bg, @paper, @ink);
+    background-color: @del-bg;
+  }
+  &-CHG {
+    color: contrast(@chg-bg, @paper, @ink);
+    background-color: @chg-bg;
+  }
+
+  &-fact {
+    margin: 0;
+    padding: 0;
+    height: @fact-ht;
+    list-style-type: none;
+    text-align: right;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+  }
+
+  &-fact + &-fact {
+    margin-top: 5px;
+    border-top: 1px solid @btn-bd;
+    padding-top: 5px;
+  }
+
+  &-value,
+  &-noValue {
+    height: @fact-ht;
+    line-height: @fact-ht;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &-DEL &-value {
+    text-decoration: line-through;
+  }
+
+  &-noValue {
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  &-status {
+    display: inline-block;
+    width: 16px;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    color: #FFF;
+  }
+}

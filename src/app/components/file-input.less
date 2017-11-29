@@ -1,0 +1,82 @@
+/*
+ *  Copyright 2017 CoreFiling S.A.R.L.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+@import (reference) '../styles/defs';
+
+.app-FileInput {
+  width: @dropzone-wd - @gap * 2;
+  height: @dropzone-ht - @gap * 2;
+  padding: @gap;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #F8F5F5;
+  background-image: url(dropzone-bg.svg);
+  border-radius: 3px;
+  cursor: pointer;
+  .app-FileReferenceIcon {
+    &-del {
+      display: none;
+    }
+  }
+  &:hover .app-FileReferenceIcon {
+    &-info {
+      display: none
+    }
+    &-del {
+      display: inline
+    }
+  }
+  &-main {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+  }
+  &-DropzoneIcon {
+    margin: 50px 0 8px 0;
+  }
+  &-heading {
+    margin: 0;
+    font-size: @text-big-sz;
+    font-weight: @text-big-wt;
+    line-height: 44px;
+    text-align: center;
+    color: @secondary;
+    user-select: none;
+  }
+  &-prompt {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17px;
+    color: @disabled;
+    user-select: none;
+    &-btn {
+      color: @primary;
+      border-bottom: 1px solid;
+      cursor: pointer;
+    }
+  }
+  &-hint {
+    font-size: 12px;
+    color: @muted;
+    font-weight: 300;
+    line-height: (14/12);
+    text-align: center;
+    user-select: none;
+  }
+}

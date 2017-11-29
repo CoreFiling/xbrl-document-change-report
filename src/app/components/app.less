@@ -1,0 +1,164 @@
+/*
+ *  Copyright 2017 CoreFiling S.A.R.L.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+@import (reference) '../styles/defs';
+
+
+@contact-ht: 90px;  // Height allowed for the contact us links
+@tall-enough: (@bar-ht + @gap3 + @form-ht + @contact-ht);
+
+.verticallyCentred(@extra-bar-ht: 0) {
+  margin-top: @gap3;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  position: relative;
+
+  @media (max-height: (@bar-ht + @gap3 + @form-ht + @contact-ht - 1px)) {
+    margin-top: @gap3;
+    margin-bottom: @contact-ht;
+  }
+
+  @media (min-height: (@bar-ht + @gap3 + @form-ht + @contact-ht)) and (max-height: (@bar-ht + @big-gap + @form-ht + @big-gap - 1px)) {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  @media (min-height: (@bar-ht + @big-gap + @form-ht + @big-gap)) {
+    margin-top: (@extra-bar-ht + @big-gap);
+  }
+}
+
+.app-App {
+  width: 100%;
+
+  @media (min-height: (@bar-ht + @gap3 + @form-ht + @contact-ht)) {
+    height: calc(~"100vh - " @bar-ht);
+  }
+
+
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+
+  &-appBar {
+    flex-shrink: 0;
+  }
+
+  &-formHolder {
+    .verticallyCentred(0);
+  }
+
+  &-form &-formHolder:before {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    content: " ";
+    display: block;
+    width: @form-wd;
+    height: (@form-ht - @form-drop-shadow-top-gap);
+
+    border-radius: 3px;
+    box-shadow: 0 3px 20px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  &-resultHolder {
+    width: calc(~"100% - " @gap * 2);
+    margin: @gap @gap (@gap + 14px + 60px);
+    flex-grow: 1;
+
+    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-end;
+
+    .app-App-message {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: start;
+
+      text-align: center;
+      font-size: @text-big-sz;
+      font-weight: @text-big-wt;
+
+      &.app-App-error:before {
+        content: " ";
+        width: 38px;
+        height: 38px;
+        margin-right: 8px;
+
+        background-image: url(error.svg);
+        background-size: auto 100%;
+        background-repeat: no-repeat;
+      }
+
+      &.app-App-info:before {
+        content: " ";
+        width: 38px;
+        height: 38px;
+        margin-right: 8px;
+
+        background-image: url(intriguing.svg);
+        background-size: auto 100%;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+
+  &-loadingOverlay {
+    flex-grow: 1;
+    display: flex;
+    flex-flow: column nowrap;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    flex-flow: column nowrap;
+    align-items: center;
+
+    color: contrast(@brand, #FFF, @ink);
+    background-color: fade(#30577A, 94%);
+
+    @media (min-height: (@tall-enough)) {
+     box-sizing: border-box;
+     padding-top: @bar-ht;
+    }
+  }
+
+  &-loading {
+    box-sizing: border-box;
+    height: @form-ht;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    font-style: italic;
+    font-weight: 100;
+    text-align: center;
+
+    &:before {
+      content: " ";
+      display: block;
+      width: 240px;
+      height: 240px;
+      background-image: url(loading.gif);
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      background-size: 300px 300px;
+    }
+  }
+}

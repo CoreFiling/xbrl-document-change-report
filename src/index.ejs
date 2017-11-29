@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>XBRL Document Change Report</title>
+    <meta name="description" content="Upload an XBRL or Inline XBRL report and see whether it passes validation on CoreFiling’s state of the art XBRL processor.">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div id="app"></div>
+    <% if (htmlWebpackPlugin.options.appVersion) { %>
+      <script type="text/javascript">
+        var appVersion = '<%= htmlWebpackPlugin.options.appVersion%>';
+      </script>
+    <% } %>
+  </body>
+</html>

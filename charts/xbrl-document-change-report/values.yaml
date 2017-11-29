@@ -1,0 +1,14 @@
+# Values in caps are expected to be overriden
+
+global:
+  registry: REGISTRY
+
+image: labs/xbrl-document-change-report
+# When building the chart in CI, the tag will be automatically populated
+imageTag: TAG
+
+# Pull Policy
+# pullPolicy: IfNotPresent
+
+# Number of replicas
+# replicaCount: 1
