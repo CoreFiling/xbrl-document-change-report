@@ -51,9 +51,9 @@
   version "0.6.1"
   resolved "https://registry.npmjs.org/@cfl/tslint-config/-/tslint-config-0.6.1.tgz#97557599980a1f863962ff719f9ef56543991916"
 
-"@cfl/validation-service@^1.1.0":
-  version "1.1.0"
-  resolved "https://artifacts.int.corefiling.com/api/npm/cfl-npm/@cfl/validation-service/-/@cfl/validation-service-1.1.0.tgz#9b9e0c75c1863894f88e529c5c46200e0575a57d"
+"@cfl/validation-service@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/@cfl/validation-service/-/validation-service-1.1.1.tgz#43a40ad824ad4134ff5cf2f7e0c88b6b73916401"
   dependencies:
     core-js "^2.4.0"
     isomorphic-fetch "^2.2.1"
