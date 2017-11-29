@@ -36,7 +36,6 @@ export default function TableSelector({ tables, selectedTable, onChangeTable, cl
   return (
     <SimpleSelect
       disabled={options.length <= 1}
-      autofocus
       value={selectedOption}
       options={options}
       uid={option => option.value.id}
