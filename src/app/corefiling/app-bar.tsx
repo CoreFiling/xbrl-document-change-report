@@ -61,7 +61,7 @@ export default class AppBar extends Component<AppBarProps> {
       </div>
       <nav className='app-AppBar-nav'>
         <ul className='app-AppBar-breadcrumbNav'>
-          <li><a href={path} className='app-AppBar-breadcrumbLink'>Home</a></li>
+          <li><a href='/' className='app-AppBar-breadcrumbLink'>Home</a></li>
         </ul>
         {user && <span className='app-AppBar-userName'>{user.email}</span>}
         <NavMenu itemGroups={itemGroups}/>
