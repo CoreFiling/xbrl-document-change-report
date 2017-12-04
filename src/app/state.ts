@@ -18,13 +18,13 @@
  * State of the app as a whole.
  */
 
-import { User, App } from './models';
+import { User, App, Issue } from './models';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
 import { Profile } from '@cfl/table-diff-service';
 import DiffifiedQueryableTablePage from './models/queryable-table-page-impl';
 
 export type Phase = 'startup' | 'startup-failed' | 'form' |
-  'uploading' | 'uploading-failed' | 'processing' | 'results' | 'failed';
+  'uploading' | 'uploading-failed' | 'processing' | 'processing-failed' | 'issues' | 'results';
 
 export interface State {
   global: GlobalState;
@@ -40,7 +40,7 @@ export interface GlobalState {
 }
 
 export interface FilingState {
-  comparisonId?: string;
+  issues?: Issue[]; // Issues from processing. Available in issues/results phases.
   tables?: TableMetadata[];
   selectedTable?: TableMetadata;
   zOptions?: Option[][];

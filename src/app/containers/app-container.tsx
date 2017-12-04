@@ -20,6 +20,7 @@ import { connect, MapDispatchToProps } from 'react-redux';
 import { Profile } from '@cfl/table-diff-service';
 import { Option, TableMetadata } from '@cfl/table-rendering-service';
 
+import { Issue } from '../models';
 import { tableRenderPageAction, processingStartAction, resultsDismissAction } from '../actions';
 import DiffifiedQueryableTablePage from '../models/queryable-table-page-impl';
 import { Phase, State } from '../state';
@@ -29,10 +30,10 @@ import AppBarContainer from '../corefiling/app-bar-container';
 type OwnProps = Props<AppContainer>;
 
 interface PropsFromState {
-  comparisonId?: string;
   phase?: Phase;
   profiles?: Profile[];
   message?: string;
+  issues?: Issue[];
   tables?: TableMetadata[];
   metadata?: TableMetadata;
   zOptions?: Option[][];
@@ -50,7 +51,7 @@ type AppContainerProps = OwnProps & PropsFromState & PropsFromDispatch;
 class AppContainer extends Component<AppContainerProps> {
   render(): JSX.Element {
     const {
-      phase, profiles, message, tables, metadata, zOptions, table,
+      phase, profiles, message, issues, tables, metadata, zOptions, table,
       onTableRenderPage, onCheckingStart, onResultsDismiss,
     } = this.props;
     return (
@@ -62,6 +63,7 @@ class AppContainer extends Component<AppContainerProps> {
           error={message}
           onSubmit={onCheckingStart}
           onResultsDismiss={onResultsDismiss}
+          issues={issues}
           tables={tables}
           metadata={metadata}
           zOptions={zOptions}
@@ -77,9 +79,9 @@ class AppContainer extends Component<AppContainerProps> {
 function propsFromState(state: State): PropsFromState {
   const {
     global: {phase, profiles, message},
-    filing: {comparisonId, tables, selectedTable: metadata, zOptions, tableRendering: table},
+    filing: {issues, tables, selectedTable: metadata, zOptions, tableRendering: table},
   } = state;
-  return {comparisonId, phase, profiles, message, tables, metadata, zOptions, table};
+  return {phase, profiles, message, issues, tables, metadata, zOptions, table};
 }
 
 const propsFromDispatch: MapDispatchToProps<PropsFromDispatch, {}> = {

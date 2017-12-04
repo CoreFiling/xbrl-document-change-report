@@ -49,6 +49,33 @@ storiesOf('App', module)
       />
     );
   })
+  .add('Upload/other non-XBRL failure during processing', () => {
+    return (
+      <App
+        profiles={profiles('Profile')}
+        phase={'processing-failed'}
+        error='Network error. [example]'
+      />
+    );
+  })
+  .add('Non-fatal processing issues', () => {
+    return (
+      <App
+        profiles={profiles('Profile')}
+        phase={'issues'}
+        issues={[{severity: 'ERROR'}]}
+      />
+    );
+  })
+  .add('Fatal processing issues', () => {
+    return (
+      <App
+        profiles={profiles('Profile')}
+        phase={'issues'}
+        issues={[{severity: 'FATAL_ERROR'}]}
+      />
+    );
+  })
   .add('Result', () => {
     const { table, metadata, zOptions } = exampleTableWithDiffStuff();
     return (
@@ -64,11 +91,28 @@ storiesOf('App', module)
       />
     );
   })
-  .add('Fail', () => {
+  .add('Result no tables', () => {
     return (
       <App
         profiles={profiles('Profile')}
-        phase={'failed'}
+        phase={'results'}
+        tables={[]}
+        onChangePage={action('onChangePage') as any}
+        onChangeTable={action('onChangeTable') as any}
+      />
+    );
+  })
+  .add('Error showing table', () => {
+    const { metadata } = exampleTableWithDiffStuff();
+    return (
+      <App
+        profiles={profiles('Profile')}
+        phase={'results'}
+        tables={[metadata, {name: 'another table', id: 'uuid-of-another-table'} as TableMetadata]}
+        metadata={metadata}
+        error='Network error. [example]'
+        onChangePage={action('onChangePage') as any}
+        onChangeTable={action('onChangeTable') as any}
       />
     );
   })

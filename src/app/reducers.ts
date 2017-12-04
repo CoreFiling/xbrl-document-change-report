@@ -22,9 +22,10 @@ import { Action, combineReducers } from 'redux';
 import {
   STARTUP_INFO_RECEIVED, StartupInfoReceivedAction, STARTUP_INFO_FAILED, FailedAction,
   UPLOAD_STARTED, UPLOAD_FAILED,
-  PROCESSING_STARTED, FAILED,
+  PROCESSING_STARTED, PROCESSING_FAILED, ISSUES, IssuesAction,
   RESULTS_DISMISS,
   TABLES_RECEIVED, TableRenderingRequestedAction,
+  TABLE_RENDERING_FAILED,
   TABLE_RENDERING_RECEIVED, TableRenderingReceivedAction, TablesReceivedAction, TABLE_RENDERING_REQUESTED,
 } from './actions';
 import { GlobalState, FilingState } from './state';
@@ -51,12 +52,19 @@ export function globalReducer(state: GlobalState | undefined, action: Action): G
     }
     case PROCESSING_STARTED:
       return { ...state, phase: 'processing' };
-    case FAILED: {
+    case PROCESSING_FAILED: {
       const { message } = action as FailedAction;
-      return { ...state, phase: 'failed', message };
+      return { ...state, phase: 'processing-failed', message };
+    }
+    case ISSUES: {
+      return { ...state, phase: 'issues'};
     }
     case TABLES_RECEIVED: {
       return { ...state, phase: 'results'};
+    }
+    case TABLE_RENDERING_FAILED: {
+      const { message } = action as FailedAction;
+      return { ...state, phase: 'results', message};
     }
     case RESULTS_DISMISS:
       return { ...state, phase: 'form', message: undefined };
@@ -75,8 +83,11 @@ export function filingReducer(state: FilingState | undefined, action: Action): F
     case UPLOAD_FAILED:
     case PROCESSING_STARTED:
     case RESULTS_DISMISS:
-    case FAILED:
+    case PROCESSING_FAILED:
       return {};
+    case ISSUES:
+      const { issues } = action as IssuesAction;
+      return { ...state, issues };
     case TABLES_RECEIVED: {
       const { tables } = action as TablesReceivedAction;
       return { ...state, tables, selectedTable: tables.length > 0 ? tables[0] : undefined, zOptions: [] };

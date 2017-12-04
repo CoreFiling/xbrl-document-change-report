@@ -84,6 +84,13 @@ export interface FilingVersion {
 }
 
 /**
+ * An issue encountered during processing.
+ */
+export interface Issue {
+  severity: 'OK' | 'WARNING' | 'ERROR' | 'FATAL_ERROR';
+}
+
+/**
  * Describes the person or system that performed an action.
  */
 export interface Actor {

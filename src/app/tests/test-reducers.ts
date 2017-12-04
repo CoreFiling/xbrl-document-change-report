@@ -17,7 +17,7 @@
 import {} from 'jasmine';
 import { startupInfoReceivedAction,
   uploadStartedAction, uploadFailedAction,
-  processingStartedAction, failedAction,
+  processingStartedAction, processingFailedAction, issuesAction, tableRenderingFailedAction,
   tablesReceivedAction, tableRenderingRequested, tableRenderingReceivedAction,
   resultsDismissAction } from '../actions';
 import { JobParams } from '../models';
@@ -76,9 +76,22 @@ describe('globalReducer', () => {
   });
 
   it('treats failing to get status after checking started as fatal error', () => {
-    const after = globalReducer(initial, failedAction('LOLWAT'));
+    const after = globalReducer(initial, processingFailedAction('LOLWAT'));
 
-    expect(after.phase).toBe('failed');
+    expect(after.phase).toBe('processing-failed');
+  });
+
+  it('transitions to issues phase when issues received', () => {
+    const after = globalReducer(initial, issuesAction('my-comparison-id', []));
+
+    expect(after.phase).toBe('issues');
+  });
+
+  it('transitions to results phase with error when table rendering fails', () => {
+    const after = globalReducer(initial, tableRenderingFailedAction('Network error.'));
+
+    expect(after.phase).toBe('results');
+    expect(after.message).toBe('Network error.');
   });
 
   it('is ready for a new game after user dismisses results', () => {
@@ -90,7 +103,7 @@ describe('globalReducer', () => {
   });
 
   it('is ready for a new game after user dismisses error', () => {
-    const before = globalReducer(initial, failedAction('LOLWAT'));
+    const before = globalReducer(initial, processingFailedAction('LOLWAT'));
 
     const after = globalReducer(before, resultsDismissAction());
 
@@ -118,6 +131,12 @@ describe('filingReducer', () => {
     expect(after).toEqual({});
   });
 
+  it('remembers issues when issues received', () => {
+    const after = filingReducer(initial, issuesAction('my-comparison-id', [{ severity: 'OK' }]));
+
+    expect(after.issues).toEqual([{ severity: 'OK' }]);
+  });
+
   it('clears all filing state when dismissing results', () => {
     const after = filingReducer(full, resultsDismissAction());
     expect(after).toEqual({});
@@ -141,6 +160,12 @@ describe('filingReducer', () => {
     const tableRendering = {} as any;
     const after = filingReducer(full, tableRenderingReceivedAction(zOptions, tableRendering));
     expect(after.tableRendering).toEqual(tableRendering);
+  });
+
+  it('maintains state when table rendering fails', () => {
+    const after = filingReducer(full, tableRenderingFailedAction('Network error.'));
+
+    expect(after).toEqual(full);
   });
 
 });

@@ -51,6 +51,13 @@
   version "0.6.1"
   resolved "https://registry.npmjs.org/@cfl/tslint-config/-/tslint-config-0.6.1.tgz#97557599980a1f863962ff719f9ef56543991916"
 
+"@cfl/validation-service@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/@cfl/validation-service/-/validation-service-1.1.1.tgz#43a40ad824ad4134ff5cf2f7e0c88b6b73916401"
+  dependencies:
+    core-js "^2.4.0"
+    isomorphic-fetch "^2.2.1"
+
 "@hypnosphi/fuse.js@^3.0.9":
   version "3.0.9"
   resolved "https://registry.npmjs.org/@hypnosphi/fuse.js/-/fuse.js-3.0.9.tgz#ea99f6121b4a8f065b4c71f85595db2714498807"

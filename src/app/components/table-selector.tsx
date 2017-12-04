@@ -25,7 +25,7 @@ interface TableSelectorProps {
   selectedTable?: TableMetadata;
   className?: string;
 
-  onChangeTable: (table: TableMetadata) => void;
+  onChangeTable?: (table: TableMetadata) => void; // nullable for testing.
 }
 
 export default function TableSelector({ tables, selectedTable, onChangeTable, className }: TableSelectorProps): JSX.Element {
@@ -35,13 +35,13 @@ export default function TableSelector({ tables, selectedTable, onChangeTable, cl
 
   return (
     <SimpleSelect
-      autofocus
+      disabled={options.length <= 1}
       value={selectedOption}
       options={options}
       uid={option => option.value.id}
       className={classNames('app-Table-tableSelect', className)}
       hideResetButton
-      onValueChange={option => option && onChangeTable(option.value)}
+      onValueChange={option => option && onChangeTable && onChangeTable(option.value)}
     >
     </SimpleSelect>
   );

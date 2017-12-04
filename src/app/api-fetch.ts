@@ -35,7 +35,7 @@ export async function apiFetchJson<T>(url: RequestInfo, init: RequestInit = {}):
  * Should have same signature as `window.fetch`.
  */
 export function apiFetch(url: RequestInfo, init: RequestInit = {}): Promise<Response> {
-  const headers = new Headers(init.headers);
+  const headers = new Headers(init.headers || {});
   const xsrfToken = getXsrfToken();
   if (xsrfToken) {
     headers.set('X-XSRF-TOKEN', xsrfToken);

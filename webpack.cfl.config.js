@@ -87,6 +87,9 @@ const mergedConfig = merge.smart(mainConfig, {
           {"id":"sms","name":"Manage organisation","href":"/sms/","colour":"#3A75C4","features":[]},
         ]);
       });
+      app.get('/', (req, res) => {
+        res.redirect('/xbrl-document-change-report/');
+      });
     },
     // webpack output options
     stats: {
