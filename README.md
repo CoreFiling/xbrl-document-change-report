@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/CoreFiling/xbrl-document-change-report.svg?branch=develop)](https://travis-ci.org/CoreFiling/xbrl-document-change-report.svg?branch=develop)
+[![Apache 2 license](http://img.shields.io/badge/license-Apache2-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0)
+
 # CoreFiling Labs XBRL Document Change Report
 
 A simple demonstration of using the CoreFiling Platform API to calculate and display changes between two XBRL instances.
